@@ -1,0 +1,33 @@
+<TextureAtlas imagePath="sheet.png">
+	<SubTexture name="InfantryDisabled_01.png" x="36" y="43" width="14" height="16"/>
+	<SubTexture name="InfantryStandRight_01.png" x="18" y="93" width="14" height="16"/>
+	<SubTexture name="InfantryStandRight_02.png" x="36" y="61" width="14" height="16"/>
+	<SubTexture name="InfantryStandRight_03.png" x="18" y="111" width="14" height="15"/>
+	<SubTexture name="InfantryWalkDown_01.png" x="52" y="18" width="11" height="17"/>
+	<SubTexture name="InfantryWalkDown_02.png" x="52" y="56" width="11" height="18"/>
+	<SubTexture name="InfantryWalkDown_03.png" x="52" y="37" width="11" height="17"/>
+	<SubTexture name="InfantryWalkDown_04.png" x="52" y="56" width="11" height="18"/>
+	<SubTexture name="InfantryWalkRight_01.png" x="18" y="74" width="16" height="17"/>
+	<SubTexture name="InfantryWalkRight_02.png" x="0" y="75" width="16" height="16"/>
+	<SubTexture name="InfantryWalkRight_03.png" x="18" y="74" width="16" height="17"/>
+	<SubTexture name="InfantryWalkRight_04.png" x="0" y="57" width="16" height="16"/>
+	<SubTexture name="InfantryWalkUp_01.png" x="50" y="97" width="13" height="17"/>
+	<SubTexture name="InfantryWalkUp_02.png" x="50" y="79" width="13" height="16"/>
+	<SubTexture name="InfantryWalkUp_03.png" x="50" y="97" width="13" height="17"/>
+	<SubTexture name="InfantryWalkUp_04.png" x="52" y="0" width="13" height="16"/>
+	<SubTexture name="MechDisabled_01.png" x="18" y="37" width="16" height="16"/>
+	<SubTexture name="MechStandRight_01.png" x="0" y="0" width="16" height="16"/>
+	<SubTexture name="MechStandRight_02.png" x="0" y="111" width="16" height="15"/>
+	<SubTexture name="MechWalkDown_01.png" x="18" y="55" width="16" height="17"/>
+	<SubTexture name="MechWalkDown_02.png" x="0" y="37" width="16" height="18"/>
+	<SubTexture name="MechWalkDown_03.png" x="0" y="18" width="16" height="17"/>
+	<SubTexture name="MechWalkDown_04.png" x="0" y="37" width="16" height="18"/>
+	<SubTexture name="MechWalkRight_01.png" x="18" y="19" width="16" height="16"/>
+	<SubTexture name="MechWalkRight_02.png" x="18" y="0" width="16" height="17"/>
+	<SubTexture name="MechWalkRight_03.png" x="0" y="93" width="16" height="16"/>
+	<SubTexture name="MechWalkRight_04.png" x="18" y="0" width="16" height="17"/>
+	<SubTexture name="MechWalkUp_01.png" x="34" y="93" width="14" height="19"/>
+	<SubTexture name="MechWalkUp_02.png" x="36" y="0" width="14" height="20"/>
+	<SubTexture name="MechWalkUp_03.png" x="36" y="22" width="14" height="19"/>
+	<SubTexture name="MechWalkUp_04.png" x="36" y="0" width="14" height="20"/>
+</TextureAtlas>

@@ -7,14 +7,12 @@ package com.littlegames.framework.entities.building
 	 */
 	public class Factory extends Building
 	{
-		/**
-		 * Unités produites par le bâtiment.
-		 */
+		/** Unités produites par le bâtiment. */
 		protected var _productedUnits:Vector.<Unit>;
-		
-		public function Factory()
+    
+		public function Factory(pName:String)
 		{
-			super();
+			super(pName, 0);
 		}
 	}
 }

@@ -9,7 +9,7 @@ package com.littlegames.framework.entities.building.listing
 	{
 		public function Aeroport()
 		{
-			super();
+			super("Aéroport");
 		}
 	}
 }

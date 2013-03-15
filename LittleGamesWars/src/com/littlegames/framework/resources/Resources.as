@@ -12,6 +12,10 @@ package com.littlegames.framework.resources
   /** Classe de gestion des ressources du jeu */
   public class Resources
   {
+    /** Bouton démarrer campagne */
+    [Embed(source="../assets/menu/btnCampaign.png")]
+    public static const BTN_CAMPAIGN:Class;
+    
     /** Atlas XML des animations */
     [Embed(source="../assets/sheet.xml", mimeType="application/octet-stream")]
     private static const _ATLAS:Class;
@@ -49,6 +53,20 @@ package com.littlegames.framework.resources
         movieClip.y = pY;
       }
       return movieClip;
+    }
+    
+    /** Suppression du movieClip pMovieClip de l'écran courant. */
+    public static function remove(pMovieClip:MovieClip):void
+    {
+      if (pMovieClip && Global.currentScreen.getChildIndex(pMovieClip) > -1)
+      {
+        Global.currentScreen.removeChild(pMovieClip);
+      }
+    }
+    
+    public static function replace(pMovieClip:MovieClip, pPrefix:String = ""):MovieClip
+    {
+      return null;
     }
   }
 }

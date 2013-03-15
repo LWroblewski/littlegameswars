@@ -14,6 +14,11 @@ package com.littlegames.framework.entities.unit
 		 * Pneus.
 		 */
 		public static const TIRES:String = "tires";
+    
+    /**
+     * Chenilles.
+     */
+    public static const TREAD:String = "tread";
 		
 		/**
 		 * Navires.

@@ -34,6 +34,7 @@ package com.littlegames.framework.stage
       var views:Dictionary = new Dictionary(true);
       views[Views.SCREEN_MAIN] = MainScreen;
       views[Views.SCREEN_CO_SELECTION] = ScreenSelectCO;
+      views[Views.SCREEN_GAME] = ScreenBattle;
       return views;
     }
     

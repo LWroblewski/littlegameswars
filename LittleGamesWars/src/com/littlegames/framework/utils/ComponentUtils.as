@@ -15,7 +15,8 @@ package com.littlegames.framework.utils
       button.addEventListener(Event.TRIGGERED, pHandler);
       button.x = pX;
       button.y = pY;
-      return Global.currentScreen.addChild(button) as Button;
+      Global.currentScreen.addChild(button);
+      return button;
     }
     
     public static function addImage(pBitmap:Class, pX:int = 0, pY:int = 0):Image

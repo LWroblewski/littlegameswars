@@ -10,7 +10,7 @@ package com.littlegames.framework.entities.unit.listing
 	 */
 	public class Mech extends Unit
 	{
-		public static const ID:String = "Mech";
+		public static const ID:String = "mech";
 		
 		public function Mech()
 		{

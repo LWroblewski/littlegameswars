@@ -41,7 +41,7 @@ package com.littlegames.framework.entities.unit
         //Mise à jour du movieClip associé.
         if (_unitMovieClip)
         {
-          _unitMovieClip = Resources.replace(_unitMovieClip, _enabled ? Animations.STAND_RIGHT : Animations.DISABLED);
+          _unitMovieClip = Resources.replace(_unitMovieClip, _enabled ? Animations.LEFT : Animations.DISABLED);
         }
       }
     }
@@ -63,7 +63,7 @@ package com.littlegames.framework.entities.unit
     {
       try
       {
-        _unitMovieClip = Resources.add((Utils.getClass(this)).ID + Animations.STAND_RIGHT);
+        _unitMovieClip = Resources.add((Utils.getClass(_unit)).ID + "_" + Animations.LEFT);
       }
       catch (error:Error)
       {

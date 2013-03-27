@@ -6,7 +6,7 @@ package com.littlegames.framework.entities.unit.listing
 
   public class Recon extends Unit
   {
-    public static const ID:String = "Recon";
+    public static const ID:String = "recon";
     
     public function Recon()
     {

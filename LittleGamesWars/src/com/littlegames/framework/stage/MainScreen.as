@@ -1,5 +1,7 @@
 package com.littlegames.framework.stage
 {
+  import com.littlegames.framework.entities.unit.UnitInstance;
+  import com.littlegames.framework.entities.unit.listing.Recon;
   import com.littlegames.framework.event.ChangeScreenEvent;
   import com.littlegames.framework.resources.Resources;
   import com.littlegames.framework.utils.ComponentUtils;
@@ -13,10 +15,11 @@ package com.littlegames.framework.stage
   {
     override protected function initGameStage():void
     {
-      //Resources.add("InfantryWalkRight");
+      var testUnit:UnitInstance = new UnitInstance(new Recon());
+      testUnit.addToMap();
       //Resources.add("MechStandRight", 50, 50);
-      initBackground();
-      initButtons();
+      //initBackground();
+      //initButtons();
     }
     
     protected function initBackground():void

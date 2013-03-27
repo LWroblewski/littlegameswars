@@ -6,22 +6,16 @@ package com.littlegames.framework.resources
     /** Unité grisée, car déjà activée dans le tour. */
     public static const DISABLED:String = 'Disabled';
     
-    /** Immobile, dirigée à droite. */
-    public static const STAND_RIGHT:String = 'StandRight';
+    /** Position à droite. */
+    public static const RIGHT:String = 'right';
     
-    /** Immobile, dirigée à gauche. */
-    public static const STAND_LEFT:String = 'StandLeft';
+    /** Position à gauche. */
+    public static const LEFT:String = 'left';
     
-    /** Marche à droite. */
-    public static const WALK_RIGHT:String = 'WalkRight';
+    /** Position vers le bas. */
+    public static const DOWN:String = 'down';
     
-    /** Marche à gauche. */
-    public static const WALK_LEFT:String = 'WalkLeft';
-    
-    /** Marche vers le bas. */
-    public static const WALK_DOWN:String = 'WalkDown';
-    
-    /** Marche vers le haut. */
-    public static const WALK_UP:String = 'WalkUp';
+    /** Position vers le haut. */
+    public static const UP:String = 'up';
   }
 }

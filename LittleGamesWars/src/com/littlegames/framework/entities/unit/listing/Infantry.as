@@ -9,7 +9,7 @@ package com.littlegames.framework.entities.unit.listing
 	 */
 	public class Infantry extends Unit
 	{
-		public static const ID:String = "Infantry";
+		public static const ID:String = "infantry";
 		
     /** Vitesse de capture des bâtiments par défaut. */
     public static const DEFAULT_CAPTURE_SPEED:uint = 5;

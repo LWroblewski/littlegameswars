@@ -12,7 +12,7 @@ package com.littlegames.framework.utils
     public function get length():int
     {
       var nbElements:int = 0;
-      for (var key:*in this._dico)
+      for (var key:* in _dico)
       {
         nbElements++;
       }

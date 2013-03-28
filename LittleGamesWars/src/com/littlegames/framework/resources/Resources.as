@@ -17,8 +17,8 @@ package com.littlegames.framework.resources
     public static const BTN_CAMPAIGN:Class;
     
     /** Bouton démarrer campagne */
-    [Embed(source="../assets/menu/main-screen.png")]
-    public static const MAIN_SCREEN:Class;
+    //[Embed(source="../assets/menu/main-screen.png")]
+    //public static const MAIN_SCREEN:Class;
     
     /** Atlas XML des animations */
     [Embed(source="../assets/sheet.xml", mimeType="application/octet-stream")]

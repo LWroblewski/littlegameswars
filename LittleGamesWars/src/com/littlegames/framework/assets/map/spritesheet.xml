@@ -2,9 +2,11 @@
 <TextureAtlas>
 
  <!-- Tiles de sol --> 
- <SubTexture name="groundTile_0" x="0" y="0" width="16" height="16"/>
- <SubTexture name="groundTile_1" x="16" y="0" width="16" height="16"/>
- <SubTexture name="groundTile_2" x="32" y="0" width="16" height="16"/>
- <SubTexture name="groundTile_3" x="48" y="0" width="16" height="16"/>
+ <SubTexture name="Tile_0" x="0" y="0" width="16" height="16"/>
+ <SubTexture name="Tile_1" x="16" y="0" width="16" height="16"/>
+ <SubTexture name="Tile_2" x="32" y="0" width="16" height="16"/>
+ <SubTexture name="Tile_3" x="48" y="0" width="16" height="16"/>
+ 
+ <SubTexture name="Cursor_0" x="0" y="16" width="16" height="16"/>
  
 </TextureAtlas>

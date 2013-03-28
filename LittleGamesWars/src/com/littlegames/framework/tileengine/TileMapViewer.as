@@ -1,104 +1,87 @@
 package com.littlegames.framework.tileengine
 {
-  import com.littlegames.framework.tileengine.tiles.BaseTile;
+  import com.littlegames.framework.resources.Textures;
   
   import flash.geom.Point;
-  import flash.geom.Rectangle;
   
   import starling.display.Image;
   import starling.display.Sprite;
   import starling.textures.Texture;
-  import starling.textures.TextureAtlas;
 
   public class TileMapViewer extends Sprite
   {
-    private static const GROUND_TILE_PREFIX:String = 'groundTile_';
+    private static const TILE_PREFIX:String = 'Tile_';
     // ------------------------------------------------------------------------
-    /** Viewport */
-    private var _viewPort:Rectangle;
     /** Zoom */
     private var _zoom:Number;
     /** Position du point haut gauche */
     private var _position:Point;
     /** TileMap */
-    public var tileMap:TileMap;
+    private var _tileMap:TileMap;
     
     /** Dimension des tiles */
-    public var tileWidth:Number = 16;
-    public var tileHeight:Number = 16;
+    private var tileSideLenght:Number = 16;
     
     /** Indicateur de MAJ */
     private var _isDirty:Boolean = true;
     /** Liste des images composant la vue */
     private var _listImages:Vector.<Image>;
     
-    // TODO Export
-    // ------------------------------------------------------------------------
-    [Embed(source="../assets/map/spritesheet.png")]
-    private var SpriteSheet:Class;
-    [Embed(source="../assets/map/spritesheet.xml", mimeType = "application/octet-stream")]
-    private var SpriteSheetXml:Class;
-    /** Tex */
-    private var _textureAtlas:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new SpriteSheet()), XML(new SpriteSheetXml()));
-    // ------------------------------------------------------------------------
-    
     /** Constructeur */
-    public function TileMapViewer(pViewPort:Rectangle)
+    public function TileMapViewer()
     {
       _position = new Point();
-      _viewPort = pViewPort;
       _zoom = 1;
       _listImages = new <Image>[];
     }
     
+    /** Définit la map affichée */
+    public function setMap(pMap:TileMap) : void
+    {
+      _tileMap = pMap;
+      _isDirty = true;
+    }
+    
     /** MAJ de la vue */
-    public function updateView() : void
+    public function update(pTimeDelta:Number) : void
     {
-      if (!_isDirty) return;
-      if (!tileMap) return;
-      
-      // Création des images
-      addChild(renderMap(tileMap));
-    }
-    
-    /** Crée toutes les images de des layers de la map */
-    private function renderMap(pTileMap:TileMap) : Sprite
-    {
-      var result:Sprite = new Sprite();
-      
-      // Crée toutes les tiles de layers
-      var i:uint = 0;
-      var len:uint = pTileMap.listLayers.length;
-      while (i < len)
+      if (_isDirty && _tileMap)
       {
-        var layer:TileLayer = pTileMap.getLayerAt(i);
-        result.addChild(renderTiles(layer));
-        i++;
+        _isDirty = false;
+        createImages();
       }
-      
-      return result;
     }
     
-    /** Crée les images de chaque tile du layer */
-    private function renderTiles(pLayer:TileLayer) : Sprite
+    /** Crée toutes les images de tiles nécessaires */
+    private function createImages() : void
     {
-      var result:Sprite = new Sprite();
-      var wwidth:uint = pLayer.numTilesW;
-      var hheight:uint = pLayer.numTilesH;
-      
-      for (var yy:uint = 0; yy < hheight; yy++)
+      // Vérifie si on a assez d'images pour toutes les tiles
+      var toAdd:int = _tileMap.numTilesH * _tileMap.numTilesW;
+      // Création des images
+      var tileX:Number = 0;
+      var tileY:Number = 0;
+      while (toAdd-- > 0)
       {
-        for (var xx:uint = 0; xx < wwidth; xx++)
+        var img:Image = new Image(getTileTexture(0));
+        img.width = img.height = tileSideLenght;
+        img.x = tileX*tileSideLenght;
+        img.y = tileY*tileSideLenght;
+        addChild(img);
+        tileX++;
+        if (tileX > _tileMap.numTilesW)
         {
-          var tile:BaseTile = pLayer.getTileAt(xx, yy);
-          var img:Image = new Image(_textureAtlas.getTexture(GROUND_TILE_PREFIX+tile.tileId));
-          img.x = tileWidth * xx;
-          img.y = tileHeight * yy;
-          result.addChild(img);
+          tileX = 0;
+          tileY++;
         }
       }
-      return result;
     }
     
+    /** Retourne la texture de tile passée en paramètre */
+    private function getTileTexture(pTileId:uint) : Texture
+    {
+      var result:Texture = Textures.textureAtlas.getTexture(TILE_PREFIX+pTileId);
+      if (!result) throw new Error('Impossible de trouver la tile='+pTileId);
+      return result;
+    }
   }//end class
 }//end package

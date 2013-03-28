@@ -6,6 +6,10 @@ package
   [SWF(frameRate="30", backgroundColor="#FFFFFF", width="800", height="600")]
   public class StageOne extends GameApplication
   {
-    
+    /** Constructeur */
+    public function StageOne() : void
+    {
+      super();
+    }
   }
 }

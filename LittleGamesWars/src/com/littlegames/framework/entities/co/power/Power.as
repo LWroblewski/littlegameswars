@@ -1,7 +1,7 @@
 package com.littlegames.framework.entities.co.power
 {
 	import com.littlegames.framework.entities.co.bonus.Bonus;
-	import com.littlegames.framework.entities.unit.Unit;
+	import com.littlegames.framework.entities.unit.BaseUnit;
 	import com.littlegames.framework.entities.unit.UnitInstance;
 	import com.littlegames.framework.utils.HashMap;
 
@@ -31,7 +31,7 @@ package com.littlegames.framework.entities.co.power
       //To override.
       //Par défaut, bonus de 10% sur la défense.
       var bonus:HashMap = new HashMap();
-      bonus.put(Unit.ALL, new Bonus(1, 1.1));
+      bonus.put(BaseUnit.ALL, new Bonus(1, 1.1));
       return bonus;
     }
 		

@@ -1,33 +1,17 @@
 package com.littlegames.framework.entities.unit
 {
-	/**
-	 * Enuméré des types de mouvements.
-	 */
+	/** Enuméré des types de mouvements. */
 	public class MovementType
 	{
-		/**
-		 * Infanterie (à pieds).
-		 */
+		/** Infanterie (à pieds). */
 		public static const INFANTRY:String = "infantry";
-		
-		/**
-		 * Pneus.
-		 */
+		/** Pneus. */
 		public static const TIRES:String = "tires";
-    
-    /**
-     * Chenilles.
-     */
+    /** Chenilles. */
     public static const TREAD:String = "tread";
-		
-		/**
-		 * Navires.
-		 */
+		/** Navires. */
 		public static const SHIP:String = "ship";
-		
-		/**
-		 * Avions.
-		 */
+		/** Avions. */
 		public static const AIR:String = "air";
 	}
 }

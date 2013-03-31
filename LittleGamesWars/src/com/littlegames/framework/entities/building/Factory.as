@@ -1,15 +1,14 @@
 package com.littlegames.framework.entities.building
 {
-	import com.littlegames.framework.entities.unit.Unit;
+	import com.littlegames.framework.entities.unit.BaseUnit;
 	
-	/**
-	 * Bâtiment permettant la production d'unités.
-	 */
-	public class Factory extends Building
+	/** Bâtiment permettant la production d'unités. */
+	public class Factory extends BaseBuilding
 	{
 		/** Unités produites par le bâtiment. */
-		protected var _productedUnits:Vector.<Unit>;
+		protected var _productedUnits:Vector.<BaseUnit>;
     
+    /** Constructeur */
 		public function Factory(pName:String)
 		{
 			super(pName, 0);

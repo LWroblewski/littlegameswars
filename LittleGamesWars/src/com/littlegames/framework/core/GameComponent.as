@@ -1,8 +1,10 @@
 package com.littlegames.framework.core
 {
-  import com.littlegames.framework.tileengine.TileMap;
-  import com.littlegames.framework.tileengine.TileMapGenerator;
+  import com.littlegames.framework.core.engine.GameEngine;
+  import com.littlegames.framework.core.engine.tileengine.TileMap;
+  import com.littlegames.framework.core.engine.tileengine.TileMapGenerator;
   
+  import starling.core.Starling;
   import starling.display.Sprite;
   import starling.events.EnterFrameEvent;
   
@@ -17,6 +19,8 @@ package com.littlegames.framework.core
     public function GameComponent()
     {
       super();
+      
+      Starling.current.showStats = true;
       
       _gameEngine = new GameEngine(this);
       

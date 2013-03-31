@@ -16,8 +16,8 @@ package com.littlegames.framework.entities.unit.weapon.listing
 		override protected function getEfficiencies():Dictionary
 		{
 			var efficiencies:Dictionary = new Dictionary(true);
-			efficiencies[Infantry.ID] = 0.65;
-			efficiencies[Mech.ID] = 0.55;
+			//efficiencies[Infantry.ID] = 0.65;
+			//efficiencies[Mech.ID] = 0.55;
 			return efficiencies;
 		}
 	}

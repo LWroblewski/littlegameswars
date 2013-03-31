@@ -1,4 +1,4 @@
-package com.littlegames.framework.tileengine
+package com.littlegames.framework.core.engine.tileengine
 {
   public class TileMap
   {

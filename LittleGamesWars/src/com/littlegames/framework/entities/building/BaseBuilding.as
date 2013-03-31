@@ -6,40 +6,26 @@ package com.littlegames.framework.entities.building
   
   import starling.display.MovieClip;
 
-	/**
-	 * Bâtiment générique.
-	 */
-	public class Building
+	/** Bâtiment générique. */
+	public class BaseBuilding
 	{
     /** Revenu par défaut des bâtiments. */
     private static const DEFAULT_BUILDING_INCOME:uint = 1000;
-    
 		/** Clé utilisée pour la reconnaissance du building dans les maps. */
 		public static const ALL:String = "All";
-		
+    // ------------------------------------------------------------------------
 		/** Nom du bâtiment. */
-		protected var _name:String;
-    
-    public function get name():String
-    {
-      return _name;
-    }
-		
+		public var name:String;
     /** movieClip du bâtiment. */
-    protected var _movieClip:MovieClip;
-    
+    public var movieClip:MovieClip;
     /** Argent reçu chaque tour en possédant ce bâtiment. */
-    protected var _income:uint;
-    
-    public function get income():uint
-    {
-      return _income;
-    }
-    
-		public function Building(pName:String, pIncome:uint = DEFAULT_BUILDING_INCOME)
+    public var income:uint;
+
+    /** Constructeur */
+		public function BaseBuilding(pName:String, pIncome:uint = DEFAULT_BUILDING_INCOME)
 		{
-      _name = pName;
-      _income = pIncome;
+      name = pName;
+      income = pIncome;
 		}
     
     /** Création du movieClip associé au bâtiment, et ajout à la map aux coordonnées pX et pY. */
@@ -47,20 +33,20 @@ package com.littlegames.framework.entities.building
     {
       try
       {
-        _movieClip = Resources.add((Utils.getClass(this)).ID);
+        movieClip = Resources.add((Utils.getClass(this)).ID);
       }
       catch (error:Error)
       {
-        throw new Error("Votre classe d'unité doit contenir une propriété prublique statique nommée ID.");
+        throw new Error("Votre classe d'unité doit contenir une propriété publique statique nommée ID.");
       }
     }
     
     /** Suppression du movieClip. */
     public function remove():void
     {
-      if (_movieClip)
+      if (movieClip)
       {
-        Resources.remove(_movieClip);
+        Resources.remove(movieClip);
       }
     }
 	}

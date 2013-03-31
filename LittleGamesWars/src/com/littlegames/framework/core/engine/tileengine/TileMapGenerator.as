@@ -1,7 +1,7 @@
-package com.littlegames.framework.tileengine
+package com.littlegames.framework.core.engine.tileengine
 {
-  import com.littlegames.framework.tileengine.tiles.BaseTile;
-  import com.littlegames.framework.tileengine.tiles.TilesId;
+  import com.littlegames.framework.core.engine.tileengine.tiles.BaseTile;
+  import com.littlegames.framework.core.engine.tileengine.tiles.TilesId;
 
   public class TileMapGenerator
   {

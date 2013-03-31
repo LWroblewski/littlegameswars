@@ -7,6 +7,11 @@
  <SubTexture name="Tile_2" x="32" y="0" width="16" height="16"/>
  <SubTexture name="Tile_3" x="48" y="0" width="16" height="16"/>
  
+ <!-- Unitées -->
+ <SubTexture name="Unit_0_0" x="0" y="32" width="32" height="32"/>
+ <SubTexture name="Unit_0_1" x="32" y="32" width="32" height="32"/>
+ 
+ <!--  Curseurs -->
  <SubTexture name="Cursor_0" x="0" y="16" width="16" height="16"/>
  
 </TextureAtlas>

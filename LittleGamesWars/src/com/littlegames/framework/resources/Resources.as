@@ -5,6 +5,7 @@ package com.littlegames.framework.resources
   import flash.display.Bitmap;
   
   import starling.core.Starling;
+  import starling.display.Image;
   import starling.display.MovieClip;
   import starling.textures.Texture;
   import starling.textures.TextureAtlas;
@@ -21,18 +22,17 @@ package com.littlegames.framework.resources
     //public static const MAIN_SCREEN:Class;
     
     /** Atlas XML des animations */
-    [Embed(source="assets/sheet.xml", mimeType="application/octet-stream")]
+    [Embed(source="assets/map/spritesheet.xml", mimeType="application/octet-stream")]
     private static const _ATLAS:Class;
     
     /** Stylesheet des animations */
-    [Embed(source="assets/sheet.png")]
+    [Embed(source="assets/map/spritesheet.png")]
     private static const _SPRITESHEET:Class;
     
     /** Atlas des animations */
     private static var _textureAtlas:TextureAtlas;
     
-    /** Récupération d'un movieClip avec l'animation dont l'id commence par pPrefix. */
-    public static function get(pPrefix:String = ""):MovieClip
+    private static function get textureAtlas():TextureAtlas
     {
       if (!_textureAtlas)
       {
@@ -41,15 +41,41 @@ package com.littlegames.framework.resources
         var texture:Texture = Texture.fromBitmap(bitmap);
         _textureAtlas = new TextureAtlas(texture, xml);
       }
-      var movieClip:MovieClip = new MovieClip(_textureAtlas.getTextures(pPrefix));
+      return _textureAtlas;
+    }
+    
+    public static function getTextures(pPrefix:String):Vector.<Texture>
+    {
+      var textures:Vector.<Texture> = textureAtlas.getTextures(pPrefix);
+      if (!textures || textures.length == 0)
+      {
+        throw new Error('Texture ['+pPrefix+'] introuvable!');
+      }
+      return textures;
+    }
+    
+    public static function getSingleTexture(pPrefix:String):Texture
+    {
+      return getTextures(pPrefix)[0];
+    }
+    
+    /** Récupération d'un movieClip avec l'animation dont l'id commence par pPrefix. */
+    public static function getMovieClip(pPrefix:String = ""):MovieClip
+    {
+      var movieClip:MovieClip = new MovieClip(getTextures(pPrefix));
       Starling.juggler.add(movieClip);
       return movieClip;
+    }
+    
+    public static function getImage(pPrefix:String = ""):Image
+    {
+      return new Image(getSingleTexture(pPrefix));
     }
     
     /** Ajout d'un movieClip à la vue courante, d'animation d'id pPrefix, et aux coordonnées pX et pY. */
     public static function add(pPrefix:String = "", pX:int = 0, pY:int = 0):MovieClip
     {
-      var movieClip:MovieClip = get(pPrefix);
+      var movieClip:MovieClip = getMovieClip(pPrefix);
       if (movieClip)
       {
         Global.currentScreen.addChild(movieClip);

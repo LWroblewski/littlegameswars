@@ -1,6 +1,6 @@
 package com.littlegames.framework.core.gui
 {
-  import com.littlegames.framework.resources.TextureManager;
+  import com.littlegames.framework.resources.Resources;
   
   import starling.display.Image;
   import starling.display.Sprite;
@@ -43,7 +43,7 @@ package com.littlegames.framework.core.gui
       // Ajoute des images si necessaire
       while (_listImages.length < imgCount)
       {
-        img = new Image(TextureManager.getInstance().getTextures(TEX_ARROW)[0]);
+        img = Resources.getImage(TEX_ARROW);
         img.smoothing = TextureSmoothing.NONE;
         // TODO TileSideLength
         img.pivotX = img.width / 2;
@@ -65,7 +65,7 @@ package com.littlegames.framework.core.gui
         // Coin
         if (xx == pToX)
         {
-          img.texture = TextureManager.getInstance().getTextures(TEX_ANGLE)[0];
+          img.texture = Resources.getSingleTexture(TEX_ANGLE);
           // A gauche
           if (pFromX > pToX)
           {
@@ -89,13 +89,13 @@ package com.littlegames.framework.core.gui
           // Fin (Flèche)
           else
           {
-            img.texture = TextureManager.getInstance().getTextures(TEX_ARROW)[0];
+            img.texture = Resources.getSingleTexture(TEX_ARROW);
           }
         }
         // Chemin
         else
         {
-          img.texture = TextureManager.getInstance().getTextures(TEX_PATH)[0];
+          img.texture = Resources.getSingleTexture(TEX_PATH);
           img.rotation = 0;
         }
         
@@ -112,7 +112,7 @@ package com.littlegames.framework.core.gui
       while (yy != pToY)
       {
         img = _listImages[imgIdx++];
-        img.texture = TextureManager.getInstance().getTextures(TEX_PATH)[0];
+        img.texture = Resources.getSingleTexture(TEX_PATH);
         img.rotation = Math.PI/2;
         img.visible = true;
         // TODO TileSideLength + Layouter

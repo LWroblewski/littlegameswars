@@ -7,6 +7,8 @@ package com.littlegames.framework.entities.unit
 		public static const INFANTRY:String = "infantry";
 		/** Pneus. */
 		public static const TIRES:String = "tires";
+    /** Pneus (unités légères). */
+    public static const TIRES_LIGHT:String = "tires";
     /** Chenilles. */
     public static const TREAD:String = "tread";
 		/** Navires. */

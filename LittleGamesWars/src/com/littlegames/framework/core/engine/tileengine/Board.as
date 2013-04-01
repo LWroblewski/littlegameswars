@@ -5,7 +5,7 @@ package com.littlegames.framework.core.engine.tileengine
   import com.littlegames.framework.core.gui.PathDrawer;
   import com.littlegames.framework.core.input.GameInput;
   import com.littlegames.framework.entities.unit.UnitInstance;
-  import com.littlegames.framework.resources.TextureManager;
+  import com.littlegames.framework.resources.Resources;
   
   import flash.geom.Point;
   
@@ -62,7 +62,7 @@ package com.littlegames.framework.core.engine.tileengine
       _pathDrawer = new PathDrawer();
       addChild(_pathDrawer);
       
-      _cursor = new Image(TextureManager.getInstance().getTextures('Cursor_0')[0]);
+      _cursor = Resources.getImage('Cursor_0');
       _cursor.smoothing = TextureSmoothing.NONE;
       _cursor.width = _cursor.height = tileSideLenght;
       addChild(_cursor);
@@ -126,10 +126,10 @@ package com.littlegames.framework.core.engine.tileengine
     {
       if (!pUnit.unitMovieClip)
       {
-        pUnit.unitMovieClip = new MovieClip(TextureManager.getInstance().getUnitTexturesFromId(pUnit.unit.unitId));
+        pUnit.unitMovieClip = Resources.getMovieClip(pUnit.unitId);
         pUnit.unitMovieClip.width = pUnit.unitMovieClip.height = tileSideLenght;
         pUnit.unitMovieClip.smoothing = TextureSmoothing.NONE;
-        pUnit.unitMovieClip.fps = 2;
+        pUnit.unitMovieClip.fps = 4;
         layoutUnit(pUnit);
       }
       
@@ -183,7 +183,7 @@ package com.littlegames.framework.core.engine.tileengine
       
       while (toAdd--)
       {
-        img = new Image(TextureManager.getInstance().getTileTextureFromId(TilesId.GRASS)[0]);
+        img = Resources.getImage(TilesId.GRASS);
         img.smoothing = TextureSmoothing.NONE;
         img.width = img.height = tileSideLenght;
         _tileLayer.addChild(img);
@@ -197,20 +197,11 @@ package com.littlegames.framework.core.engine.tileengine
         {
           var tileLayer:TileLayer = _tileMap.listLayers[0];
           img = _listTiles[i + j * _tileMap.numTilesW];
-          img.texture = TextureManager.getInstance().getTileTextureFromId(tileLayer.getTileAt(i, j).tileId)[0];
+          img.texture = Resources.getSingleTexture(tileLayer.getTileAt(i, j).tileId);
           img.x = i * tileSideLenght;
           img.y = j * tileSideLenght;
         }
       }
-    }
-    
-    // ------------------------------------------------------------------------
-    // Helper
-    // ------------------------------------------------------------------------
-    /** Retourne la texture de tile passée en paramètre */
-    private function getTileTexture(pTileId:uint) : Texture
-    {
-      return TextureManager.getInstance().getTileTextureFromId(pTileId)[0];
     }
   }//end class
 }//end package

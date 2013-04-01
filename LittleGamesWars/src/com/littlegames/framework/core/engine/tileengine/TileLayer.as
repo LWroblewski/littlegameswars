@@ -21,7 +21,7 @@ package com.littlegames.framework.core.engine.tileengine
     }
     
     /** Initialize toutes les tiles avec de l'herbe */
-    public function fillTiles(pTileId:uint) : void
+    public function fillTiles(pTileId:String) : void
     {
       listTiles.length = 0;
       var totalTiles:uint = numTilesW * numTilesH;

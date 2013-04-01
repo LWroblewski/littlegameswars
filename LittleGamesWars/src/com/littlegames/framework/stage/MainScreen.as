@@ -1,7 +1,6 @@
 package com.littlegames.framework.stage
 {
   import com.littlegames.framework.entities.unit.UnitInstance;
-  import com.littlegames.framework.entities.unit.listing.Recon;
   import com.littlegames.framework.event.ChangeScreenEvent;
   import com.littlegames.framework.resources.Resources;
   import com.littlegames.framework.utils.ComponentUtils;

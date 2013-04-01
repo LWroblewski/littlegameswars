@@ -1,8 +1,9 @@
 package com.littlegames.framework.entities.co.power
 {
 	import com.littlegames.framework.entities.co.bonus.Bonus;
-	import com.littlegames.framework.entities.unit.BaseUnit;
 	import com.littlegames.framework.entities.unit.UnitInstance;
+	import com.littlegames.framework.entities.unit.UnitType;
+	import com.littlegames.framework.entities.unit.Units;
 	import com.littlegames.framework.utils.HashMap;
 
 	/** Pouvoir de commandant. Composé de bonus de base (attaque/défense améliorées, etc...) et de traitements plus spécifiques. */
@@ -31,7 +32,7 @@ package com.littlegames.framework.entities.co.power
       //To override.
       //Par défaut, bonus de 10% sur la défense.
       var bonus:HashMap = new HashMap();
-      bonus.put(BaseUnit.ALL, new Bonus(1, 1.1));
+      bonus.put(Units.ALL, new Bonus(1, 1.1));
       return bonus;
     }
 		

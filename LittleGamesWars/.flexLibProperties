@@ -20,6 +20,19 @@
     <classEntry path="com.littlegames.framework.resources.Portraits"/>
     <classEntry path="com.littlegames.framework.stage.MainScreen"/>
     <classEntry path="com.littlegames.framework.stage.ScreenSelectCO"/>
+    <classEntry path="com.littlegames.framework.entities.unit.listing.HumanUnit"/>
+    <classEntry path="com.littlegames.framework.entities.unit.listing.Bike"/>
+    <classEntry path="com.littlegames.framework.entities.unit.listing.Flare"/>
+    <classEntry path="com.littlegames.framework.entities.unit.weapon.listing.VulcanCannon"/>
+    <classEntry path="com.littlegames.framework.entities.unit.listing.Tank"/>
+    <classEntry path="com.littlegames.framework.entities.unit.weapon.listing.TankGun"/>
+    <classEntry path="com.littlegames.framework.entities.unit.listing.Artillery"/>
+    <classEntry path="com.littlegames.framework.entities.unit.weapon.listing.Cannon"/>
+    <classEntry path="com.littlegames.framework.entities.unit.listing.MediumTank"/>
+    <classEntry path="com.littlegames.framework.entities.unit.listing.WarTank"/>
+    <classEntry path="com.littlegames.framework.entities.unit.listing.Missiles"/>
+    <classEntry path="com.littlegames.framework.entities.unit.listing.Rockets"/>
+    <classEntry path="com.littlegames.framework.entities.unit.weapon.listing.MegaGun"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

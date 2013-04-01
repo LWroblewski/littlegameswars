@@ -6,9 +6,8 @@ package com.littlegames.framework.core.engine
   import com.littlegames.framework.core.gui.BaseScreen;
   import com.littlegames.framework.core.input.GameInput;
   import com.littlegames.framework.entities.unit.UnitInstance;
-  import com.littlegames.framework.entities.unit.listing.Infantry;
+  import com.littlegames.framework.entities.unit.Units;
   import com.littlegames.framework.resources.Resources;
-  import com.littlegames.framework.resources.TextureManager;
   
   import starling.display.DisplayObject;
   import starling.display.Image;
@@ -59,13 +58,13 @@ package com.littlegames.framework.core.engine
       _board.setMap(pMap);
       
       // Ajout des unitées
-      _board.addUnit(new UnitInstance(new Infantry(), UnitInstance.MAX_HP, 10, 10, true));
-      _board.addUnit(new UnitInstance(new Infantry(), UnitInstance.MAX_HP, 11, 10, true));
-      _board.addUnit(new UnitInstance(new Infantry(), UnitInstance.MAX_HP, 12, 10, true));
+      _board.addUnit(new UnitInstance(Units.INFANTRY, UnitInstance.MAX_HP, 10, 10, true));
+      _board.addUnit(new UnitInstance(Units.INFANTRY, UnitInstance.MAX_HP, 11, 10, true));
+      _board.addUnit(new UnitInstance(Units.INFANTRY, UnitInstance.MAX_HP, 12, 10, true));
       
-      _board.addUnit(new UnitInstance(new Infantry(), UnitInstance.MAX_HP, 10, 3, true));
-      _board.addUnit(new UnitInstance(new Infantry(), UnitInstance.MAX_HP, 11, 3, true));
-      _board.addUnit(new UnitInstance(new Infantry(), UnitInstance.MAX_HP, 12, 3, true));
+      _board.addUnit(new UnitInstance(Units.INFANTRY, UnitInstance.MAX_HP, 10, 3, true));
+      _board.addUnit(new UnitInstance(Units.INFANTRY, UnitInstance.MAX_HP, 11, 3, true));
+      _board.addUnit(new UnitInstance(Units.INFANTRY, UnitInstance.MAX_HP, 12, 3, true));
     }
     
     /** Maj du jeu */

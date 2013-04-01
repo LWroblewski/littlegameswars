@@ -2,8 +2,6 @@ package com.littlegames.framework.entities.unit.weapon.listing
 {
 	import flash.utils.Dictionary;
 	
-	import com.littlegames.framework.entities.unit.listing.Infantry;
-	import com.littlegames.framework.entities.unit.listing.Mech;
 	import com.littlegames.framework.entities.unit.weapon.Weapon;
 	
 	public class MachineGun extends Weapon

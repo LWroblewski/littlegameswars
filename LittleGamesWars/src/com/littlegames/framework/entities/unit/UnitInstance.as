@@ -14,7 +14,14 @@ package com.littlegames.framework.entities.unit
 		public static const MAX_HP:uint = 10;
     // ------------------------------------------------------------------------
 		/** Type de l'unité. */
-		public var unit:BaseUnit;
+		public var unit:UnitType;
+    
+    /** Identifiant du type d'unité. */
+    public function get unitId():String
+    {
+      return unit.id;
+    }
+    
 		/** Points de vie courants (10 au maximum). */
 		public var hp:uint;
 		/** Position x sur la map. */
@@ -28,7 +35,7 @@ package com.littlegames.framework.entities.unit
     public var unitMovieClip:MovieClip;
     
     /** Constructeur */
-		public function UnitInstance(pUnit:BaseUnit, pHp:uint = MAX_HP, pX:uint = 0, pY:uint = 0, pEnabled:Boolean = false)
+		public function UnitInstance(pUnit:UnitType, pHp:uint = MAX_HP, pX:uint = 0, pY:uint = 0, pEnabled:Boolean = false)
 		{
       unit = pUnit;
 			hp = pHp;
@@ -36,12 +43,6 @@ package com.littlegames.framework.entities.unit
       y = pY;
       enabled = pEnabled;
 		}
-    
-    /** Définition de l'unitée */
-    public function setUnit(pUnit:BaseUnit) : void
-    {
-      
-    }
     
     /** @inheritDoc */
     public function update(pTimeDelta:Number) : void

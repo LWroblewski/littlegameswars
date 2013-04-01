@@ -1,6 +1,7 @@
 package com.littlegames.framework.core.engine.tileengine
 {
   import com.littlegames.framework.core.engine.tileengine.tiles.BaseTile;
+  import com.littlegames.framework.core.engine.tileengine.tiles.TilesId;
   import com.littlegames.framework.core.gui.PathDrawer;
   import com.littlegames.framework.core.input.GameInput;
   import com.littlegames.framework.entities.unit.UnitInstance;
@@ -177,23 +178,28 @@ package com.littlegames.framework.core.engine.tileengine
     private function createViewImages() : void
     {
       // Vérifie si on a assez d'images pour toutes les tiles
-      var toAdd:int = _tileMap.numTilesH * _tileMap.numTilesW;
-      // Création des images
-      var tileX:Number = 0;
-      var tileY:Number = 0;
-      while (toAdd-- > 0)
+      var toAdd:int = _tileMap.numTilesH * _tileMap.numTilesW - _listTiles.length;
+      var img:Image;
+      
+      while (toAdd--)
       {
-        var img:Image = new Image(getTileTexture(0));
+        img = new Image(TextureManager.getInstance().getTileTextureFromId(TilesId.GRASS)[0]);
         img.smoothing = TextureSmoothing.NONE;
         img.width = img.height = tileSideLenght;
-        img.x = tileX*tileSideLenght;
-        img.y = tileY*tileSideLenght;
         _tileLayer.addChild(img);
-        tileX++;
-        if (tileX > _tileMap.numTilesW)
+        _listTiles.push(img);
+      }
+      
+      // Corrige les terrains
+      for (var i:uint = 0; i < _tileMap.numTilesW; i++)
+      {
+        for (var j:uint = 0; j < _tileMap.numTilesH; j++)
         {
-          tileX = 0;
-          tileY++;
+          var tileLayer:TileLayer = _tileMap.listLayers[0];
+          img = _listTiles[i + j * _tileMap.numTilesW];
+          img.texture = TextureManager.getInstance().getTileTextureFromId(tileLayer.getTileAt(i, j).tileId)[0];
+          img.x = i * tileSideLenght;
+          img.y = j * tileSideLenght;
         }
       }
     }

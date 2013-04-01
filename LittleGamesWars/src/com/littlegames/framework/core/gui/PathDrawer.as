@@ -33,10 +33,12 @@ package com.littlegames.framework.core.gui
     /** Dessine le chemin */
     public function drawPath(pFromX:uint, pFromY:uint, pToX:uint, pToY:uint) : void
     {
-      clear();
       // Calcul le nombre d'images à afficher
       var imgCount:uint = Math.abs(pToX - pFromX) + Math.abs(pToY-pFromY);
       var img:Image;
+      
+      // Nettoyage
+      clear();
       
       // Ajoute des images si necessaire
       while (_listImages.length < imgCount)

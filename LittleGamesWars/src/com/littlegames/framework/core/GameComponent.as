@@ -42,7 +42,7 @@ package com.littlegames.framework.core
       _isInitialized = true;
       
       // MAP Random
-      var tileMap:TileMap = new TileMap(40, 40);
+      var tileMap:TileMap = new TileMap(15, 15);
       new TileMapGenerator().generate(tileMap);
       _gameEngine.initializeGame(tileMap);
     }

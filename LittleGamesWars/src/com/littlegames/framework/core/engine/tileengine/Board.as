@@ -1,6 +1,7 @@
 package com.littlegames.framework.core.engine.tileengine
 {
   import com.littlegames.framework.core.engine.tileengine.tiles.BaseTile;
+  import com.littlegames.framework.core.gui.PathDrawer;
   import com.littlegames.framework.core.input.GameInput;
   import com.littlegames.framework.entities.unit.UnitInstance;
   import com.littlegames.framework.resources.TextureManager;
@@ -20,12 +21,10 @@ package com.littlegames.framework.core.engine.tileengine
   /** Classe de gestion de la TileMap */
   public class Board extends Sprite
   {
-    /** Zoom */
-    private var _zoom:Number;
     /** TileMap */
     private var _tileMap:TileMap;
     // ------------------------------------------------------------------------
-    /** Dimension des tiles */
+    /** Dimension des tiles en pixels */
     private var tileSideLenght:Number = 32;
     // ------------------------------------------------------------------------
     /** Indicateur de MAJ */
@@ -43,17 +42,24 @@ package com.littlegames.framework.core.engine.tileengine
     private var _selectedUnit:UnitInstance;
     /** Destination de l'unitée */
     private var _actionTarget:Point = new Point();
+    // ------------------------------------------------------------------------
+    /** Gestion des déplacements */
+    private var _pathDrawer:PathDrawer;
+    private var _lastPathPosition:Point = new Point(-1, -1);
     
     /** Constructeur */
     public function Board()
     {
-      _zoom = 1;
       _listTiles = new <Image>[];
       _tileLayer = new Sprite();
       addChild(_tileLayer);
+      
       _listUnits = new <UnitInstance>[];
       _unitLayer = new Sprite();
       addChild(_unitLayer);
+      
+      _pathDrawer = new PathDrawer();
+      addChild(_pathDrawer);
       
       _cursor = new Image(TextureManager.getInstance().getTextures('Cursor_0')[0]);
       _cursor.smoothing = TextureSmoothing.NONE;
@@ -68,8 +74,13 @@ package com.littlegames.framework.core.engine.tileengine
     {
       var touch:Touch = pEvent.touches[0];
       
-      _cursor.x = tileSideLenght*uint(touch.globalX/tileSideLenght);
-      _cursor.y = tileSideLenght*uint(touch.globalY/tileSideLenght);
+      // Coordonnées tiles
+      var xx:uint = uint(touch.globalX/tileSideLenght);
+      var yy:uint = uint(touch.globalY/tileSideLenght);
+      
+      // Coordonnées réelles
+      _cursor.x = tileSideLenght*xx;
+      _cursor.y = tileSideLenght*yy;
       
       if (touch.phase == TouchPhase.ENDED)
       {
@@ -77,7 +88,19 @@ package com.littlegames.framework.core.engine.tileengine
         if (!_selectedUnit)
           _selectedUnit = selection;
         if (_selectedUnit && selection == null)
-          _actionTarget.setTo(_cursor.x, _cursor.y);
+        {
+          if (_lastPathPosition.x != xx || _lastPathPosition.y != yy)
+          {
+            _pathDrawer.drawPath(_selectedUnit.x, _selectedUnit.y, xx, yy);
+            _lastPathPosition.setTo(xx, yy);
+          }
+          else
+          {
+            _pathDrawer.clear();
+            _actionTarget.setTo(_cursor.x, _cursor.y);
+            _lastPathPosition.setTo(-1, -1);
+          }
+        }
       }
     }
     
@@ -103,6 +126,7 @@ package com.littlegames.framework.core.engine.tileengine
       if (!pUnit.unitMovieClip)
       {
         pUnit.unitMovieClip = new MovieClip(TextureManager.getInstance().getUnitTexturesFromId(pUnit.unit.unitId));
+        pUnit.unitMovieClip.width = pUnit.unitMovieClip.height = tileSideLenght;
         pUnit.unitMovieClip.smoothing = TextureSmoothing.NONE;
         pUnit.unitMovieClip.fps = 2;
         layoutUnit(pUnit);

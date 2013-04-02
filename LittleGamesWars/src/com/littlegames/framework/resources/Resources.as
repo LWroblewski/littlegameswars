@@ -22,11 +22,11 @@ package com.littlegames.framework.resources
     //public static const MAIN_SCREEN:Class;
     
     /** Atlas XML des animations */
-    [Embed(source="assets/map/spritesheet.xml", mimeType="application/octet-stream")]
+    [Embed(source="assets/sheet.xml", mimeType="application/octet-stream")]
     private static const _ATLAS:Class;
     
     /** Stylesheet des animations */
-    [Embed(source="assets/map/spritesheet.png")]
+    [Embed(source="assets/sheet.png")]
     private static const _SPRITESHEET:Class;
     
     /** Atlas des animations */

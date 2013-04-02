@@ -8,9 +8,9 @@ package com.littlegames.framework.core.gui
   
   public class PathDrawer extends Sprite
   {
-    private static const TEX_ARROW:String = "Arrow";
-    private static const TEX_PATH:String = "ArrowPath";
-    private static const TEX_ANGLE:String = "ArrowAngle";
+    private static const TEX_ARROW:String = "arrow";
+    private static const TEX_PATH:String = "arrow_straight";
+    private static const TEX_ANGLE:String = "arrow_turn";
     
     /** Liste des images servant à dessiner le chemin */
     private var _listImages:Vector.<Image> = new <Image>[];

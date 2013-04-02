@@ -5,6 +5,7 @@ package com.littlegames.framework.core.engine.tileengine
   import com.littlegames.framework.core.gui.PathDrawer;
   import com.littlegames.framework.core.input.GameInput;
   import com.littlegames.framework.entities.unit.UnitInstance;
+  import com.littlegames.framework.resources.Animations;
   import com.littlegames.framework.resources.Resources;
   
   import flash.geom.Point;
@@ -62,7 +63,7 @@ package com.littlegames.framework.core.engine.tileengine
       _pathDrawer = new PathDrawer();
       addChild(_pathDrawer);
       
-      _cursor = Resources.getImage('Cursor_0');
+      _cursor = Resources.getImage('cursor');
       _cursor.smoothing = TextureSmoothing.NONE;
       _cursor.width = _cursor.height = tileSideLenght;
       addChild(_cursor);
@@ -126,11 +127,12 @@ package com.littlegames.framework.core.engine.tileengine
     {
       if (!pUnit.unitMovieClip)
       {
-        pUnit.unitMovieClip = Resources.getMovieClip(pUnit.unitId);
-        pUnit.unitMovieClip.width = pUnit.unitMovieClip.height = tileSideLenght;
+        pUnit.unitMovieClip = Resources.getMovieClip(pUnit.unitId + '_' + Animations.LEFT);
+        //pUnit.unitMovieClip.width = pUnit.unitMovieClip.height = tileSideLenght;
         pUnit.unitMovieClip.smoothing = TextureSmoothing.NONE;
         pUnit.unitMovieClip.fps = 4;
         layoutUnit(pUnit);
+        centerUnit(pUnit);
       }
       
       _listUnits.push(pUnit);
@@ -144,6 +146,13 @@ package com.littlegames.framework.core.engine.tileengine
     {
       pUnit.unitMovieClip.x = pUnit.x * tileSideLenght;
       pUnit.unitMovieClip.y = pUnit.y * tileSideLenght;
+    }
+    
+    /** Centre l'unité sur une tile. */
+    private function centerUnit(pUnit:UnitInstance):void
+    {
+      pUnit.unitMovieClip.x += (tileSideLenght - pUnit.unitMovieClip.width)/2;
+      pUnit.unitMovieClip.y += (tileSideLenght - pUnit.unitMovieClip.height)/2;
     }
     
     /** Définit la map affichée */

@@ -59,12 +59,12 @@ package com.littlegames.framework.core.engine
       
       // Ajout des unitées
       _board.addUnit(new UnitInstance(Units.INFANTRY, UnitInstance.MAX_HP, 10, 10, true));
-      _board.addUnit(new UnitInstance(Units.INFANTRY, UnitInstance.MAX_HP, 11, 10, true));
-      _board.addUnit(new UnitInstance(Units.INFANTRY, UnitInstance.MAX_HP, 12, 10, true));
+      _board.addUnit(new UnitInstance(Units.MECH, UnitInstance.MAX_HP, 11, 10, true));
+      _board.addUnit(new UnitInstance(Units.TANK, UnitInstance.MAX_HP, 12, 10, true));
       
-      _board.addUnit(new UnitInstance(Units.INFANTRY, UnitInstance.MAX_HP, 10, 3, true));
-      _board.addUnit(new UnitInstance(Units.INFANTRY, UnitInstance.MAX_HP, 11, 3, true));
-      _board.addUnit(new UnitInstance(Units.INFANTRY, UnitInstance.MAX_HP, 12, 3, true));
+      _board.addUnit(new UnitInstance(Units.WAR_TANK, UnitInstance.MAX_HP, 10, 3, true));
+      _board.addUnit(new UnitInstance(Units.ARTILLERY, UnitInstance.MAX_HP, 11, 3, true));
+      _board.addUnit(new UnitInstance(Units.ANTI_AIR, UnitInstance.MAX_HP, 12, 3, true));
     }
     
     /** Maj du jeu */

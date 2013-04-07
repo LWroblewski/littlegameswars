@@ -1,6 +1,6 @@
-package com.littlegames.framework.core.engine.tileengine.tiles
+package com.littlegames.framework.core.engine.render.tileengine.tiles
 {
-  public class BaseTile
+  public class Tile
   {
     /** Id de la tile */
     public var tileId:String;
@@ -8,9 +8,11 @@ package com.littlegames.framework.core.engine.tileengine.tiles
     public var tileWeather:uint = 0;
     /** Walkable */
     public var isWalkable:Boolean = false;
+    /** Coordonnées de la tile */
+    public var x:uint, y:uint;
     
     /** Constructeur */
-    public function BaseTile(pTileId:String = null, pTileWeather:uint = 0, pIsWalkable:Boolean = true)
+    public function Tile(pTileId:String = null, pTileWeather:uint = 0, pIsWalkable:Boolean = true)
     {
       tileId = pTileId ? pTileId : TilesId.GRASS;
       tileWeather = pTileWeather;

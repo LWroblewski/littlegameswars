@@ -1,7 +1,7 @@
-package com.littlegames.framework.core.engine.tileengine
+package com.littlegames.framework.core.engine.render.tileengine
 {
-  import com.littlegames.framework.core.engine.tileengine.tiles.BaseTile;
-  import com.littlegames.framework.core.engine.tileengine.tiles.TilesId;
+  import com.littlegames.framework.core.engine.render.tileengine.tiles.Tile;
+  import com.littlegames.framework.core.engine.render.tileengine.tiles.TilesId;
   import com.littlegames.framework.core.gui.PathDrawer;
   import com.littlegames.framework.core.input.GameInput;
   import com.littlegames.framework.entities.unit.UnitInstance;
@@ -19,6 +19,7 @@ package com.littlegames.framework.core.engine.tileengine
   import starling.events.TouchPhase;
   import starling.textures.Texture;
   import starling.textures.TextureSmoothing;
+  import com.littlegames.framework.core.data.TileMap;
 
   /** Classe de gestion de la TileMap */
   public class Board extends Sprite
@@ -204,9 +205,8 @@ package com.littlegames.framework.core.engine.tileengine
       {
         for (var j:uint = 0; j < _tileMap.numTilesH; j++)
         {
-          var tileLayer:TileLayer = _tileMap.listLayers[0];
           img = _listTiles[i + j * _tileMap.numTilesW];
-          img.texture = Resources.getSingleTexture(tileLayer.getTileAt(i, j).tileId);
+          img.texture = Resources.getSingleTexture(_tileMap.getTileAt(i, j).tileId);
           img.x = i * tileSideLenght;
           img.y = j * tileSideLenght;
         }

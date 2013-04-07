@@ -1,22 +1,22 @@
-package com.littlegames.framework.core.engine.tileengine
+package com.littlegames.framework.core.data
 {
-  import com.littlegames.framework.core.engine.tileengine.tiles.BaseTile;
-  import com.littlegames.framework.core.engine.tileengine.tiles.TilesId;
+  import com.littlegames.framework.core.engine.render.tileengine.tiles.Tile;
+  import com.littlegames.framework.core.engine.render.tileengine.tiles.TilesId;
 
-  public class TileLayer
+  public class TileMap
   {
     /** Liste des tiles du layer */
-    public var listTiles:Vector.<BaseTile>;
+    public var listTiles:Vector.<Tile>;
     /** Dimensions */
     public var numTilesW:uint = 0;
     public var numTilesH:uint = 0;
     
-    /** Constructeur */
-    public function TileLayer(pNumTilesW:uint = 0, pNumTilesH:uint = 0)
+    /** Map de tiles */
+    public function TileMap(pColumns:uint, pRows:uint)
     {
-      listTiles = new <BaseTile>[];
-      numTilesW = pNumTilesW;
-      numTilesH = pNumTilesH;
+      numTilesW = pColumns;
+      numTilesH = pRows;
+      listTiles = new <Tile>[];
       fillTiles(TilesId.GRASS);
     }
     
@@ -24,20 +24,25 @@ package com.littlegames.framework.core.engine.tileengine
     public function fillTiles(pTileId:String) : void
     {
       listTiles.length = 0;
-      var totalTiles:uint = numTilesW * numTilesH;
-      for (var i:uint = 0; i < totalTiles; i++)
+      for (var yy:uint = 0; yy < numTilesH; yy++)
       {
-        listTiles.push(new BaseTile(pTileId));
+        for (var xx:uint = 0; xx < numTilesW; xx++)
+        {
+          var tile:Tile = new Tile(pTileId);
+          tile.x = xx;
+          tile.y = yy;
+          listTiles.push(tile);
+        }
       }
     }
     
     /** Retourne une tile aux coordonnées spécifiées */
-    public function getTileAt(pX:uint, pY:uint) : BaseTile
+    public function getTileAt(pX:uint, pY:uint) : Tile
     {
       if (!validCoordinates(pX, pY)) return null;
       return listTiles[pX+pY*numTilesW];
     }
-
+    
     /** Vérifie la validité des coordonnées */
     private function validCoordinates(pX:uint, pY:uint) : Boolean
     {
@@ -45,14 +50,14 @@ package com.littlegames.framework.core.engine.tileengine
     }
     
     /** Définit une tile aux coordonnées spécifiées */
-    public function setTileAt(pX:uint, pY:uint, pTile:BaseTile) : void
+    public function setTileAt(pX:uint, pY:uint, pTile:Tile) : void
     {
       if (!validCoordinates(pX, pY)) return;
       listTiles[pX+pY*numTilesW] = pTile;
     }
     
     /** Récupère une tile aléatoirement */
-    public function getRandomTile() : BaseTile
+    public function getRandomTile() : Tile
     {
       return listTiles[(uint)(Math.random() * numTilesH * numTilesW - 1)];
     }

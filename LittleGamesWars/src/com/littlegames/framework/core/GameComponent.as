@@ -1,12 +1,15 @@
 package com.littlegames.framework.core
 {
-  import com.littlegames.framework.core.engine.GameEngine;
-  import com.littlegames.framework.core.engine.tileengine.TileMap;
-  import com.littlegames.framework.core.engine.tileengine.TileMapGenerator;
+  import com.littlegames.framework.core.engine.logic.GameEngine;
+  import com.littlegames.framework.core.data.TileMap;
+  import com.littlegames.framework.core.engine.render.tileengine.TileMapGenerator;
+  
+  import flash.display.Stage;
   
   import starling.core.Starling;
   import starling.display.Sprite;
   import starling.events.EnterFrameEvent;
+  import starling.events.Event;
   
   public class GameComponent extends Sprite
   {
@@ -20,11 +23,12 @@ package com.littlegames.framework.core
     {
       super();
       
+      // DBG
       Starling.current.showStats = true;
-      
-      _gameEngine = new GameEngine(this);
-      
+      // Main loop
       addEventListener(EnterFrameEvent.ENTER_FRAME, onEnterFrame);
+      // Moteur
+      _gameEngine = new GameEngine(this);
     }
     
     /** Nouvelle frame */
@@ -41,10 +45,7 @@ package com.littlegames.framework.core
     {
       _isInitialized = true;
       
-      // MAP Random
-      var tileMap:TileMap = new TileMap(15, 15);
-      new TileMapGenerator().generate(tileMap);
-      _gameEngine.initializeGame(tileMap);
+      _gameEngine.initializeGame(null);
     }
   }
 }

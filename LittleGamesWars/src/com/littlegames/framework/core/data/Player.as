@@ -1,4 +1,4 @@
-package com.littlegames.framework.entities.player
+package com.littlegames.framework.core.data
 {
 	import com.littlegames.framework.entities.building.BaseBuilding;
 	import com.littlegames.framework.entities.co.Commander;
@@ -8,32 +8,28 @@ package com.littlegames.framework.entities.player
 	public class Player
 	{
     /** Id du joueur (login pour joueur physique, null pour IA). */
-    protected var _id:String;
-    
-    public function get id():String
-    {
-      return _id;
-    }
-    
+    public var id:String;
     /** Liste des COs disponibles pour le joueur (uniquement pour joueur physique). */
     public var availablesCos:Vector.<Commander>;
-    
 		/** Commandant choisi par le joueur. */
-		public var co:Commander;
-		
+		public var commander:Commander;
 		/** Liste des unités du joueur. */
 		public var units:Vector.<UnitInstance>;
-		
     /** Liste des buildings capturés par le joueur. */
     public var buildings:Vector.<BaseBuilding>;
-    
 		/** Argent du joueur. */
 		public var gold:uint;
 		
-		public function Player(pId:String = null, pCO:Commander = null, pGold:uint = 0, pUnits:Vector.<UnitInstance> = null, pBuildings:Vector.<BaseBuilding> = null)
+    /** Constructeur */
+		public function Player(
+      pId:String = null, 
+      pCO:Commander = null, 
+      pGold:uint = 0, 
+      pUnits:Vector.<UnitInstance> = null, 
+      pBuildings:Vector.<BaseBuilding> = null)
 		{
-      _id = pId;
-      co = pCO;
+      id = pId;
+      commander = pCO;
       gold = pGold;
       units = pUnits ? pUnits : new Vector.<UnitInstance>;
       buildings = pBuildings ? pBuildings : new Vector.<BaseBuilding>;

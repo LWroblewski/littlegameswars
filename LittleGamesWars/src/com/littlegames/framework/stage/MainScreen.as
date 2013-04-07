@@ -8,7 +8,7 @@ package com.littlegames.framework.stage
   
   import starling.display.Button;
   import starling.events.Event;
-  import com.littlegames.framework.core.gui.BaseScreen;
+  import com.littlegames.framework.core.gui.screen.BaseScreen;
   
   /** Ecran d'introduction */
   public class MainScreen extends BaseScreen

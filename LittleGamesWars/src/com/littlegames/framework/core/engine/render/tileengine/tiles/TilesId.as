@@ -1,4 +1,4 @@
-package com.littlegames.framework.core.engine.tileengine.tiles
+package com.littlegames.framework.core.engine.render.tileengine.tiles
 {
   public class TilesId
   {

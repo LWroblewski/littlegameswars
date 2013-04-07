@@ -1,6 +1,6 @@
 package com.littlegames.framework.utils
 {
-  import com.littlegames.framework.entities.player.Player;
+  import com.littlegames.framework.core.data.Player;
   
   import starling.display.Sprite;
   import starling.display.Stage;

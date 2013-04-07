@@ -32,6 +32,9 @@ package com.littlegames.framework.resources
     /** Atlas des animations */
     private static var _textureAtlas:TextureAtlas;
     
+    /** Texture vide pour préaffichage d'une image */
+    public static var emptyTexture:Texture = Texture.empty(1,1,0xffffffff);
+    
     private static function get textureAtlas():TextureAtlas
     {
       if (!_textureAtlas)

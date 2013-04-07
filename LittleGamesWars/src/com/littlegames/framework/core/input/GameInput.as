@@ -1,6 +1,6 @@
 package com.littlegames.framework.core.input
 {
-  import com.littlegames.framework.core.engine.GameEngine;
+  import com.littlegames.framework.core.engine.logic.GameEngine;
   
   import flash.events.MouseEvent;
   import flash.geom.Point;

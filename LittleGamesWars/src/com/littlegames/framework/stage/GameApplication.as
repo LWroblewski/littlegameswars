@@ -50,27 +50,8 @@ package com.littlegames.framework.stage
     /** Initialisation */
     private function init():void
     {
-      _starling = new Starling(GameComponent, stage, new Rectangle(0,0,500,375));
+      _starling = new Starling(GameComponent, stage);
       _starling.start();
-      
-      //Starling.current.stage.addEventListener(ResizeEvent.RESIZE, resizeStage);
-    }
-    
-    /** Redimension du stage */
-    private function resizeStage(event:ResizeEvent):void
-    {
-      // set rectangle dimensions for viewPort:
-      var viewPortRectangle:Rectangle = new Rectangle();
-      
-      viewPortRectangle.width = event.width;
-      viewPortRectangle.height = event.height;
-      
-      // resize the viewport:
-      _starling.viewPort = viewPortRectangle;
-      
-      // assign the new stage width and height:
-      //mStarling.stage.stageWidth = event.width;
-      //mStarling.stage.stageHeight = event.height;
     }
   }
 }

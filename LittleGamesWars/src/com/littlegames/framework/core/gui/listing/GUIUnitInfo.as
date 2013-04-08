@@ -1,4 +1,4 @@
-package com.littlegames.framework.core.gui
+package com.littlegames.framework.core.gui.listing
 {
   import com.littlegames.framework.core.data.GameData;
   import com.littlegames.framework.entities.unit.UnitInstance;

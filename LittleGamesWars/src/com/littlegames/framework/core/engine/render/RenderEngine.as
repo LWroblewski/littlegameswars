@@ -4,8 +4,8 @@ package com.littlegames.framework.core.engine.render
   import com.littlegames.framework.core.action.GameActionResult;
   import com.littlegames.framework.core.data.GameData;
   import com.littlegames.framework.core.data.TileMap;
-  import com.littlegames.framework.core.engine.render.layers.EntityLayer;
   import com.littlegames.framework.core.engine.render.layers.GUILayer;
+  import com.littlegames.framework.core.engine.render.layers.MapLayer;
   import com.littlegames.framework.core.engine.render.tileengine.tiles.Tile;
   import com.littlegames.framework.entities.unit.UnitInstance;
   import com.littlegames.framework.resources.Resources;
@@ -25,7 +25,7 @@ package com.littlegames.framework.core.engine.render
     /** Zone de rendu global */
     public var renderLayer:Sprite;
     /** Zone de rendu du jeu */
-    private var _entityLayer:EntityLayer;
+    private var _mapLayer:MapLayer;
     /** Zone de rendu de l'interface graphique */
     private var _guiLayer:GUILayer;
     // ------------------------------------------------------------------------
@@ -36,8 +36,6 @@ package com.littlegames.framework.core.engine.render
     private var _listGameActionResults:Vector.<GameActionResult> = new <GameActionResult>[];
     /** Liste des actions en attente de traitement */
     private var _listPendingActions:Vector.<GameAction> = new <GameAction>[];
-    /** Layout du jeu */
-    private var _layout:GridLayout;
     // ------------------------------------------------------------------------
     /** Données du jeu */
     private var _gameData:GameData;
@@ -48,20 +46,49 @@ package com.littlegames.framework.core.engine.render
     /** Moteur de rendu */
     public function RenderEngine()
     {
-      _layout = new GridLayout(20, 20);
-      
-      _entityLayer = new EntityLayer();
+      _mapLayer = new MapLayer();
       _guiLayer = new GUILayer();
       _cursor = Resources.getImage("cursor");
-      _layout.sizeImage(_cursor);
       
       renderLayer = new Sprite();
-      renderLayer.addChild(_entityLayer);
+      renderLayer.addChild(_mapLayer);
       renderLayer.addChild(_guiLayer);
       renderLayer.addChild(_cursor);
       
-      Starling.current.nativeStage.addEventListener(MouseEvent.CLICK, onTouch);
+      //Starling.current.nativeStage.addEventListener(MouseEvent.CLICK, onTouch);
+      Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseEvent);
+      Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_UP, onMouseEvent);
+      Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseEvent);
       Starling.current.stage.addEventListener(ResizeEvent.RESIZE, onResize);
+    }
+    
+    // ------------------------------------------------------------------------
+    private var _mouseIsDown:Boolean = false;
+    private var _mouseDownPosition:Point = new Point();
+    private var _initialScrollPosition:Point;
+    /** Gestion de la souris */
+    private function onMouseEvent(pEvent:MouseEvent) : void
+    {
+      if (pEvent.type == MouseEvent.MOUSE_DOWN)
+      {
+        _mouseIsDown = true;
+        _mouseDownPosition.setTo(pEvent.stageX, pEvent.stageY);
+      }
+      else if (pEvent.type == MouseEvent.MOUSE_UP)
+      {
+        _mouseIsDown = false;
+        _mapLayer.setLocalCursorPosition(pEvent.stageX, pEvent.stageY);
+      }
+      else if (pEvent.type == MouseEvent.MOUSE_MOVE && _mouseIsDown)
+      {
+        var deltaX:Number= _mouseDownPosition.x - pEvent.stageX;
+        var deltaY:Number = _mouseDownPosition.y - pEvent.stageY;
+        _mouseDownPosition.setTo(pEvent.stageX, pEvent.stageY);
+        if (deltaX != 0 || deltaY != 0)
+        {
+          _mapLayer.scroll(deltaX, deltaY);
+        }
+      }
     }
     
     /** Redimensionnement du jeu */
@@ -96,14 +123,14 @@ package com.littlegames.framework.core.engine.render
       }
       
       _gameData.ellapsedTime = pTimeDelta;
-      _entityLayer.update(_gameData);
+      _mapLayer.update(_gameData);
       _guiLayer.update(_gameData);
     }
     
     /** Réinitialize la vue */
     private function rebuildView() : void
     {
-      _entityLayer.initialize(_gameData);
+      _mapLayer.initialize(_gameData);
     }
     
     /** Définit la map */
@@ -111,18 +138,6 @@ package com.littlegames.framework.core.engine.render
     {
       _gameData = pGameData;
       _viewIsDirty = true;
-    }
-    
-    /** Gestion touch/click */
-    private function onTouch(pEvent:MouseEvent) : void
-    {
-      // Récupère les coords de la souris
-      _gameData.cursorPosition.setTo(pEvent.stageX, pEvent.stageY);
-      _layout.clampToTile(_gameData.cursorPosition);
-      
-      // Modifie la position du curseur
-      _cursor.x = _gameData.cursorPosition.x;
-      _cursor.y = _gameData.cursorPosition.y;
     }
     
     /** Gère le traitement graphique d'une action */

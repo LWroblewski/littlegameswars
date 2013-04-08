@@ -1,7 +1,7 @@
 package com.littlegames.framework.core.engine.render.layers
 {
   import com.littlegames.framework.core.data.GameData;
-  import com.littlegames.framework.core.gui.GUIUnitInfo;
+  import com.littlegames.framework.core.gui.listing.GUIUnitInfo;
   import com.littlegames.framework.entities.unit.UnitInstance;
   
   import starling.display.DisplayObject;
@@ -29,7 +29,7 @@ package com.littlegames.framework.core.engine.render.layers
       _hud = new Sprite();
       addChild(_hud);
       _unitInfo = new GUIUnitInfo();
-      addChild(_unitInfo);
+      //addChild(_unitInfo);
       
       updateLayout();
     }
@@ -46,8 +46,8 @@ package com.littlegames.framework.core.engine.render.layers
     /** Maj */
     public function update(pGameData:GameData) : void
     {
-      var unitUnderCursor:UnitInstance = pGameData.getUnitUnderCursor();
-      _unitInfo.setUnit(unitUnderCursor);
+      //var unitUnderCursor:UnitInstance = pGameData.getUnitUnderCursor();
+      //_unitInfo.setUnit(unitUnderCursor);
     }
   }
 }

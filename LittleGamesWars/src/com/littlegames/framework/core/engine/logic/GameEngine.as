@@ -61,7 +61,7 @@ package com.littlegames.framework.core.engine.logic
     /** Lance le jeu */
     public function initializeGame(pGameConfiguration:LevelConfiguration) : void
     {
-      var map:TileMap = new TileMap(15, 15);
+      var map:TileMap = new TileMap(80, 40);
       new TileMapGenerator().generate(map);
       
       var player:Player = new Player('Susmonski', new Andy(), 0);

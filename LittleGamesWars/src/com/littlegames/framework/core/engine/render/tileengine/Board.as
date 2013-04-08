@@ -2,7 +2,7 @@ package com.littlegames.framework.core.engine.render.tileengine
 {
   import com.littlegames.framework.core.engine.render.tileengine.tiles.Tile;
   import com.littlegames.framework.core.engine.render.tileengine.tiles.TilesId;
-  import com.littlegames.framework.core.gui.PathDrawer;
+  import com.littlegames.framework.core.gui.listing.GUIPathDrawer;
   import com.littlegames.framework.core.input.GameInput;
   import com.littlegames.framework.entities.unit.UnitInstance;
   import com.littlegames.framework.resources.Animations;
@@ -47,7 +47,7 @@ package com.littlegames.framework.core.engine.render.tileengine
     private var _actionTarget:Point = new Point();
     // ------------------------------------------------------------------------
     /** Gestion des déplacements */
-    private var _pathDrawer:PathDrawer;
+    private var _pathDrawer:GUIPathDrawer;
     private var _lastPathPosition:Point = new Point(-1, -1);
     
     /** Constructeur */
@@ -61,7 +61,7 @@ package com.littlegames.framework.core.engine.render.tileengine
       _unitLayer = new Sprite();
       addChild(_unitLayer);
       
-      _pathDrawer = new PathDrawer();
+      _pathDrawer = new GUIPathDrawer();
       addChild(_pathDrawer);
       
       _cursor = Resources.getImage('cursor');

@@ -1,4 +1,4 @@
-package com.littlegames.framework.core.gui
+package com.littlegames.framework.core.gui.listing
 {
   import com.littlegames.framework.resources.Resources;
   
@@ -6,7 +6,7 @@ package com.littlegames.framework.core.gui
   import starling.display.Sprite;
   import starling.textures.TextureSmoothing;
   
-  public class PathDrawer extends Sprite
+  public class GUIPathDrawer extends Sprite
   {
     private static const TEX_ARROW:String = "arrow";
     private static const TEX_PATH:String = "arrow_straight";
@@ -16,7 +16,7 @@ package com.littlegames.framework.core.gui
     private var _listImages:Vector.<Image> = new <Image>[];
     
     /** Constructeur */
-    public function PathDrawer()
+    public function GUIPathDrawer()
     {
       super();
     }

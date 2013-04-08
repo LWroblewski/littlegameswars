@@ -15,10 +15,8 @@
     <classEntry path="entities.building.listing.Aeroport"/>
     <classEntry path="entities.co.listing.Andy"/>
     <classEntry path="entities.co.power.listing.Repair"/>
-    <classEntry path="com.littlegames.framework.services.player.GetPlayerCommand"/>
     <classEntry path="com.littlegames.framework.services.player.SavePlayerStatusCommand"/>
     <classEntry path="com.littlegames.framework.resources.Portraits"/>
-    <classEntry path="com.littlegames.framework.stage.MainScreen"/>
     <classEntry path="com.littlegames.framework.stage.ScreenSelectCO"/>
     <classEntry path="com.littlegames.framework.entities.unit.listing.HumanUnit"/>
     <classEntry path="com.littlegames.framework.entities.unit.listing.Bike"/>
@@ -32,7 +30,6 @@
     <classEntry path="com.littlegames.framework.entities.unit.listing.WarTank"/>
     <classEntry path="com.littlegames.framework.entities.unit.listing.Missiles"/>
     <classEntry path="com.littlegames.framework.entities.unit.listing.Rockets"/>
-    <classEntry path="com.littlegames.framework.entities.unit.weapon.listing.MegaGun"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

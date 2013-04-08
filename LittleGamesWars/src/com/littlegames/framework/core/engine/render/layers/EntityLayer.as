@@ -6,6 +6,7 @@ package com.littlegames.framework.core.engine.render.layers
   import com.littlegames.framework.core.engine.render.GridLayout;
   import com.littlegames.framework.core.engine.render.tileengine.tiles.Tile;
   import com.littlegames.framework.entities.unit.UnitInstance;
+  import com.littlegames.framework.resources.Animations;
   import com.littlegames.framework.resources.Resources;
   
   import starling.display.DisplayObject;
@@ -51,7 +52,7 @@ package com.littlegames.framework.core.engine.render.layers
         // Parcours des unitées
         for each (var unit:UnitInstance in player.units)
         {
-          var mv:MovieClip = Resources.getMovieClip(unit.unitId+"_"+"left");
+          var mv:MovieClip = Resources.getMovieClip(unit.unitId+"_"+Animations.LEFT);
           pGameData.layout.positionAndSize(mv, unit.x, unit.y);
           _layerUnits.addChild(mv);
         }

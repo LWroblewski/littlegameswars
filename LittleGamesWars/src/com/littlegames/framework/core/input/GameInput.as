@@ -1,6 +1,6 @@
 package com.littlegames.framework.core.input
 {
-  import com.littlegames.framework.core.engine.logic.GameEngine;
+  import com.littlegames.framework.core.engine.logic.GameView;
   
   import flash.events.MouseEvent;
   import flash.geom.Point;
@@ -20,7 +20,7 @@ package com.littlegames.framework.core.input
     private var _downKeys:Dictionary = new Dictionary();
     
     /** Constructeur */
-    public function GameInput(pEngine:GameEngine)
+    public function GameInput(pEngine:GameView)
     {
       Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseEvent);
       Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseEvent);

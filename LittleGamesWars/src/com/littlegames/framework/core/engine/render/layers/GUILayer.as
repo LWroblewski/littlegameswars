@@ -7,15 +7,9 @@ package com.littlegames.framework.core.engine.render.layers
   import starling.display.DisplayObject;
   import starling.display.Sprite;
   
-  /**
-  * Affichage de l'interface graphique
-  * Gère l'interaction avec le joueur
-  */
+  /** Affichage de l'interface graphique */
   public class GUILayer extends Sprite
   {
-    /** Stockage des éléments graphique d'interface */
-    private var _listGuiElements:Vector.<DisplayObject> = new <DisplayObject>[];
-    // ------------------------------------------------------------------------
     /** Hud */
     private var _hud:Sprite;
     /** Informations d'unité */
@@ -44,7 +38,7 @@ package com.littlegames.framework.core.engine.render.layers
     }
     
     /** Maj */
-    public function update(pGameData:GameData) : void
+    public function update() : void
     {
       //var unitUnderCursor:UnitInstance = pGameData.getUnitUnderCursor();
       //_unitInfo.setUnit(unitUnderCursor);

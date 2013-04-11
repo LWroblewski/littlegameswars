@@ -51,6 +51,10 @@ package com.littlegames.framework.core.engine.render.layers
     private var _cursorPositionChanged:Boolean = true;
     private var _cursorRenderer:EntityRenderer;
     
+    // ------------------------------------------------------------------------
+    /** Données du jeu */
+    private var _gameData:GameData;
+    
     /** Constructeur */
     public function MapLayer()
     {
@@ -68,16 +72,34 @@ package com.littlegames.framework.core.engine.render.layers
     /** Initialize le jeu */
     public function initialize(pGameData:GameData) : void
     {
-      createRenderers(pGameData);
+      _gameData = pGameData;
+      
+      createRenderers();
+    }
+    
+    /** Retourne l'unitée sous le curseur */
+    public function getUnitUnderCursor() : UnitInstance
+    {
+      for each (var renderer:EntityRenderer in _listRenderers)
+      {
+        if (!renderer.data is UnitInstance) continue;
+        
+        if (renderer.x == _cursorRenderer.x && renderer.y == _cursorRenderer.y)
+        {
+          return renderer.data as UnitInstance;
+        }
+      }
+      
+      return null;
     }
 
     /** Construit la tileMap */
-    private function createRenderers(pGameData:GameData) : void
+    private function createRenderers() : void
     {
       // Crée autant d'image qu'on a besoin pour les tiles
       var renderer:EntityRenderer;
       var totalCount:uint = _tilesXCount * _tilesYCount;
-      for each (var tile:Tile in pGameData.tileMap.listTiles)
+      for each (var tile:Tile in _gameData.tileMap.listTiles)
       {
         renderer = new EntityRenderer(Resources.getTextures(tile.tileId));
         renderer.data = tile;
@@ -89,7 +111,7 @@ package com.littlegames.framework.core.engine.render.layers
       }
       
       // Parcours des joueurs
-      for each (var player:Player in pGameData.listPlayers)
+      for each (var player:Player in _gameData.listPlayers)
       {
         // Parcours des unitées
         for each (var unit:UnitInstance in player.units)
@@ -106,9 +128,9 @@ package com.littlegames.framework.core.engine.render.layers
     }
     
     /** Maj */
-    public function update(pGameData:GameData) : void
+    public function update() : void
     {
-      if (_scrollPositionChanged) updateView(pGameData);
+      if (_scrollPositionChanged) updateView();
       if (_cursorPositionChanged)
       {
         _layout.layoutElement(_cursorRenderer, _cursorPosition.x, _cursorPosition.y);
@@ -138,7 +160,7 @@ package com.littlegames.framework.core.engine.render.layers
     }
     
     /** Maj de la vue */
-    private function updateView(pGameData:GameData) : void
+    private function updateView() : void
     {
       _scrollPositionChanged = false;
       

@@ -1,6 +1,6 @@
 package com.littlegames.framework.core
 {
-  import com.littlegames.framework.core.engine.logic.GameEngine;
+  import com.littlegames.framework.core.engine.logic.GameView;
   import com.littlegames.framework.core.data.TileMap;
   import com.littlegames.framework.core.engine.render.tileengine.TileMapGenerator;
   
@@ -14,7 +14,7 @@ package com.littlegames.framework.core
   public class GameComponent extends Sprite
   {
     /** Moteur du jeu */
-    private var _gameEngine:GameEngine;
+    private var _gameView:GameView;
     /** Initialisation */
     private var _isInitialized:Boolean = false;
     
@@ -28,7 +28,8 @@ package com.littlegames.framework.core
       // Main loop
       addEventListener(EnterFrameEvent.ENTER_FRAME, onEnterFrame);
       // Moteur
-      _gameEngine = new GameEngine(this);
+      _gameView = new GameView();
+      addChild(_gameView);
     }
     
     /** Nouvelle frame */
@@ -37,7 +38,7 @@ package com.littlegames.framework.core
       // Initialisation du jeu
       if (!_isInitialized) initialize();
       
-      _gameEngine.update(pEvent.passedTime);
+      _gameView.update(pEvent.passedTime);
     }
 
     /** Initialisation du jeu */
@@ -45,7 +46,7 @@ package com.littlegames.framework.core
     {
       _isInitialized = true;
       
-      _gameEngine.initializeGame(null);
+      _gameView.initializeGame(null);
     }
   }
 }

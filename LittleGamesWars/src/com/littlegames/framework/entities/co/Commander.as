@@ -1,7 +1,5 @@
 package com.littlegames.framework.entities.co
 {
-	import com.littlegames.framework.entities.co.bonus.Bonus;
-	import com.littlegames.framework.entities.co.power.Power;
 	import com.littlegames.framework.utils.HashMap;
 	
 	import flash.utils.Dictionary;

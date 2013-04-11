@@ -1,4 +1,4 @@
-package com.littlegames.framework.entities.co.bonus
+package com.littlegames.framework.entities.co
 {
 	/** Bonus génériques accordés aux unités par les COs (de base ou via pouvoir). */
 	public class Bonus

@@ -1,40 +1,41 @@
 package com.littlegames.framework.core.gui.listing
 {
   import com.littlegames.framework.core.gui.BaseScreen;
+  import com.littlegames.framework.entities.unit.UnitInstance;
+  import com.littlegames.framework.event.ChangeScreenEvent;
+  import com.littlegames.framework.resources.Resources;
+  import com.littlegames.framework.utils.ComponentUtils;
+  import com.littlegames.framework.utils.Views;
   
-  import starling.display.Image;
-  import starling.events.TouchEvent;
-  import starling.textures.Texture;
+  import starling.display.Button;
+  import starling.events.Event;
   
+  /** Ecran d'introduction */
   public class SplashScreen extends BaseScreen
   {
-    /** SplashScreen */
-    // TODO Export
-    [Embed(source="assets/menu/btnCampaign.png")]
-    private var bgSplashScreen:Class;
+    private static const SPLASH_SCREEN:String = "splash-screen";
     
-    /** Constructeur */
-    public function SplashScreen()
+    private static const BTN_CAMPAIGN:String = "btn-campaign";
+    
+    override protected function initGameStage():void
     {
-      super();
-      
-      var bg:Image = new Image(Texture.fromBitmap(new bgSplashScreen(), false, true));
-      addChild(bg);
-      
-      // TODO Export?
-      addEventListener(TouchEvent.TOUCH, onTouch);
+      initBackground();
+      initButtons();
     }
     
-    /** Gestion du touch */
-    private function onTouch(pEvent:TouchEvent) : void
+    protected function initBackground():void
     {
-      trace('okez');
+      ComponentUtils.addImage(Resources.getSingleTexture(SPLASH_SCREEN));
     }
     
-    /** @inheritDoc */
-    override public function update(pTimeDelta:Number) : void
+    protected function initButtons():void
     {
-      super.update(pTimeDelta);
+      ComponentUtils.addButton(Resources.getSingleTexture(BTN_CAMPAIGN), onBtnCampaignTriggered, -60, 300);
+    }
+    
+    protected function onBtnCampaignTriggered(pEvent:Event):void
+    {
+      dispatchEvent(new ChangeScreenEvent(ChangeScreenEvent.CHANGE, Views.SCREEN_GAME));
     }
   }
 }

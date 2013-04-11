@@ -1,4 +1,4 @@
-package com.littlegames.framework.stage
+package com.littlegames.framework.core.gui
 {
   import com.littlegames.framework.core.GameComponent;
   
@@ -16,7 +16,7 @@ package com.littlegames.framework.stage
   {
     /** Moteur de rendu du jeu. */
     protected var _starling:Starling = null;
-
+    
     /** Constructeur de l'application */
     public function GameApplication(pDefaultStage:Class = null)
     {
@@ -50,7 +50,7 @@ package com.littlegames.framework.stage
     /** Initialisation */
     private function init():void
     {
-      _starling = new Starling(GameComponent, stage);
+      _starling = new Starling(ScreenSwitcher, stage);
       _starling.start();
     }
   }

@@ -1,7 +1,6 @@
 package com.littlegames.framework.entities.co.listing
 {
 	import com.littlegames.framework.entities.co.Commander;
-	import com.littlegames.framework.entities.co.power.listing.Repair;
 	import com.littlegames.framework.resources.Portraits;
 	import com.littlegames.framework.utils.HashMap;
 	
@@ -17,4 +16,14 @@ package com.littlegames.framework.entities.co.listing
 			super("Andy", new Repair(), 3);
 		}
 	}
+}
+
+import com.littlegames.framework.entities.co.Power;
+
+class Repair extends Power
+{
+  public function Repair()
+  {
+    super("Réparation");
+  }
 }

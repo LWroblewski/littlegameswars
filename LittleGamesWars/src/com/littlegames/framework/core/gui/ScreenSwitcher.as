@@ -1,6 +1,9 @@
-package com.littlegames.framework.stage
+package com.littlegames.framework.core.gui
 {
-
+  
+  import com.littlegames.framework.core.GameComponent;
+  import com.littlegames.framework.core.gui.listing.ScreenSelectCO;
+  import com.littlegames.framework.core.gui.listing.SplashScreen;
   import com.littlegames.framework.event.ChangeScreenEvent;
   import com.littlegames.framework.utils.Global;
   import com.littlegames.framework.utils.Views;
@@ -18,7 +21,7 @@ package com.littlegames.framework.stage
     
     /** Liste des classes des vues de l'application */
     protected var _views:Dictionary;
-
+    
     public final function get views():Dictionary
     {
       if (!_views)
@@ -32,18 +35,18 @@ package com.littlegames.framework.stage
     protected function defineViews():Dictionary
     {
       var views:Dictionary = new Dictionary(true);
-      views[Views.SCREEN_MAIN] = MainScreen;
+      views[Views.SCREEN_MAIN] = SplashScreen;
       views[Views.SCREEN_CO_SELECTION] = ScreenSelectCO;
-      views[Views.SCREEN_GAME] = ScreenBattle;
+      views[Views.SCREEN_GAME] = GameComponent;
       return views;
     }
     
     /** Première vue du jeu */
     protected function get mainScreenClass():Class
     {
-      return MainScreen;
+      return SplashScreen;
     }
-
+    
     public function ScreenSwitcher()
     {
       super();
@@ -54,7 +57,7 @@ package com.littlegames.framework.stage
     private function addedToStage_handler(pEvent:Event):void
     {
       removeEventListener(Event.ADDED_TO_STAGE, addedToStage_handler);
-
+      
       if (mainScreenClass)
       {
         pushView(mainScreenClass);
@@ -68,15 +71,15 @@ package com.littlegames.framework.stage
       {
         _currentScreen.dispose();
       }
-
+      
       removeChildren();
-
+      
       Global.currentScreen = _currentScreen = new pClass();
       _currentScreen.addEventListener(ChangeScreenEvent.CHANGE, screenChange_handler);
-
+      
       addChild(_currentScreen);
     }
-
+    
     private function screenChange_handler(pEvent:ChangeScreenEvent):void
     {
       if (views && views[pEvent.screenId] is Class)

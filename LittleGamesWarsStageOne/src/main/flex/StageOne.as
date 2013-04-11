@@ -1,7 +1,7 @@
 package
 {
+  import com.littlegames.framework.core.gui.GameApplication;
   import com.littlegames.framework.core.xml.script.ScriptManager;
-  import com.littlegames.framework.stage.GameApplication;
   
   /** Premier niveau de la campagne LittleGamesWars */
   [SWF(frameRate="30", backgroundColor="#FFFFFF", width="800", height="600")]

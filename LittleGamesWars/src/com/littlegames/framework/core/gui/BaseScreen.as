@@ -9,25 +9,55 @@ package com.littlegames.framework.core.gui
   import starling.events.Event;
   import starling.events.KeyboardEvent;
 
-  /** Classe mère de tous les écrans */
   public class BaseScreen extends Sprite
   {
-    /** Constructeur */
     public function BaseScreen()
     {
       super();
-    }
-    
-    /** Maj de l'écran */
-    public function update(pTimeDelta:Number) : void
-    {
-      // TO OVERRIDE
+      addEventListener(Event.ADDED_TO_STAGE, addedToStage_handler);
     }
 
-    /** Nettoyage des ressources */
+    private function addedToStage_handler(pEvent:Event):void
+    {
+      removeEventListener(Event.ADDED_TO_STAGE, addedToStage_handler);
+
+      //Mise à jour de l'affichage à chaque ENTER_FRAME (moment où la scène est redessinée)
+      //Correspond au cycle de rafraichissement de l'application.
+      stage.addEventListener(Event.ENTER_FRAME, _onEnterFrame);
+
+      //Passage du stage dans une variable statique, pour utilisation en dehors des vues.
+      Global.stage = stage;
+
+      initGameStage();
+
+      //Mode dev Cylande...
+      //alpha = 0.2;
+    }
+
+    protected function initGameStage():void
+    {
+
+    }
+
+    /**
+     * Fonction appelée à chaque rafraichissement de l'écran. Détermine les actions à
+     * effectuer à l'écran.
+     */
+    private function _onEnterFrame(pEvent:Event):void
+    {
+      onEnterFrame();
+    }
+
+    protected function onEnterFrame():void
+    {
+
+    }
+
     override public function dispose():void
     {
       super.dispose();
+
+      stage.removeEventListener(Event.ENTER_FRAME, _onEnterFrame);
     }
   }
 }

@@ -1,6 +1,5 @@
-package com.littlegames.framework.entities.co.power
+package com.littlegames.framework.entities.co
 {
-	import com.littlegames.framework.entities.co.bonus.Bonus;
 	import com.littlegames.framework.entities.unit.UnitInstance;
 	import com.littlegames.framework.entities.unit.UnitType;
 	import com.littlegames.framework.entities.unit.Units;

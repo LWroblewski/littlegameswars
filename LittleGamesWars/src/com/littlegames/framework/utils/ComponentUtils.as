@@ -9,9 +9,9 @@ package com.littlegames.framework.utils
 
   public class ComponentUtils
   {
-    public static function addButton(pBitmap:Class, pHandler:Function, pX:int = 0, pY:int = 0):Button
+    public static function addButton(pTexture:Texture, pHandler:Function, pX:int = 0, pY:int = 0):Button
     {
-      var button:Button = new Button(Texture.fromBitmap(new pBitmap() as Bitmap));
+      var button:Button = new Button(pTexture);
       button.addEventListener(Event.TRIGGERED, pHandler);
       button.x = pX;
       button.y = pY;
@@ -19,9 +19,9 @@ package com.littlegames.framework.utils
       return button;
     }
     
-    public static function addImage(pBitmap:Class, pX:int = 0, pY:int = 0):Image
+    public static function addImage(pTexture:Texture, pX:int = 0, pY:int = 0):Image
     {
-      var image:Image = new Image(Texture.fromBitmap(new pBitmap() as Bitmap));
+      var image:Image = new Image(pTexture);
       image.x = pX;
       image.y = pY;
       return Global.currentScreen.addChild(image) as Image;

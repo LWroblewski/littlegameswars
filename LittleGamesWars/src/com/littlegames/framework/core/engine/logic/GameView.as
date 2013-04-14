@@ -25,6 +25,15 @@ package com.littlegames.framework.core.engine.logic
   public class GameView extends Sprite
   {
     // ------------------------------------------------------------------------
+    // Actions
+    // ------------------------------------------------------------------------
+    /** Mouvement */
+    private const ACTION_MOVE:String = 'Move';
+    /** Attaque */
+    private const ACTION_ATTACK:String = 'Attack';
+    /** Annulation */
+    private const ACTION_CANCEL:String = 'Cancel';
+    // ------------------------------------------------------------------------
     // Etats de jeu
     // ------------------------------------------------------------------------
     /** Unitée sélectionnée */
@@ -49,9 +58,7 @@ package com.littlegames.framework.core.engine.logic
     /** Action selectionnée */
     private var _selectedAction:String = null;
     /** Cible sélectionnée */
-    private var _selectedEnnemyTarget:UnitInstance;
-    /** Destination selectionnée */
-    private var _selectedDestination:Tile;
+    private var _selectedTarget:TilePosition = null;
     /** Etat du jeu */
     private var _currentState:String = STATE_UNIT_SELECTION;
     
@@ -60,6 +67,7 @@ package com.littlegames.framework.core.engine.logic
     {
       _mapLayer = new MapLayer();
       _guiLayer = new GUILayer();
+      _guiLayer.setActionCallback(actionCallback);
       _cursor = Resources.getImage("cursor");
       
       addChild(_mapLayer);
@@ -100,27 +108,29 @@ package com.littlegames.framework.core.engine.logic
       _mapLayer.initialize(_gameData);
     }
     
+    // ------------------------------------------------------------------------
+    // Maj
+    // ------------------------------------------------------------------------
+    
     /** Maj du jeu */
     public function update(pTimeDelta:Number) : void
     {
-      _gameData.ellapsedTime = pTimeDelta;
-      _mapLayer.update();
-      _guiLayer.update();
-      
       // Gestion d'une unitée sélectionnée
       if (isStateComplete())
         processNextStep();
+      
+      _mapLayer.update();
+      _guiLayer.update();
     }
     
     /** Permet de savoir si on a toutes les informations nécessaire de l'état de jeu */
     private function isStateComplete() : Boolean
     {
-      // Free
       if (_currentState == STATE_UNIT_SELECTION && _selectedUnit)
         return true;
       else if (_currentState == STATE_ACTION_SELECTION && _selectedAction)
         return true;
-      else if (_currentState == STATE_TARGET_SELECTION && _selectedEnnemyTarget)
+      else if (_currentState == STATE_TARGET_SELECTION && _selectedTarget)
         return true;
       
       return false;
@@ -129,7 +139,85 @@ package com.littlegames.framework.core.engine.logic
     /** Effectue les actions necessaires pour passer à l'état suivant */
     private function processNextStep() : void
     {
-      // TODO Effectuer les transitions d'états (affichage de menu/déplacements/etc...)
+      // Effectuer les transitions d'états (affichage de menu/déplacements/etc...)
+      switch (_currentState)
+      {
+        // Selection d'unit
+        // ------------------------------------------------------------------------
+        case STATE_UNIT_SELECTION:
+          displayActionMenu(_mouseDownPosition);
+          _currentState = STATE_ACTION_SELECTION;
+          break;
+        
+        // Selection d'action
+        // ------------------------------------------------------------------------
+        case STATE_ACTION_SELECTION:
+          hideActionMenu();
+          _currentState = STATE_TARGET_SELECTION;
+          break;
+        
+        // Selection de cible
+        // ------------------------------------------------------------------------
+        case STATE_TARGET_SELECTION:
+          applyAction();
+          _currentState = STATE_UNIT_SELECTION;
+          _selectedAction = null;
+          _selectedUnit = null;
+          _selectedTarget = null;
+          break;
+        
+        default:
+          break;
+      }
+    }
+    
+    /** Applique l'action voulue */
+    private function applyAction() : void
+    {
+      if (_selectedAction == ACTION_MOVE)
+      {
+        _selectedUnit.x = _selectedTarget.x;
+        _selectedUnit.y = _selectedTarget.y;
+        _selectedUnit.needUpdate = true;
+      }
+      else if (_selectedAction == ACTION_ATTACK)
+      {
+        // Gestion de l'attaque
+      }
+    }
+    
+    /** Cache le menu d'actions */
+    private function hideActionMenu() : void
+    {
+      _guiLayer.hideActionMenu();
+    }
+    
+    /** Affiche le menu d'action lié à la selection */
+    private function displayActionMenu(pPosition:Point) : void
+    {
+      _guiLayer.displayActionMenu(new <String>[ACTION_MOVE, ACTION_ATTACK, ACTION_CANCEL], pPosition);
+    }
+    
+    /** Gestion de l'action selectionnée */
+    private function actionCallback(pAction:String) : void
+    {
+      _selectedAction = pAction;
+      
+      if(pAction == ACTION_CANCEL)
+      {
+        hideActionMenu();
+        _selectedAction = null;
+        _selectedUnit = null;
+        _currentState = STATE_UNIT_SELECTION;
+      }
+      else if (pAction == ACTION_MOVE)
+      {
+        // Affiche la grille de déplacement + un bouton d'annulation
+      }
+      else if (pAction == ACTION_ATTACK)
+      {
+        // Affiche le curseur de selection de cible + un bouton d'annulation
+      }
     }
     
     // ------------------------------------------------------------------------
@@ -138,9 +226,13 @@ package com.littlegames.framework.core.engine.logic
     private var _mouseIsDown:Boolean = false;
     private var _mouseDownPosition:Point = new Point();
     private var _initialScrollPosition:Point;
+    private var _isScrolling:Boolean = false;
     /** Gestion de la souris */
     private function onMouseEvent(pEvent:MouseEvent) : void
     {
+      // Pas de gestion de souris quand on selectionne une action
+      if (_currentState == STATE_ACTION_SELECTION) return;
+      
       if (pEvent.type == MouseEvent.MOUSE_DOWN)
       {
         _mouseIsDown = true;
@@ -149,18 +241,24 @@ package com.littlegames.framework.core.engine.logic
       else if (pEvent.type == MouseEvent.MOUSE_UP)
       {
         _mouseIsDown = false;
-        _mapLayer.setLocalCursorPosition(pEvent.stageX, pEvent.stageY);
-        _selectedUnit = _mapLayer.getUnitUnderCursor();
+        if (!_isScrolling)
+        {
+          _mapLayer.setLocalCursorPosition(pEvent.stageX, pEvent.stageY);
+          if (_currentState == STATE_UNIT_SELECTION)
+            _selectedUnit = _mapLayer.getUnitUnderCursor();
+          else if (_currentState == STATE_TARGET_SELECTION)
+            _selectedTarget = _mapLayer.getCursorPosition();
+        }
+        else
+          _isScrolling = false;
       }
       else if (pEvent.type == MouseEvent.MOUSE_MOVE && _mouseIsDown)
       {
+        _isScrolling = true;
         var deltaX:Number= _mouseDownPosition.x - pEvent.stageX;
         var deltaY:Number = _mouseDownPosition.y - pEvent.stageY;
+        _mapLayer.scroll(deltaX, deltaY);
         _mouseDownPosition.setTo(pEvent.stageX, pEvent.stageY);
-        if (deltaX != 0 || deltaY != 0)
-        {
-          _mapLayer.scroll(deltaX, deltaY);
-        }
       }
     }
     

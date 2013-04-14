@@ -17,11 +17,5 @@ package com.littlegames.framework.core.data
     public var tileMap:TileMap = null;
     /** Liste des joueurs */
     public var listPlayers:Vector.<Player> = new <Player>[];
-    
-    // ------------------------------------------------------------------------
-    // Graphic data
-    // ------------------------------------------------------------------------
-    /** Temps écoulé depuis la dernière frame */
-    public var ellapsedTime:Number = 0;
   }
 }

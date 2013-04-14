@@ -33,6 +33,8 @@ package com.littlegames.framework.entities.unit
     // ------------------------------------------------------------------------
     /** MovieClip associé à l'unité. */
     public var unitMovieClip:MovieClip;
+    /** Indicateur de MAJ graphique */
+    public var needUpdate:Boolean = false;
     
     /** Constructeur */
 		public function UnitInstance(pUnit:UnitType, pHp:uint = MAX_HP, pX:uint = 0, pY:uint = 0, pEnabled:Boolean = false)

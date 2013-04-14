@@ -80,17 +80,23 @@ package com.littlegames.framework.core.engine.render.layers
     /** Retourne l'unitée sous le curseur */
     public function getUnitUnderCursor() : UnitInstance
     {
-      for each (var renderer:EntityRenderer in _listRenderers)
+      for each (var rd:EntityRenderer in _listRenderers)
       {
-        if (!renderer.data is UnitInstance) continue;
+        var unitInstance:UnitInstance = rd.data as UnitInstance;
         
-        if (renderer.x == _cursorRenderer.x && renderer.y == _cursorRenderer.y)
+        if (unitInstance && unitInstance.x == _cursorPosition.x && unitInstance.y == _cursorPosition.y)
         {
-          return renderer.data as UnitInstance;
+          return unitInstance;
         }
       }
       
       return null;
+    }
+    
+    /** Retourne la position du curseur sur la tileMap */
+    public function getCursorPosition() : TilePosition
+    {
+      return _cursorPosition;
     }
 
     /** Construit la tileMap */
@@ -135,6 +141,30 @@ package com.littlegames.framework.core.engine.render.layers
       {
         _layout.layoutElement(_cursorRenderer, _cursorPosition.x, _cursorPosition.y);
       }
+      
+      // Changements dans les units
+      for each (var rd:EntityRenderer in _listRenderers)
+      {
+        var unitInstance:UnitInstance = rd.data as UnitInstance;
+        if (unitInstance && unitInstance.needUpdate)
+        {
+          unitInstance.needUpdate = false;
+          _layout.layoutElement(rd, unitInstance.x, unitInstance.y);
+        }
+      }
+    }
+    
+    /** Définit la position de scroll */
+    public function setScrollPosition(pX:Number, pY:Number) : void
+    {
+      _layout.scrollPosition.setTo(pX, pY);
+      _scrollPositionChanged = true;
+    }
+    
+    /** Récupère la position de scroll */
+    public function getScrollPosition() : Point
+    {
+      return _layout.scrollPosition;
     }
     
     /** Scrolling */

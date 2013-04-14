@@ -20,6 +20,9 @@ package com.littlegames.framework.core.engine.logic
   import starling.core.Starling;
   import starling.display.Image;
   import starling.display.Sprite;
+  import starling.events.Touch;
+  import starling.events.TouchEvent;
+  import starling.events.TouchPhase;
 
   /** Vue de jeu */
   public class GameView extends Sprite
@@ -61,6 +64,9 @@ package com.littlegames.framework.core.engine.logic
     private var _selectedTarget:TilePosition = null;
     /** Etat du jeu */
     private var _currentState:String = STATE_UNIT_SELECTION;
+    // ------------------------------------------------------------------------
+    /** Indicateur de déplacement lors d'un touch */
+    private var _hasMoved:Boolean = false;
     
     /** Constructeur */
     public function GameView()
@@ -75,9 +81,77 @@ package com.littlegames.framework.core.engine.logic
       addChild(_cursor);
       
       //Starling.current.nativeStage.addEventListener(MouseEvent.CLICK, onTouch);
-      Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseEvent);
-      Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_UP, onMouseEvent);
-      Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseEvent);
+      //Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseEvent);
+      //Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_UP, onMouseEvent);
+      //Starling.current.nativeStage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseEvent);
+      addEventListener(TouchEvent.TOUCH, onTouch);
+    }
+    
+    // ------------------------------------------------------------------------
+    // Maj
+    // ------------------------------------------------------------------------
+    
+    /** Maj du jeu */
+    public function update(pTimeDelta:Number) : void
+    {
+      // Gestion d'une unitée sélectionnée
+      if (isStateComplete())
+        processNextStep();
+      
+      _mapLayer.update();
+      _guiLayer.update();
+    }
+    
+    // ------------------------------------------------------------------------
+    // Gestion des etats
+    // ------------------------------------------------------------------------
+    
+    /** Permet de savoir si on a toutes les informations nécessaire de l'état de jeu */
+    private function isStateComplete() : Boolean
+    {
+      if (_currentState == STATE_UNIT_SELECTION && _selectedUnit)
+        return true;
+      else if (_currentState == STATE_ACTION_SELECTION && _selectedAction)
+        return true;
+      else if (_currentState == STATE_TARGET_SELECTION && _selectedTarget)
+        return true;
+      
+      return false;
+    }
+    
+    /** Effectue les actions necessaires pour passer à l'état suivant */
+    private function processNextStep() : void
+    {
+      // Effectuer les transitions d'états (affichage de menu/déplacements/etc...)
+      switch (_currentState)
+      {
+        // Selection d'unit
+        // ------------------------------------------------------------------------
+        case STATE_UNIT_SELECTION:
+          displayActionMenu(_mapLayer.getLocalCursorPosition());
+          _currentState = STATE_ACTION_SELECTION;
+          break;
+        
+        // Selection d'action
+        // ------------------------------------------------------------------------
+        case STATE_ACTION_SELECTION:
+          hideActionMenu();
+          _currentState = STATE_TARGET_SELECTION;
+          break;
+        
+        // Selection de cible
+        // ------------------------------------------------------------------------
+        case STATE_TARGET_SELECTION:
+          applyAction();
+          _currentState = STATE_UNIT_SELECTION;
+          _selectedAction = null;
+          _selectedUnit = null;
+          _selectedTarget = null;
+          break;
+        
+        default:
+          break;
+      }
     }
     
     /** Lance le jeu */
@@ -106,69 +180,6 @@ package com.littlegames.framework.core.engine.logic
     private function rebuildView() : void
     {
       _mapLayer.initialize(_gameData);
-    }
-    
-    // ------------------------------------------------------------------------
-    // Maj
-    // ------------------------------------------------------------------------
-    
-    /** Maj du jeu */
-    public function update(pTimeDelta:Number) : void
-    {
-      // Gestion d'une unitée sélectionnée
-      if (isStateComplete())
-        processNextStep();
-      
-      _mapLayer.update();
-      _guiLayer.update();
-    }
-    
-    /** Permet de savoir si on a toutes les informations nécessaire de l'état de jeu */
-    private function isStateComplete() : Boolean
-    {
-      if (_currentState == STATE_UNIT_SELECTION && _selectedUnit)
-        return true;
-      else if (_currentState == STATE_ACTION_SELECTION && _selectedAction)
-        return true;
-      else if (_currentState == STATE_TARGET_SELECTION && _selectedTarget)
-        return true;
-      
-      return false;
-    }
-    
-    /** Effectue les actions necessaires pour passer à l'état suivant */
-    private function processNextStep() : void
-    {
-      // Effectuer les transitions d'états (affichage de menu/déplacements/etc...)
-      switch (_currentState)
-      {
-        // Selection d'unit
-        // ------------------------------------------------------------------------
-        case STATE_UNIT_SELECTION:
-          displayActionMenu(_mouseDownPosition);
-          _currentState = STATE_ACTION_SELECTION;
-          break;
-        
-        // Selection d'action
-        // ------------------------------------------------------------------------
-        case STATE_ACTION_SELECTION:
-          hideActionMenu();
-          _currentState = STATE_TARGET_SELECTION;
-          break;
-        
-        // Selection de cible
-        // ------------------------------------------------------------------------
-        case STATE_TARGET_SELECTION:
-          applyAction();
-          _currentState = STATE_UNIT_SELECTION;
-          _selectedAction = null;
-          _selectedUnit = null;
-          _selectedTarget = null;
-          break;
-        
-        default:
-          break;
-      }
     }
     
     /** Applique l'action voulue */
@@ -220,47 +231,34 @@ package com.littlegames.framework.core.engine.logic
       }
     }
     
-    // ------------------------------------------------------------------------
-    // Gestion de la souris
-    // ------------------------------------------------------------------------
-    private var _mouseIsDown:Boolean = false;
-    private var _mouseDownPosition:Point = new Point();
-    private var _initialScrollPosition:Point;
-    private var _isScrolling:Boolean = false;
-    /** Gestion de la souris */
-    private function onMouseEvent(pEvent:MouseEvent) : void
+    /** Gestion du TouchMonSki */
+    private function onTouch(pEvent:TouchEvent) : void
     {
-      // Pas de gestion de souris quand on selectionne une action
+      var touch:Touch = pEvent.getTouch(this);
+      if (!touch) return;
       if (_currentState == STATE_ACTION_SELECTION) return;
       
-      if (pEvent.type == MouseEvent.MOUSE_DOWN)
+      if (touch.phase == TouchPhase.MOVED)
       {
-        _mouseIsDown = true;
-        _mouseDownPosition.setTo(pEvent.stageX, pEvent.stageY);
+        var delta:Point = touch.getMovement(this);
+        _mapLayer.scroll(-delta.x, -delta.y);
+        _hasMoved = true;
       }
-      else if (pEvent.type == MouseEvent.MOUSE_UP)
+      else if (touch.phase == TouchPhase.ENDED)
       {
-        _mouseIsDown = false;
-        if (!_isScrolling)
+        if (!_hasMoved)
         {
-          _mapLayer.setLocalCursorPosition(pEvent.stageX, pEvent.stageY);
+          var pos:Point = touch.getLocation(this);
+          _mapLayer.setLocalCursorPosition(pos.x, pos.y);
+          // Gestion de la selection
           if (_currentState == STATE_UNIT_SELECTION)
             _selectedUnit = _mapLayer.getUnitUnderCursor();
           else if (_currentState == STATE_TARGET_SELECTION)
             _selectedTarget = _mapLayer.getCursorPosition();
         }
-        else
-          _isScrolling = false;
-      }
-      else if (pEvent.type == MouseEvent.MOUSE_MOVE && _mouseIsDown)
-      {
-        _isScrolling = true;
-        var deltaX:Number= _mouseDownPosition.x - pEvent.stageX;
-        var deltaY:Number = _mouseDownPosition.y - pEvent.stageY;
-        _mapLayer.scroll(deltaX, deltaY);
-        _mouseDownPosition.setTo(pEvent.stageX, pEvent.stageY);
+        _hasMoved = false;
       }
     }
-    
+
   }//end class
 }//end package

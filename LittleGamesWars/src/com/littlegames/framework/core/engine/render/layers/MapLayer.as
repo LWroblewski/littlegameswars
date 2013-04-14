@@ -189,6 +189,12 @@ package com.littlegames.framework.core.engine.render.layers
       _cursorPositionChanged = true;
     }
     
+    /** Retourne la position du curseur en px */
+    public function getLocalCursorPosition() : Point
+    {
+      return new Point(_cursorPosition.x*_layout.tileSize.x-_layout.scrollPosition.x, _cursorPosition.y*_layout.tileSize.y-_layout.scrollPosition.y);
+    }
+    
     /** Maj de la vue */
     private function updateView() : void
     {

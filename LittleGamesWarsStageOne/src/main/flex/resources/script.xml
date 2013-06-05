@@ -1,8 +1,0 @@
-<scripts>
-	<script>
-		<condition nbTurns="4"/>
-		<dialogs>
-			<dialog user="" speech=""/>
-		</dialogs>
-	</script>
-</scripts>

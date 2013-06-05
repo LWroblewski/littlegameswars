@@ -1,6 +1,0 @@
-<map weather="default">
-	<tile id="grass" x="0" y="0"/>
-	<tile id="grass" x="1" y="0"/>
-	<tile id="grass" x="2" y="0"/>
-	<tile id="grass" x="3" y="0"/>
-</map>

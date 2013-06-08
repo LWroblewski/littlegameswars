@@ -22,13 +22,13 @@ package com.gamewars.states
     {
       if (pTouch.phase != TouchPhase.ENDED)
         return;
-      var localPoint:Point = pTouch.getLocation(mGameScreen.mWorldView);
+      var localPoint:Point = pTouch.getLocation(mGameScreen.mWorld);
       
-      var cell:WorldCell = mGameScreen.mWorldView.getCellFromPoint(localPoint);
+      var cell:WorldCell = mGameScreen.mWorld.getCellFromPoint(localPoint);
       if (!cell)
         return;
       
-      mGameScreen.mWorldView.setCursorPosition(cell.mX, cell.mY);
+      mGameScreen.mWorld.setCursorPosition(cell.mX, cell.mY);
       mGameScreen.mCellInfoView.setCellInfo(cell);
       // Selectionne l'unitée sur la cellule
       if (cell.getUnit() != null && cell.getUnit().mMovePoints > 0)

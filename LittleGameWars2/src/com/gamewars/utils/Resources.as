@@ -18,9 +18,32 @@ package com.gamewars.utils
     private static var sheetXml:XML = 
       <TextureAtlas>
        <SubTexture name="PLAIN" x="0" y="0" width="32" height="32"/>
-       <SubTexture name="WATER" x="32" y="0" width="32" height="32"/>
        <SubTexture name="MOUNTAIN" x="64" y="0" width="32" height="32"/>
        <SubTexture name="FOREST" x="96" y="0" width="32" height="32"/>
+      
+       <SubTexture name="WATER_FULL_TL" x="0" y="64" width="16" height="16"/>
+       <SubTexture name="WATER_SIDE_TL" x="32" y="64" width="16" height="16"/>
+       <SubTexture name="WATER_SIDE2_TL" x="64" y="64" width="16" height="16"/>
+       <SubTexture name="WATER_JOIN_TL" x="96" y="64" width="16" height="16"/>
+       <SubTexture name="WATER_ISLE_TL" x="128" y="64" width="16" height="16"/>
+
+       <SubTexture name="WATER_FULL_TR" x="16" y="64" width="16" height="16"/>
+       <SubTexture name="WATER_SIDE_TR" x="48" y="64" width="16" height="16"/>
+       <SubTexture name="WATER_SIDE2_TR" x="80" y="64" width="16" height="16"/>
+       <SubTexture name="WATER_JOIN_TR" x="112" y="64" width="16" height="16"/>
+       <SubTexture name="WATER_ISLE_TR" x="144" y="64" width="16" height="16"/>
+
+       <SubTexture name="WATER_FULL_BL" x="0" y="80" width="16" height="16"/>
+       <SubTexture name="WATER_SIDE_BL" x="32" y="80" width="16" height="16"/>
+       <SubTexture name="WATER_SIDE2_BL" x="64" y="80" width="16" height="16"/>
+       <SubTexture name="WATER_JOIN_BL" x="96" y="80" width="16" height="16"/>
+       <SubTexture name="WATER_ISLE_BL" x="128" y="80" width="16" height="16"/>
+      
+       <SubTexture name="WATER_FULL_BR" x="16" y="80" width="16" height="16"/>
+       <SubTexture name="WATER_SIDE_BR" x="48" y="80" width="16" height="16"/>
+       <SubTexture name="WATER_SIDE2_BR" x="80" y="80" width="16" height="16"/>
+       <SubTexture name="WATER_JOIN_BR" x="112" y="80" width="16" height="16"/>
+       <SubTexture name="WATER_ISLE_BR" x="144" y="80" width="16" height="16"/>
       
        <SubTexture name="INFANTRY_0" x="0" y="32" width="32" height="32"/>
        <SubTexture name="INFANTRY_1" x="32" y="32" width="32" height="32"/>
@@ -28,6 +51,22 @@ package com.gamewars.utils
       
        <SubTexture name="STAR_ON" x="0" y="0" width="32" height="32"/>
        <SubTexture name="STAR_OFF" x="0" y="0" width="32" height="32"/>
+      </TextureAtlas>;
+    
+    /** Bigunits */
+    [Embed(source="resources/bigunits.png")]
+    private static var BigUnits:Class;
+    private static var bigunitsXml:XML = 
+      <TextureAtlas>
+        <SubTexture name="InfantryRun_0" x="0" y="0" width="32" height="32"/>
+        <SubTexture name="InfantryRun_1" x="32" y="0" width="32" height="32"/>
+        <SubTexture name="InfantryRun_2" x="64" y="0" width="32" height="32"/>
+        <SubTexture name="InfantryRun_3" x="96" y="0" width="32" height="32"/>
+        <SubTexture name="InfantryRun_4" x="128" y="0" width="32" height="32"/>
+        <SubTexture name="InfantryRun_5" x="160" y="0" width="32" height="32"/>
+        <SubTexture name="InfantryIdle" x="192" y="0" width="32" height="32"/>
+        <SubTexture name="InfantryFire_0" x="192" y="0" width="32" height="32"/>
+        <SubTexture name="InfantryFire_1" x="224" y="0" width="32" height="32"/> 
       </TextureAtlas>;
     
     /** SplashScreen */
@@ -71,12 +110,13 @@ package com.gamewars.utils
     private static var Backgrounds:Class;
     private static var bgXml:XML = 
       <TextureAtlas>
-        <SubTexture name="plain" x="0" y="0" width="64" height="80"/>
+        <SubTexture name="plain" x="0" y="0" width="128" height="168"/>
       </TextureAtlas>;
 
     private static var sSheetAtlas:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new Sheet()), sheetXml);
     private static var sGuiAtlas:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new Gui()), guiXml);
     private static var sBgAtlas:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new Backgrounds()), bgXml);
+    private static var sBigUnitsAtlas:TextureAtlas = new TextureAtlas(Texture.fromBitmap(new BigUnits()), bigunitsXml);
     
     /** Retourne la texture de l'écran de splash */
     public static function getSplash() : Texture
@@ -114,7 +154,13 @@ package com.gamewars.utils
     /** Retourne la première texture du nom passé en paramètres */
     public static function getSheetTexture(pName:String) : Texture
     {
-      return sSheetAtlas.getTexture(pName);
+      return getSheetTextures(pName)[0];
+    }
+    
+    /** Retourne la première texture du nom passé en paramètres */
+    public static function getSheetTextures(pName:String) : Vector.<Texture>
+    {
+      return sSheetAtlas.getTextures(pName);
     }
     
     /** Retourne une texture GUI */
@@ -145,6 +191,12 @@ package com.gamewars.utils
     public static function getBackgroundTex(pId:String) : Texture
     {
       return sBgAtlas.getTexture(pId);
+    }
+    
+    /** Retourne les textures de big units */
+    public static function getBigUnitTexs(pId:String) : Vector.<Texture>
+    {
+      return sBigUnitsAtlas.getTextures(pId);
     }
   }
 }

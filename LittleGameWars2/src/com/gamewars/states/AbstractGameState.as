@@ -14,7 +14,7 @@ package com.gamewars.states
     /** Getter sur le monde */
     protected function getWorld() : World
     {
-      return mGameScreen.mWorldView;
+      return mGameScreen.mWorld;
     }
     
     /** Constructeur */

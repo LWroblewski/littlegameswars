@@ -122,33 +122,37 @@ package com.gamewars.world
     /** Charge la map passée en paramètres */
     public function setMap(pMap:TileMap) : void
     {
+      var xx:uint;
+      var yy:uint;
       mWidth = pMap.mWidth;
       mHeight = pMap.mHeight;
       
-      // Crée toutes les tiles de la map
-      for (var yy:uint = 0; yy < pMap.mHeight; yy++)
+      // Crée toutes les cellules du monde
+      for (yy = 0; yy < pMap.mHeight; yy++)
       {
-        for (var xx:uint = 0; xx < pMap.mWidth; xx++)
+        for (xx = 0; xx < pMap.mWidth; xx++)
         {
           // Crée une cellule
-          mCells.push(new WorldCell(this, xx, yy));
-          // Crée une tile
-          var ground:GroundType = GroundType.fromId(pMap.getTileAt(xx, yy));
-          var tile:Tile = new Tile(xx, yy, ground, null);
-          addEntity(tile);
+          var cell:WorldCell = new WorldCell(this, xx, yy, GroundType.fromId(pMap.getGroundAt(xx, yy)));
+          mCells.push(cell);
+        }
+      }
+      
+      // Crée tous les renderers
+      for (yy = 0; yy < pMap.mHeight; yy++)
+      {
+        for (xx = 0; xx < pMap.mWidth; xx++)
+        {
+          mGroundLayer.addChild(getCellAt(xx, yy).createRenderer());
         }
       }
     }
     
     /** Ajoute une entitée au monde */
-    public function addEntity(pEntity:BaseEntity) : void
+    public function addUnit(pUnit:Unit) : void
     {
-      pEntity.setWorld(this);
-      if (pEntity is Unit)
-        mUnitLayer.addChild(createRenderer(pEntity));
-      else if (pEntity is Tile)
-        mGroundLayer.addChild(createRenderer(pEntity));
-      else throw new Error('Invalid entity');
+      pUnit.setWorld(this);
+      mUnitLayer.addChild(createRenderer(pUnit));
     }
     
     // TODO Manager de renderers/layers
@@ -196,8 +200,6 @@ package com.gamewars.world
       
       // Maj du curseur
       mCursor.advanceTime(pTimeDelta);
-      
-      var distance:uint = getCellAt(10,10).getDistance(getCellAt(0,0));
     }
   }
 }

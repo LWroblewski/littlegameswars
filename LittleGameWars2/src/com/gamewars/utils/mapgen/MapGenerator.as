@@ -2,6 +2,7 @@ package com.gamewars.utils.mapgen
 {
   import com.gamewars.enums.GroundType;
   import com.gamewars.structures.TileMap;
+  import com.gamewars.utils.FMath;
 
   /** Générateur de maps */
   public class MapGenerator
@@ -19,14 +20,23 @@ package com.gamewars.utils.mapgen
     /** Crée une nouvelle map et renvoie le resultat */
     public function newMap() : TileMap
     {
-      var result:TileMap = new TileMap(mWidth, mHeight);
-      
-      // Ajoute des lacs
-      var i:uint = 3;
-      while (i-- > 0)
-        addLake(result);
-      
-      return result;
+      var map:TileMap = new TileMap(mWidth, mHeight, null);
+      processGroundRd(map, GroundType.FOREST.mId, 15);
+      processGroundRd(map, GroundType.MOUNTAIN.mId, 10);
+      processGroundRd(map, GroundType.WATER.mId, 90);
+      return map;
+    }
+    
+    /** Ajoute le type de terrain aléatoirement en pourcentage de la map */
+    private function processGroundRd(pMap:TileMap, pGround:uint, pPercent:Number) : void
+    {
+      var i:uint = 0;
+      var count:uint = pMap.mWidth * pMap.mHeight * pPercent/100;
+      while (i < count)
+      {
+        pMap.setGroundAt(Math.random() * pMap.mWidth, Math.random() * pMap.mHeight, pGround);
+        i++;
+      }
     }
     
     /** Ajoute des lacs */

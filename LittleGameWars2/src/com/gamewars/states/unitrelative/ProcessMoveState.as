@@ -8,17 +8,21 @@ package com.gamewars.states.unitrelative
   import com.gamewars.utils.pathfinding.Path;
   import com.gamewars.utils.pathfinding.PathPoint;
   import com.gamewars.world.WorldCell;
-
+  
   import starling.display.MovieClip;
 
   public class ProcessMoveState extends UnitRelativeState
   {
+    /** Durée de déplacement d'une case à l'autre (en sec.) */
+    private const STEP_DURATION:Number = 0.2;
     /** Réference vers le chemin à parcourir */
     private var mPath:Path;
     /** Index du chemin en cours */
     private var mPathIndex:uint = 0;
     /** Temps écoulé */
     private var mTime:Number = 0;
+    /** Temps total d'animation de déplacement */
+    private var mTotalTime:Number;
 
     /** Constructeur */
     public function ProcessMoveState(pGameScreen:GameScreen, pUnit:Unit, pPath:Path)
@@ -27,42 +31,44 @@ package com.gamewars.states.unitrelative
 
       mPath = pPath;
     }
+    
+    /** @inheritDoc */
+    override public function enterState():void
+    {
+      // Calcule la durée totale d'animation
+      mTotalTime = (mPath.mPoints.length-1) * STEP_DURATION;
+    }
 
     /** @inheritDoc */
     override public function exitState():void
     {
+      var renderer:MovieClip = mGameScreen.mWorld.getEntityRenderer(mUnit) as MovieClip;
       var endPoint:PathPoint = mPath.mPoints[mPath.mPoints.length - 1];
       // Points de mouvement restants
       mUnit.mMovePoints = endPoint.mMvtPtsLeft;
       // Assigne la nouvelle position
       mUnit.setCell(endPoint.mCell);
+      renderer.x = endPoint.mCell.mX * Tile.TILE_SIZE;
+      renderer.y = endPoint.mCell.mY * Tile.TILE_SIZE;
     }
 
     /** @inheritDoc */
     override public function update(pTimeDelta:Number):void
     {
-      var renderer:MovieClip = mGameScreen.mWorldView.getEntityRenderer(mUnit) as MovieClip;
-
+      var renderer:MovieClip = mGameScreen.mWorld.getEntityRenderer(mUnit) as MovieClip;
       mTime += pTimeDelta;
-      var timePerCase:Number = 0.2; // Durée de déplacement par case
-      var totalTime:Number = timePerCase * mPath.mPoints.length;  // Durée du déplacement
-      // Arrivé à la fin
-      if (mTime >= totalTime)
+      if (mTime >= mTotalTime)
       {
-        // Passe à l'état suivant
         mGameScreen.setState(new FreeState(mGameScreen));
+        return;
       }
-      // Calcul de l'interpolation linéaire des coords
-      var dt:Number = mTime / timePerCase;
-      var idx:Number = uint(dt);
-      var interpVal:Number = dt - idx;
-      var current:PathPoint = mPath.mPoints[idx];
-      var next:PathPoint = mPath.mPoints[idx + 1];
-      var xx:Number = FMath.interp_linear(current.mCell.mX, next.mCell.mX, interpVal) * Tile.TILE_SIZE;
-      var yy:Number = FMath.interp_linear(current.mCell.mY, next.mCell.mY, interpVal) * Tile.TILE_SIZE;
-      // Positionne le sprite
-      renderer.x = xx;
-      renderer.y = yy;
+      var framePos:Number = mTime / STEP_DURATION;
+      var pathIdx:uint = uint(framePos);
+      var interpVal:Number = framePos - pathIdx;
+      var currentCell:WorldCell = mPath.mPoints[pathIdx].mCell;
+      var nextCell:WorldCell = mPath.mPoints[pathIdx+1].mCell;
+      renderer.x = FMath.interp_linear(currentCell.getX(), nextCell.getX(), interpVal);
+      renderer.y = FMath.interp_linear(currentCell.getY(), nextCell.getY(), interpVal);
     }
   }
 }

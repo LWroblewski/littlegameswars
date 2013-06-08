@@ -19,8 +19,8 @@ package com.gamewars
       super();
       sInstance = this;
       
-      displayScreen(new SplashScreen());
-      //displayScreen(new GameScreen());
+      //displayScreen(new SplashScreen());
+      displayScreen(new GameScreen());
     }
     
     /** Lance un jeu escarmouche */

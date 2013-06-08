@@ -1,6 +1,5 @@
 package com.gamewars.misc
 {
-  import com.gamewars.structures.Tile;
   import com.gamewars.utils.Resources;
   import com.gamewars.world.WorldCell;
   
@@ -57,7 +56,7 @@ package com.gamewars.misc
       }
       
       // Délegation
-      mTileInfoPart.displayInfo(pCell.mTile);
+      mTileInfoPart.displayInfo(pCell);
       if (pCell.getUnit() != null)
       {
         mUnitInfoPart.displayInfo(pCell.getUnit());
@@ -78,9 +77,9 @@ package com.gamewars.misc
 // ------------------------------------------------------------------------
 import com.gamewars.components.GwImage;
 import com.gamewars.components.GwText;
-import com.gamewars.structures.Tile;
 import com.gamewars.structures.Unit;
 import com.gamewars.utils.Resources;
+import com.gamewars.world.WorldCell;
 
 import starling.display.Sprite;
 import starling.textures.Texture;
@@ -133,12 +132,12 @@ class TileInfoPart extends Sprite
   }
   
   /** Affiche les informations de tile */
-  public function displayInfo(pTile:Tile) : void
+  public function displayInfo(pCell:WorldCell) : void
   {
     // Informations de tile
-    mTileRender.texture = Resources.getTileTextures(pTile.mGroundType.mTexPrefix)[0];
-    mTileName.text = pTile.mGroundType.mName;
-    activateStars(pTile.mDefense);
+    mTileRender.texture = Resources.getTileTextures(pCell.mGroundType.mTexPrefix)[0];
+    mTileName.text = pCell.mGroundType.mName;
+    activateStars(pCell.mGroundType.mDefense);
     updateLayout();
   }
 }

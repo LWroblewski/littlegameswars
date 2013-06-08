@@ -23,7 +23,7 @@ package com.gamewars.screens
   public class GameScreen extends BaseScreen
   {
     /** Vue du jeu */
-    public var mWorldView:World;
+    public var mWorld:World;
     /** Layers */
     public var mFightScreen:FightScreen;
     
@@ -90,14 +90,14 @@ package com.gamewars.screens
       }
       
       // Maj du monde
-      mWorldView.update(pEvent.passedTime);
+      mWorld.update(pEvent.passedTime);
     }
     
     /** Initialisation du jeu */
     private function initialize() : void
     {
-      mWorldView = new World();
-      addChild(mWorldView);
+      mWorld = new World();
+      addChild(mWorld);
       
       mCellInfoView = new CellInfoView();
       mCellInfoView.x = 0;
@@ -111,10 +111,10 @@ package com.gamewars.screens
       // DBG
       // ------------------------------------------------------------------------
       var gen:MapGenerator = new MapGenerator(20,20);
-      mWorldView.setMap(gen.newMap());
+      mWorld.setMap(gen.newMap());
       
-      mWorldView.addEntity(new Unit(10, 10, UnitType.INFANTRY));
-      mWorldView.addEntity(new Unit(10, 11, UnitType.INFANTRY));
+      mWorld.addUnit(new Unit(10, 10, UnitType.INFANTRY));
+      mWorld.addUnit(new Unit(10, 11, UnitType.INFANTRY));
       // ------------------------------------------------------------------------
     }
   }

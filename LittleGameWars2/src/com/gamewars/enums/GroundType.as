@@ -2,10 +2,10 @@ package com.gamewars.enums
 {
   public class GroundType
   {
-    public static const PLAIN:GroundType = new GroundType(0, 'Plaine', 1, 'PLAIN');
-    public static const MOUNTAIN:GroundType = new GroundType(1, 'Montagne', 2, 'MOUNTAIN');
-    public static const FOREST:GroundType = new GroundType(2, 'Forêt', 1, 'FOREST');
-    public static const WATER:GroundType = new GroundType(3, 'Eau', 3, 'WATER');
+    public static const PLAIN:GroundType = new GroundType(0, 'Plaine', 1, 0, 'PLAIN');
+    public static const MOUNTAIN:GroundType = new GroundType(1, 'Montagne', 2, 2, 'MOUNTAIN');
+    public static const FOREST:GroundType = new GroundType(2, 'Forêt', 1, 1, 'FOREST');
+    public static const WATER:GroundType = new GroundType(3, 'Eau', 3, 0, 'WATER');
     
     public static var all:Array = [PLAIN, MOUNTAIN, FOREST, WATER];
     
@@ -17,6 +17,8 @@ package com.gamewars.enums
     public var mMovementCost:uint;
     /** Identifiant de tile */
     public var mId:uint;
+    /** Bonus de défense */
+    public var mDefense:int;
     
     /** Retourne le terrain en fonction de l'id */
     public static function fromId(pId:uint) : GroundType
@@ -30,10 +32,11 @@ package com.gamewars.enums
     }
     
     /** Constructeur */
-    public function GroundType(pId:uint, pName:String, pMovementCost:uint, pTexPrefix:String)
+    public function GroundType(pId:uint, pName:String, pMovementCost:uint, pDefense:int,pTexPrefix:String)
     {
       mId = pId;
       mName = pName;
+      mDefense = pDefense;
       mMovementCost = pMovementCost;
       mTexPrefix = pTexPrefix;
     }

@@ -1,5 +1,6 @@
 package com.gamewars.world
 {
+  import com.gamewars.components.WaterTileRenderer;
   import com.gamewars.enums.GroundType;
   import com.gamewars.enums.WindRose;
   import com.gamewars.structures.Tile;
@@ -7,16 +8,18 @@ package com.gamewars.world
   import com.gamewars.utils.Resources;
   
   import starling.core.Starling;
+  import starling.display.DisplayObject;
   import starling.display.Image;
   import starling.display.MovieClip;
   import starling.display.Sprite;
+  import starling.textures.Texture;
 
   public class WorldCell
   {
     /** Réference vers le monde */
     private var mWorld:World;
-    /** Tile de la cellule */
-    public var mTile:Tile;
+    /** Type de terrain */
+    public var mGroundType:GroundType;
     /** Structure de la cellule */
     public var mStructure:Tile;
     /** Unité sur la cellule */
@@ -38,12 +41,18 @@ package com.gamewars.world
     public function getUnit():Unit{return mUnit;};
     
     /** Cellule du monde */
-    public function WorldCell(pWorld:World, pX:uint, pY:uint)
+    public function WorldCell(pWorld:World, pX:uint, pY:uint, pGroundType:GroundType = null)
     {
+      if (pGroundType == null) pGroundType = GroundType.PLAIN;
       mWorld = pWorld;
       mX = pX;
       mY = pY;
+      mGroundType = pGroundType;
     }
+    
+    /** Retourne la position en pixels */
+    public function getX() : Number{return mX * Tile.TILE_SIZE;}
+    public function getY() : Number{return mY * Tile.TILE_SIZE;}
     
     /** Retourne la cellule située à pDirection */
     public function getCellAt(pDirection:WindRose) : WorldCell
@@ -61,6 +70,18 @@ package com.gamewars.world
           break;
         case WindRose.WEST:
           return mWorld.getCellAt(mX-1, mY);
+          break;
+        case WindRose.NORTH_EAST:
+          return mWorld.getCellAt(mX+1, mY-1)
+          break;
+        case WindRose.NORTH_WEST:
+          return mWorld.getCellAt(mX-1, mY-1);
+          break;
+        case WindRose.SOUTH_EAST:
+          return mWorld.getCellAt(mX+1, mY+1);
+          break;
+        case WindRose.SOUTH_WEST:
+          return mWorld.getCellAt(mX-1, mY+1);
           break;
         
         default:
@@ -83,17 +104,44 @@ package com.gamewars.world
     /** Indique si l'unitée peut se déplacer sur la case */
     public function isMovementAllowed(pUnit:Unit) : Boolean
     {
-      if (mTile.mGroundType == GroundType.WATER)
+      if (mGroundType == GroundType.WATER)
         return false;
       
       // TODO Implementation
       return true;
     }
     
+    /** Retourne le type de terrain dans la direction spécifiée */
+    public function getGroundTypeAt(pDir:WindRose) : GroundType
+    {
+      if (getCellAt(pDir) != null)
+        return getCellAt(pDir).mGroundType;
+      else
+        return null;
+    }
+    
+    /** Crée un rendu pour la cellule */
+    public function createRenderer() : DisplayObject
+    {
+      var result:DisplayObject;
+      if (mGroundType == GroundType.WATER)
+      {
+        result = new WaterTileRenderer();
+        (result as WaterTileRenderer).initializeFromCell(this);
+      }
+      else
+        result = new MovieClip(Resources.getTileTextures(mGroundType.mTexPrefix));
+      
+      result.x = mX * Tile.TILE_SIZE;
+      result.y = mY * Tile.TILE_SIZE;
+      
+      return result;
+    }
+    
     /** Retourne le cout de déplacement sur la case */
     public function getMovementCost() : int
     {
-      return mTile.mGroundType.mMovementCost;
+      return mGroundType.mMovementCost;
     }
     
     /** Retourne la distance entre deux cellules */
@@ -102,27 +150,6 @@ package com.gamewars.world
       var dx:int = Math.abs(mX - pCell.mX);
       var dy:int = Math.abs(mY - pCell.mY);
       return dx + dy;
-    }
-    
-    /** Calcule les cellules sur lesquels on peut effectuer le mouvement */
-    public function renderMovementGrid(pSprite:Sprite, pMovementPts:int) : void
-    {
-      // TODO Calculer le mouvement par rapport au cout du type de terrain
-      if (pMovementPts <= 0)
-        return;
-
-      var render:MovieClip = new MovieClip(Resources.getGuiTexs('SelectionGrid'), 4);
-      render.x = mX * Tile.TILE_SIZE;
-      render.y = mY * Tile.TILE_SIZE;
-      pSprite.addChild(render);
-      Starling.juggler.add(render);
-      
-      for each (var dir:WindRose in WindRose.all)
-      {
-        var cell:WorldCell = getCellAt(dir);
-        if (cell)
-          cell.renderMovementGrid(pSprite, pMovementPts-cell.getMovementCost());
-      }
     }
   }
 }

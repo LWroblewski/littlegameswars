@@ -27,6 +27,7 @@ package com.gamewars.world
     /** Position de la cellule sur la map*/
     public var mX:uint=0, mY:uint=0;
     
+    /** Définit l'unitée de la cellule */
     public function setUnit(pUnit:Unit) : void
     {
       if (pUnit != null && (mUnit != null ||  mUnit == pUnit))
@@ -40,6 +41,10 @@ package com.gamewars.world
     }
     public function getUnit():Unit{return mUnit;};
     
+    /** Retourne la position en pixels */
+    public function getX() : Number{return mX * Tile.TILE_SIZE;}
+    public function getY() : Number{return mY * Tile.TILE_SIZE;}
+    
     /** Cellule du monde */
     public function WorldCell(pWorld:World, pX:uint, pY:uint, pGroundType:GroundType = null)
     {
@@ -49,10 +54,6 @@ package com.gamewars.world
       mY = pY;
       mGroundType = pGroundType;
     }
-    
-    /** Retourne la position en pixels */
-    public function getX() : Number{return mX * Tile.TILE_SIZE;}
-    public function getY() : Number{return mY * Tile.TILE_SIZE;}
     
     /** Retourne la cellule située à pDirection */
     public function getCellAt(pDirection:WindRose) : WorldCell
@@ -83,7 +84,6 @@ package com.gamewars.world
         case WindRose.SOUTH_WEST:
           return mWorld.getCellAt(mX-1, mY+1);
           break;
-        
         default:
           return null;
           break;

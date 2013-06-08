@@ -3,6 +3,8 @@ package com.gamewars
   import com.gamewars.screens.GameScreen;
   import com.gamewars.screens.SplashScreen;
   
+  import starling.core.Starling;
+  import starling.display.Quad;
   import starling.display.Sprite;
   
   public class GameWarsRoot extends Sprite
@@ -14,10 +16,16 @@ package com.gamewars
     /** Référence vers le splash */
     private var mCurrentScreen:Sprite;
     
+    /** Arrière plan */
+    private var bg:Quad;
+    
     public function GameWarsRoot()
     {
       super();
       sInstance = this;
+      
+      bg = new Quad(Starling.current.stage.stageWidth, Starling.current.stage.stageHeight, 0x555555);
+      addChild(bg);
       
       //displayScreen(new SplashScreen());
       displayScreen(new GameScreen());

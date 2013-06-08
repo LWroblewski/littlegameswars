@@ -18,6 +18,9 @@ package com.gamewars.states.transitional
     /** @inheritDoc */
     override public function enterState():void
     {
+      // Sélectionne le joueur en cours
+      mGameScreen.nextPlayer();
+      
       mGameScreen.setState(new FreeState(mGameScreen));
     }
   }

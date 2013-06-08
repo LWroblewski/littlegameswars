@@ -2,9 +2,12 @@ package com.gamewars.screens
 {
   import com.gamewars.enums.UnitType;
   import com.gamewars.misc.CellInfoView;
+  import com.gamewars.misc.Hud;
   import com.gamewars.states.AbstractGameState;
   import com.gamewars.states.FreeState;
   import com.gamewars.states.transitional.DayCycleState;
+  import com.gamewars.structures.CommanderType;
+  import com.gamewars.structures.Player;
   import com.gamewars.structures.TileMap;
   import com.gamewars.structures.Unit;
   import com.gamewars.utils.mapgen.MapGenerator;
@@ -26,7 +29,11 @@ package com.gamewars.screens
     public var mWorld:World;
     /** Layers */
     public var mFightScreen:FightScreen;
-    
+    /** Informations sur la tile sélectionnée */
+    public var mCellInfoView:CellInfoView;
+    /** Informations de joueur */
+    public var mHud:Hud;
+    // ------------------------------------------------------------------------
     /** Etat du jeu */
     private var mCurrentState:AbstractGameState;
     private var mNextState:AbstractGameState;
@@ -34,11 +41,13 @@ package com.gamewars.screens
     {
       mNextState = pState;
     }
-    
-    /** Informations sur la tile en cours */
-    public var mCellInfoView:CellInfoView;
+    // ------------------------------------------------------------------------
     /** Dernier touch mémorisé */
     private var mLastTouch:Touch;
+    /** Liste des joueurs */
+    public var mPlayers:Vector.<Player> = new <Player>[];
+    /** Joueur en cours */
+    public var mCurrentPlayer:Player;
     
     /** Constructeur */
     public function GameScreen()
@@ -49,6 +58,22 @@ package com.gamewars.screens
       addEventListener(EnterFrameEvent.ENTER_FRAME, onEnterFrame);
       addEventListener(TouchEvent.TOUCH, onTouch);
       setState(new DayCycleState(this));
+      
+      dbgNewGame();
+    }
+    
+    /** Active le joueur suivant */
+    public function nextPlayer() : Player
+    {
+      // Sélectionne le joueur suivant
+      if (mCurrentPlayer == null || mPlayers.indexOf(mCurrentPlayer) == mPlayers.length-1)
+        mCurrentPlayer = mPlayers[0];
+      else
+        mCurrentPlayer = mPlayers[mPlayers.indexOf(mCurrentPlayer)+1];
+      
+      // Maj HUD
+      mHud.setInfo(mCurrentPlayer);
+      return mCurrentPlayer;
     }
     
     /** Gestion du touch */
@@ -93,6 +118,19 @@ package com.gamewars.screens
       mWorld.update(pEvent.passedTime);
     }
     
+    private function dbgNewGame() : void
+    {
+      var gen:MapGenerator = new MapGenerator(32,24);
+      mWorld.setMap(gen.newMap());
+      
+      var p:Player = new Player();
+      p.mCommander = CommanderType.CO_ANDY;
+      mPlayers.push(p);
+      
+      mWorld.addUnit(new Unit(10, 10, UnitType.INFANTRY));
+      mWorld.addUnit(new Unit(10, 11, UnitType.INFANTRY));
+    }
+    
     /** Initialisation du jeu */
     private function initialize() : void
     {
@@ -104,18 +142,14 @@ package com.gamewars.screens
       mCellInfoView.y = 500;
       addChild(mCellInfoView);
       
+      mHud = new Hud();
+      mHud.x = 5;
+      mHud.y = 5;
+      addChild(mHud);
+      
       mFightScreen = new FightScreen();
       mFightScreen.visible = false;
       addChild(mFightScreen);
-      
-      // DBG
-      // ------------------------------------------------------------------------
-      var gen:MapGenerator = new MapGenerator(20,20);
-      mWorld.setMap(gen.newMap());
-      
-      mWorld.addUnit(new Unit(10, 10, UnitType.INFANTRY));
-      mWorld.addUnit(new Unit(10, 11, UnitType.INFANTRY));
-      // ------------------------------------------------------------------------
     }
   }
 }

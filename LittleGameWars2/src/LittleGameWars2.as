@@ -26,16 +26,6 @@ package
       mStarling.start();
       
       Starling.current.showStats = true;
-      
-      addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-    }
-    
-    private function onAddedToStage(pEvent:Event) : void
-    {
-      var sp:Sprite = new Sprite();
-      sp.graphics.lineStyle(1, 0xffffff, 0.5);
-      sp.graphics.drawRect(0,0, stage.stageWidth-1, stage.stageHeight-1);
-      addChild(sp);
     }
   }
 }

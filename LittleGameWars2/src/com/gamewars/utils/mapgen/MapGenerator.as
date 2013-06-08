@@ -21,9 +21,9 @@ package com.gamewars.utils.mapgen
     public function newMap() : TileMap
     {
       var map:TileMap = new TileMap(mWidth, mHeight, null);
-      processGroundRd(map, GroundType.FOREST.mId, 15);
-      processGroundRd(map, GroundType.MOUNTAIN.mId, 10);
-      processGroundRd(map, GroundType.WATER.mId, 90);
+      processGroundRd(map, GroundType.MOUNTAIN.mId, 30);
+      processGroundRd(map, GroundType.FOREST.mId, 30);
+      processGroundRd(map, GroundType.WATER.mId, 50);
       return map;
     }
     
@@ -34,8 +34,13 @@ package com.gamewars.utils.mapgen
       var count:uint = pMap.mWidth * pMap.mHeight * pPercent/100;
       while (i < count)
       {
-        pMap.setGroundAt(Math.random() * pMap.mWidth, Math.random() * pMap.mHeight, pGround);
-        i++;
+        var rdx:uint = Math.random() * pMap.mWidth;
+        var rdy:uint = Math.random() * pMap.mHeight;
+        if (pMap.getGroundAt(rdx, rdy) != pGround)
+        {
+          pMap.setGroundAt(rdx, rdy, pGround);
+          i++;
+        }
       }
     }
     

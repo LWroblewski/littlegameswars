@@ -2,10 +2,10 @@ package com.gamewars.enums
 {
   public class GroundType
   {
-    public static const PLAIN:GroundType = new GroundType(0, 'Plaine', 1, 0, 'PLAIN');
-    public static const MOUNTAIN:GroundType = new GroundType(1, 'Montagne', 2, 2, 'MOUNTAIN');
-    public static const FOREST:GroundType = new GroundType(2, 'Forêt', 1, 1, 'FOREST');
-    public static const WATER:GroundType = new GroundType(3, 'Eau', 3, 0, 'WATER');
+    public static const WATER     :GroundType = new GroundType(3, 'Eau', 3, 0, 'WATER');
+    public static const PLAIN     :GroundType = new GroundType(0, 'Plaine', 1, 1, 'PLAIN');
+    public static const FOREST    :GroundType = new GroundType(2, 'Forêt', 1, 2, 'FOREST');
+    public static const MOUNTAIN  :GroundType = new GroundType(1, 'Montagne', 2, 3, 'MOUNTAIN');
     
     public static var all:Array = [PLAIN, MOUNTAIN, FOREST, WATER];
     

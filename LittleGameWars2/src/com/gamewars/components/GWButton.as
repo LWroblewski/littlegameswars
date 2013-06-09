@@ -15,7 +15,7 @@ package com.gamewars.components
   import starling.utils.HAlign;
   import starling.utils.VAlign;
   
-  public class GWButton extends DisplayObjectContainer
+  public class GwButton extends DisplayObjectContainer
   {
     private static const MAX_DRAG_DIST:Number = 50;
     
@@ -34,7 +34,7 @@ package com.gamewars.components
     private var mUseHandCursor:Boolean;
     
     /** Bouton avec un GWTextField */
-    public function GWButton(upState:Texture, text:String="", downState:Texture=null)
+    public function GwButton(upState:Texture, text:String="", downState:Texture=null)
     {
       super();
       if (upState == null) throw new ArgumentError("Texture cannot be null");

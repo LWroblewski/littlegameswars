@@ -8,16 +8,17 @@ package com.gamewars.components
   import starling.display.Sprite;
   import starling.events.Event;
   
-  public class GwMenu extends Sprite
+  public class GwMenu extends GwBorderContainer
   {
     /** Elements affichés dans le menu */
     private var mMenuElements:Vector.<MenuElement>;
     /** Liste des boutons du menu */
-    private var mButtons:Vector.<GWButton> = new <GWButton>[];
+    private var mButtons:Vector.<GwButton> = new <GwButton>[];
     /** Callback de selection du menu */
     private var mCallback:Function;
-    /** Background */
-    private var mBg:Quad;
+    
+    /** Plus grande taille de bouton */
+    private var mMaxButtonWidth:Number = 0;
     
     /** Constructeur */
     public function GwMenu(pMenuElements:Vector.<MenuElement>, pCallback:Function)
@@ -25,39 +26,39 @@ package com.gamewars.components
       super();
       mMenuElements = pMenuElements;
       mCallback = pCallback;
+      
+      setBorderThickness(2);
+      setPadding(5);
+      setBorderColor(0);
+      setBackgroundColor(0xffffff);
+      
       buildMenu();
     }
     
-    /** Positionne les éléments */
-    private function updateLayout() : void
+    /** @inheritDoc */
+    override protected function updateLayout() : void
     {
-      var gap:Number = 0;
-      var yy:Number = gap;
-      mBg.width = mBg.height = 1;
-      for each (var bt:GWButton in mButtons)
+      var yy:Number = 0;
+      for each (var bt:GwButton in mButtons)
       {
-        bt.x = (width - bt.width)/2 + gap;
+        bt.x = (mMaxButtonWidth - bt.width)/2;
         bt.y = yy;
         yy += bt.height;
       }
-      mBg.width = width + gap;
-      mBg.height = height;
+      super.updateLayout();
     }
     
     /** Construction du menu */
     private function buildMenu() : void
     {
-      // Arrière plan
-      mBg = new Quad(1, 1, 0x999999);
-      addChild(mBg);
-      
       // Boutons de menu
       for each (var elt:MenuElement in mMenuElements)
       {
-        var bt:GWButton = new GWButton(Resources.emptyTex(100, 60), elt.mText);
+        var bt:GwButton = new GwButton(Resources.emptyTex(100, 40), elt.mText);
         bt.addEventListener(Event.TRIGGERED, menuElementClick);
         addChild(bt);
         mButtons.push(bt);
+        mMaxButtonWidth = Math.max(bt.width, mMaxButtonWidth);
       }
       updateLayout();
     }
@@ -67,7 +68,7 @@ package com.gamewars.components
     {
       // Renvoie l'id de l'élément selectionné
       if (mCallback != null)
-        mCallback(mMenuElements[mButtons.indexOf(pEvent.target as GWButton)].mId);
+        mCallback(mMenuElements[mButtons.indexOf(pEvent.target as GwButton)].mId);
     }
   }
 }

@@ -1,6 +1,5 @@
 package com.gamewars.states.unitrelative
 {
-  import com.gamewars.enums.CursorType;
   import com.gamewars.screens.GameScreen;
   import com.gamewars.structures.Tile;
   import com.gamewars.structures.Unit;
@@ -28,17 +27,19 @@ package com.gamewars.states.unitrelative
     /** @inheritDoc */
     override public function enterState():void
     {
-      // Affiche le curseur de cible
-      getWorld().setCursor(CursorType.TARGET);
       // Calcul toutes les cibles
       mTargetables = getWorld().mPathFinding.computeTargetables(mUnit);
       getWorld().mMovementGrid.renderOnCells(mTargetables, renderFunction);
+      // Affiche le curseur de cible
+      getWorld().mCursor.setModeAttack();
+      // Positionne le curseur sur le premier ennemi
+      getWorld().mCursor.centerOnCell(mTargetables[0]);
     }
     
     /** @inheritDoc */
     override public function exitState():void
     {
-      getWorld().setCursor(CursorType.SELECTION);
+      getWorld().mCursor.setModeSelect();
       getWorld().mMovementGrid.clearGrid();
       for each (var renderer:MovieClip in mRenderers)
       {
@@ -49,9 +50,8 @@ package com.gamewars.states.unitrelative
     /** Fonction de rendu du grille */
     private function renderFunction(pCell:WorldCell) : MovieClip
     {
-      var result:MovieClip = new MovieClip(Resources.getGuiTexs('SelectionGrid'));
-      result.x = pCell.mX * Tile.TILE_SIZE;
-      result.y = pCell.mY * Tile.TILE_SIZE;
+      var result:MovieClip = new MovieClip(Resources.getGuiTexs('SelectionGrid'), 5);
+      pCell.layoutElement(result);
       mRenderers.push(result);
       Starling.juggler.add(result);
       return result;

@@ -1,14 +1,12 @@
 package com.gamewars.world
 {
-  import com.gamewars.components.menu.MenuElement;
-  import com.gamewars.enums.CursorType;
+  import com.gamewars.components.GwCursor;
   import com.gamewars.enums.GroundType;
   import com.gamewars.gfx.MovementGrid;
   import com.gamewars.structures.BaseEntity;
   import com.gamewars.structures.Tile;
   import com.gamewars.structures.TileMap;
   import com.gamewars.structures.Unit;
-  import com.gamewars.utils.Resources;
   import com.gamewars.utils.pathfinding.PathFinding;
   
   import flash.geom.Point;
@@ -18,7 +16,6 @@ package com.gamewars.world
   import starling.display.DisplayObject;
   import starling.display.MovieClip;
   import starling.display.Sprite;
-  import starling.events.TouchEvent;
   
   /**
   * Monde du jeu
@@ -36,7 +33,7 @@ package com.gamewars.world
     /** Grille des mouvements */
     public var mMovementGrid:MovementGrid;
     /** Curseur */
-    private var mCursor:MovieClip;
+    public var mCursor:GwCursor;
     /** Dictionnaire de tous les renderers */
     private var mRenderers:Dictionary = new Dictionary();
     
@@ -67,7 +64,7 @@ package com.gamewars.world
       mMovementGrid = new MovementGrid(this);
       mUnitLayer.addChild(mMovementGrid);
       // Curseur
-      mCursor = new MovieClip(CursorType.SELECTION.mTexs, 8);
+      mCursor = new GwCursor();
       Starling.juggler.add(mCursor);
       mTopLayer.addChild(mCursor);
       // PathFinding
@@ -108,15 +105,6 @@ package com.gamewars.world
         throw new Error('Position de curseur invalide : ['+pX+','+pY+']');
       mCursor.x = pX * Tile.TILE_SIZE;
       mCursor.y = pY * Tile.TILE_SIZE;
-    }
-    
-    /** Défini le type de curseur */
-    public function setCursor(pCursorType:CursorType) : void
-    {
-      for (var i:uint = 0; i < 4; i++)
-      {
-        mCursor.setFrameTexture(i, pCursorType.mTexs[i]);
-      }
     }
     
     /** Charge la map passée en paramètres */

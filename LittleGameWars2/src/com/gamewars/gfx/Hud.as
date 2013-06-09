@@ -1,5 +1,6 @@
 package com.gamewars.gfx
 {
+  import com.gamewars.components.GwBorderContainer;
   import com.gamewars.components.GwImage;
   import com.gamewars.components.GwText;
   import com.gamewars.structures.Player;
@@ -12,12 +13,10 @@ package com.gamewars.gfx
   import starling.display.Sprite;
   import starling.text.TextField;
   
-  public class Hud extends Sprite
+  public class Hud extends GwBorderContainer
   {
     /** Image du commander */
     private var mCoImage:Image;
-    /** Background */
-    private var mBg:Quad;
     /** Nom du joueur */
     private var mName:GwText;
     
@@ -26,27 +25,22 @@ package com.gamewars.gfx
     {
       super();
       
-      mBg = new Quad(1,1, 0xffffff);
-      addChild(mBg);
       mCoImage = new GwImage(Resources.emptyTex(1,1));
       addChild(mCoImage);
       mName = new GwText();
       addChild(mName);
       
-      updateLayout();
+      setBorderThickness(2);
+      setPadding(5);
+      setBorderColor(0);
+      setBackgroundColor(0xffffff);
     }
     
-    /** Positionne correctement les éléments */
-    private function updateLayout() : void
+    /** @inheritDoc */
+    override protected function updateLayout() : void
     {
-      var gap:Number = 5;
-      mBg.width = mBg.height = 1;
-      mCoImage.x = gap;
-      mCoImage.y = gap;
-      mName.x = mCoImage.x + mCoImage.width + gap;
-      mName.y = gap;
-      mBg.width = width+gap;
-      mBg.height = height+gap;
+      mName.x = mCoImage.x + mCoImage.width + 5;
+      super.updateLayout();
     }
     
     /** Définit le joueur pour lequel il faut afficher les infos */

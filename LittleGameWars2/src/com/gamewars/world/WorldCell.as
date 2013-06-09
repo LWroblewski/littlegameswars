@@ -1,8 +1,8 @@
 package com.gamewars.world
 {
-  import com.gamewars.gfx.WaterTileRenderer;
   import com.gamewars.enums.GroundType;
   import com.gamewars.enums.WindRose;
+  import com.gamewars.gfx.WaterTileRenderer;
   import com.gamewars.structures.Tile;
   import com.gamewars.structures.Unit;
   import com.gamewars.utils.Resources;
@@ -118,6 +118,13 @@ package com.gamewars.world
         return getCellAt(pDir).mGroundType;
       else
         return null;
+    }
+    
+    /** Positionne l'élément passé en paramètres sur la cellule */
+    public function layoutElement(pElement:DisplayObject) : void
+    {
+      pElement.x = mX * Tile.TILE_SIZE;
+      pElement.y = mY * Tile.TILE_SIZE;
     }
     
     /** Crée un rendu pour la cellule */

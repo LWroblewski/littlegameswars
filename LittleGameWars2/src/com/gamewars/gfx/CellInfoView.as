@@ -1,12 +1,13 @@
 package com.gamewars.gfx
 {
+  import com.gamewars.components.GwBorderContainer;
   import com.gamewars.utils.Resources;
   import com.gamewars.world.WorldCell;
   
   import starling.display.Quad;
   import starling.display.Sprite;
   
-  public class CellInfoView extends Sprite
+  public class CellInfoView extends GwBorderContainer
   {
     /** Information de terrain */
     private var mTileInfoPart:TileInfoPart;
@@ -26,23 +27,18 @@ package com.gamewars.gfx
       addChild(mTileInfoPart);
       mUnitInfoPart = new UnitInfoPart();
       addChild(mUnitInfoPart);
-      updateLayout();
+      
+      setBorderThickness(2);
+      setPadding(5);
+      setBorderColor(0);
+      setBackgroundColor(0xffffff);
     }
     
     /** Maj du layout */
-    private function updateLayout() : void
+    override protected function updateLayout() : void
     {
-      var padding:Number = 5;
-      mUnitInfoPart.x = padding;
-      mUnitInfoPart.y = padding;
-      mTileInfoPart.x = padding;
       mTileInfoPart.y = mUnitInfoPart.y + (mUnitInfoPart.visible?mUnitInfoPart.height:0);
-      // Reset background
-      mBackground.width = 0;
-      mBackground.height = 0;
-      // Resize background
-      mBackground.width = (mUnitInfoPart.visible?width:mTileInfoPart.width) + padding;
-      mBackground.height = height + padding;
+      super.updateLayout();
     }
     
     /** Affiche les informations de la tile passée en paramètres */

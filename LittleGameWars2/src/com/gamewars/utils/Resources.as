@@ -12,8 +12,8 @@ package com.gamewars.utils
   */
   public class Resources
   {
-    [Embed(source="resources/sm256.ttf", embedAsCFF="false", fontFamily="sm256")]
-    private static const SmFont:Class;
+    [Embed(source="resources/gamefont.ttf", embedAsCFF="false", fontFamily="gamefont")]
+    private static const GameFont:Class;
     
     /** SpriteSheet */
     [Embed(source="resources/sheet.png")]

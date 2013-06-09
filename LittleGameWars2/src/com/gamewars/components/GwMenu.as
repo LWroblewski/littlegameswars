@@ -13,11 +13,11 @@ package com.gamewars.components
     /** Elements affichés dans le menu */
     private var mMenuElements:Vector.<MenuElement>;
     /** Liste des boutons du menu */
-    private var mButtons:Vector.<Button> = new <Button>[];
+    private var mButtons:Vector.<GWButton> = new <GWButton>[];
     /** Callback de selection du menu */
     private var mCallback:Function;
     /** Background */
-    private var mBackground:Quad;
+    private var mBg:Quad;
     
     /** Constructeur */
     public function GwMenu(pMenuElements:Vector.<MenuElement>, pCallback:Function)
@@ -28,28 +28,38 @@ package com.gamewars.components
       buildMenu();
     }
     
+    /** Positionne les éléments */
+    private function updateLayout() : void
+    {
+      var gap:Number = 0;
+      var yy:Number = gap;
+      mBg.width = mBg.height = 1;
+      for each (var bt:GWButton in mButtons)
+      {
+        bt.x = (width - bt.width)/2 + gap;
+        bt.y = yy;
+        yy += bt.height;
+      }
+      mBg.width = width + gap;
+      mBg.height = height;
+    }
+    
     /** Construction du menu */
     private function buildMenu() : void
     {
       // Arrière plan
-      mBackground = new Quad(1, 1, 0x999999);
-      addChild(mBackground);
+      mBg = new Quad(1, 1, 0x999999);
+      addChild(mBg);
       
       // Boutons de menu
-      var xx:Number = 2;
-      var yy:Number = 2;
       for each (var elt:MenuElement in mMenuElements)
       {
-        var bt:Button = new Button(Resources.emptyTex(100, 60), elt.mText);
+        var bt:GWButton = new GWButton(Resources.emptyTex(100, 60), elt.mText);
         bt.addEventListener(Event.TRIGGERED, menuElementClick);
-        bt.x = xx;
-        bt.y = yy;
         addChild(bt);
         mButtons.push(bt);
-        yy += bt.height;
       }
-      mBackground.width = width+4;
-      mBackground.height = height+4;
+      updateLayout();
     }
     
     /** Click sur un élément de menu */
@@ -57,7 +67,7 @@ package com.gamewars.components
     {
       // Renvoie l'id de l'élément selectionné
       if (mCallback != null)
-        mCallback(mMenuElements[mButtons.indexOf(pEvent.target as Button)].mId);
+        mCallback(mMenuElements[mButtons.indexOf(pEvent.target as GWButton)].mId);
     }
   }
 }

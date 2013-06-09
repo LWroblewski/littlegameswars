@@ -1,4 +1,4 @@
-package com.gamewars.states.transitional
+package com.gamewars.states.transition
 {
   import com.gamewars.screens.GameScreen;
   import com.gamewars.states.AbstractGameState;
@@ -20,7 +20,6 @@ package com.gamewars.states.transitional
     {
       // Sélectionne le joueur en cours
       mGameScreen.nextPlayer();
-      
       mGameScreen.setState(new FreeState(mGameScreen));
     }
   }

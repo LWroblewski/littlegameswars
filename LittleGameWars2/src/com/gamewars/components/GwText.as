@@ -8,7 +8,7 @@ package com.gamewars.components
   {
     public function GwText(pFontSize:Number = 12)
     {
-      super(pFontSize, pFontSize*2, '', "Verdana", pFontSize);
+      super(pFontSize, pFontSize*2, '', "sm256", pFontSize);
       hAlign = HAlign.LEFT;
       vAlign = VAlign.TOP;
     }

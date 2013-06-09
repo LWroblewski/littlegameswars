@@ -1,4 +1,4 @@
-package com.gamewars.structures
+package com.gamewars.enums
 {
   import com.gamewars.utils.Resources;
   
@@ -10,10 +10,13 @@ package com.gamewars.structures
     
     /** Texture représentant le commandant */
     public var mTex:Texture;
+    /** Nom du commander */
+    public var mName:String;
     
     /** Constructeur */
     public function CommanderType(pName:String, pTex:Texture)
     {
+      mName = pName;
       mTex = pTex;
     }
   }

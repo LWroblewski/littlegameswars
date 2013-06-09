@@ -1,4 +1,4 @@
-package com.gamewars.misc
+package com.gamewars.gfx
 {
   import com.gamewars.utils.Resources;
   import com.gamewars.world.WorldCell;
@@ -21,7 +21,6 @@ package com.gamewars.misc
       super();
       
       mBackground = new Quad(1,1,0x999999);
-      mBackground.alpha = 0.9;
       addChild(mBackground);
       mTileInfoPart = new TileInfoPart();
       addChild(mTileInfoPart);
@@ -51,7 +50,6 @@ package com.gamewars.misc
     {
       if (pCell == null)
       {
-        // TODO Hide & return
         return;
       }
       
@@ -111,7 +109,7 @@ class TileInfoPart extends Sprite
   {
     for (var i:uint = 0; i < 5; i++)
     {
-      mStars[i].texture = (i <= pValue)?Resources.getGuiTex('Star_0'):Resources.getGuiTex('Star_1');
+      mStars[i].texture = (i+1 <= pValue)?Resources.getGuiTex('Star_0'):Resources.getGuiTex('Star_1');
     }
   }
   

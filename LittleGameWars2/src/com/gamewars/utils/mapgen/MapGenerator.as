@@ -27,7 +27,7 @@ package com.gamewars.utils.mapgen
       return map;
     }
     
-    /** Ajoute le type de terrain aléatoirement en pourcentage de la map */
+    /** Ajoute le type de terrain aléatoirement en pourcentage */
     private function processGroundRd(pMap:TileMap, pGround:uint, pPercent:Number) : void
     {
       var i:uint = 0;

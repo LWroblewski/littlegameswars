@@ -1,4 +1,4 @@
-package com.gamewars.misc
+package com.gamewars.gfx
 {
   import com.gamewars.enums.WindRose;
   import com.gamewars.structures.Tile;

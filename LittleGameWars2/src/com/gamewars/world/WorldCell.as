@@ -1,6 +1,6 @@
 package com.gamewars.world
 {
-  import com.gamewars.components.WaterTileRenderer;
+  import com.gamewars.gfx.WaterTileRenderer;
   import com.gamewars.enums.GroundType;
   import com.gamewars.enums.WindRose;
   import com.gamewars.structures.Tile;
@@ -124,6 +124,8 @@ package com.gamewars.world
     public function createRenderer() : DisplayObject
     {
       var result:DisplayObject;
+      
+      // Cas spécifique
       if (mGroundType == GroundType.WATER)
       {
         result = new WaterTileRenderer();

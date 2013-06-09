@@ -1,4 +1,4 @@
-package com.gamewars.components
+package com.gamewars.gfx
 {
   import com.gamewars.enums.GroundType;
   import com.gamewars.enums.WindRose;
@@ -53,7 +53,7 @@ package com.gamewars.components
       addChild(clip);
     }
     
-    /** Retourne le suffixe à utiliser pour la texture d'eau en fonction des terrains aux directions spécifiées */
+    /** Retourne le suffixe à utiliser pour les parties du rendu d'eau en fonction des terrains aux directions spécifiées */
     private function getTexSuffix(pCell:WorldCell, pSideDir:WindRose, pSide2Dir:WindRose, pCornerDir:WindRose) : String
     {
       var suffix:String = 'FULL';

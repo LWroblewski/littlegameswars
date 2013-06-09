@@ -1,17 +1,18 @@
 package com.gamewars.screens
 {
+  import com.gamewars.enums.CommanderType;
   import com.gamewars.enums.UnitType;
-  import com.gamewars.misc.CellInfoView;
-  import com.gamewars.misc.Hud;
+  import com.gamewars.gfx.CellInfoView;
+  import com.gamewars.gfx.Hud;
   import com.gamewars.states.AbstractGameState;
   import com.gamewars.states.FreeState;
-  import com.gamewars.states.transitional.DayCycleState;
-  import com.gamewars.structures.CommanderType;
+  import com.gamewars.states.transition.DayCycleState;
   import com.gamewars.structures.Player;
   import com.gamewars.structures.TileMap;
   import com.gamewars.structures.Unit;
   import com.gamewars.utils.mapgen.MapGenerator;
   import com.gamewars.world.World;
+  import com.gamewars.world.WorldCell;
   
   import flash.display.Sprite;
   
@@ -30,9 +31,9 @@ package com.gamewars.screens
     /** Layers */
     public var mFightScreen:FightScreen;
     /** Informations sur la tile sélectionnée */
-    public var mCellInfoView:CellInfoView;
+    private var mCellInfoView:CellInfoView;
     /** Informations de joueur */
-    public var mHud:Hud;
+    private var mHud:Hud;
     // ------------------------------------------------------------------------
     /** Etat du jeu */
     private var mCurrentState:AbstractGameState;
@@ -62,6 +63,16 @@ package com.gamewars.screens
       dbgNewGame();
     }
     
+    /** Positionne les éléments */
+    private function updateLayout() : void
+    {
+      var gap:Number = 5;
+      mHud.x = gap;
+      mHud.y = gap;
+      mCellInfoView.x = gap;
+      mCellInfoView.y = Starling.current.stage.stageHeight - mCellInfoView.height - gap;
+    }
+    
     /** Active le joueur suivant */
     public function nextPlayer() : Player
     {
@@ -73,6 +84,7 @@ package com.gamewars.screens
       
       // Maj HUD
       mHud.setInfo(mCurrentPlayer);
+      mHud.visible = true;
       return mCurrentPlayer;
     }
     
@@ -131,6 +143,14 @@ package com.gamewars.screens
       mWorld.addUnit(new Unit(10, 11, UnitType.INFANTRY));
     }
     
+    /** Définit les informations de tile à afficher */
+    public function displayCellInfo(pCell:WorldCell) : void
+    {
+      mCellInfoView.setCellInfo(pCell);
+      mCellInfoView.visible = true;
+      updateLayout();
+    }
+    
     /** Initialisation du jeu */
     private function initialize() : void
     {
@@ -138,18 +158,18 @@ package com.gamewars.screens
       addChild(mWorld);
       
       mCellInfoView = new CellInfoView();
-      mCellInfoView.x = 0;
-      mCellInfoView.y = 500;
+      mCellInfoView.visible = false;
       addChild(mCellInfoView);
       
       mHud = new Hud();
-      mHud.x = 5;
-      mHud.y = 5;
+      mHud.visible = false;
       addChild(mHud);
       
       mFightScreen = new FightScreen();
       mFightScreen.visible = false;
       addChild(mFightScreen);
+      
+      updateLayout();
     }
   }
 }

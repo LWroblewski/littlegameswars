@@ -82,7 +82,7 @@ package com.gamewars.states.unitrelative
         // Positionne le curseur
         getWorld().setCursorPosition(cell.mX, cell.mY);
         // Affiche les informations de tile
-        mGameScreen.mCellInfoView.setCellInfo(cell);
+        mGameScreen.displayCellInfo(cell);
         
         // Nouvelle case
         var path:Path;

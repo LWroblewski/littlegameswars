@@ -29,7 +29,7 @@ package com.gamewars.states
         return;
       
       mGameScreen.mWorld.setCursorPosition(cell.mX, cell.mY);
-      mGameScreen.mCellInfoView.setCellInfo(cell);
+      mGameScreen.displayCellInfo(cell);
       // Selectionne l'unitée sur la cellule
       if (cell.getUnit() != null && cell.getUnit().mMovePoints > 0)
       {

@@ -1,5 +1,7 @@
 package com.gamewars.structures
 {
+  import com.gamewars.enums.CommanderType;
+
   public class Player
   {
     /** Commander du joueur */

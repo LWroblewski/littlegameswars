@@ -22,7 +22,7 @@ package com.gamewars.states.unitrelative
     {
       // Affiche un menu d'actions
       var menuElements:Vector.<MenuElement> = new <MenuElement>[
-        new MenuElement(0, 'Déplacement'),
+        new MenuElement(0, 'Deplacement'),
         new MenuElement(1, 'Annuler')];
       if (getWorld().mPathFinding.computeTargetables(mUnit).length > 0)
       {

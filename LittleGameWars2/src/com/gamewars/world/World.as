@@ -3,7 +3,7 @@ package com.gamewars.world
   import com.gamewars.components.menu.MenuElement;
   import com.gamewars.enums.CursorType;
   import com.gamewars.enums.GroundType;
-  import com.gamewars.misc.MovementGrid;
+  import com.gamewars.gfx.MovementGrid;
   import com.gamewars.structures.BaseEntity;
   import com.gamewars.structures.Tile;
   import com.gamewars.structures.TileMap;

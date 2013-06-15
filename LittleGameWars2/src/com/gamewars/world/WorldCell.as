@@ -6,11 +6,13 @@ package com.gamewars.world
   import com.gamewars.structures.Tile;
   import com.gamewars.structures.Unit;
   import com.gamewars.utils.Resources;
+  import com.gamewars.utils.TilePoint;
   
   import starling.core.Starling;
   import starling.display.DisplayObject;
   import starling.display.Image;
   import starling.display.MovieClip;
+  import starling.display.Quad;
   import starling.display.Sprite;
   import starling.textures.Texture;
 
@@ -25,12 +27,13 @@ package com.gamewars.world
     /** Unité sur la cellule */
     private var mUnit:Unit;
     /** Position de la cellule sur la map*/
-    public var mX:uint=0, mY:uint=0;
+    public var mPosition:TilePoint;
     
     /** Définit l'unitée de la cellule */
     public function setUnit(pUnit:Unit) : void
     {
-      if (pUnit != null && (mUnit != null ||  mUnit == pUnit))
+      if (mUnit == pUnit) return;
+      else if (pUnit != null && mUnit != null)
         throw new Error('Unit already there!');
       // Supprime la réference de l'ancienne cellule
       if (pUnit && pUnit.getCell() != null)
@@ -41,17 +44,12 @@ package com.gamewars.world
     }
     public function getUnit():Unit{return mUnit;};
     
-    /** Retourne la position en pixels */
-    public function getX() : Number{return mX * Tile.TILE_SIZE;}
-    public function getY() : Number{return mY * Tile.TILE_SIZE;}
-    
     /** Cellule du monde */
     public function WorldCell(pWorld:World, pX:uint, pY:uint, pGroundType:GroundType = null)
     {
       if (pGroundType == null) pGroundType = GroundType.PLAIN;
       mWorld = pWorld;
-      mX = pX;
-      mY = pY;
+      mPosition = new TilePoint(pX, pY);
       mGroundType = pGroundType;
     }
     
@@ -61,28 +59,28 @@ package com.gamewars.world
       switch(pDirection)
       {
         case WindRose.NORTH:
-          return mWorld.getCellAt(mX, mY-1);
+          return mWorld.getCellAt(mPosition.tileX, mPosition.tileY-1);
           break;
         case WindRose.EAST:
-          return mWorld.getCellAt(mX+1, mY);
+          return mWorld.getCellAt(mPosition.tileX+1, mPosition.tileY);
           break;
         case WindRose.SOUTH:
-          return mWorld.getCellAt(mX, mY+1);
+          return mWorld.getCellAt(mPosition.tileX, mPosition.tileY+1);
           break;
         case WindRose.WEST:
-          return mWorld.getCellAt(mX-1, mY);
+          return mWorld.getCellAt(mPosition.tileX-1, mPosition.tileY);
           break;
         case WindRose.NORTH_EAST:
-          return mWorld.getCellAt(mX+1, mY-1)
+          return mWorld.getCellAt(mPosition.tileX+1, mPosition.tileY-1)
           break;
         case WindRose.NORTH_WEST:
-          return mWorld.getCellAt(mX-1, mY-1);
+          return mWorld.getCellAt(mPosition.tileX-1, mPosition.tileY-1);
           break;
         case WindRose.SOUTH_EAST:
-          return mWorld.getCellAt(mX+1, mY+1);
+          return mWorld.getCellAt(mPosition.tileX+1, mPosition.tileY+1);
           break;
         case WindRose.SOUTH_WEST:
-          return mWorld.getCellAt(mX-1, mY+1);
+          return mWorld.getCellAt(mPosition.tileX-1, mPosition.tileY+1);
           break;
         default:
           return null;
@@ -123,8 +121,8 @@ package com.gamewars.world
     /** Positionne l'élément passé en paramètres sur la cellule */
     public function layoutElement(pElement:DisplayObject) : void
     {
-      pElement.x = mX * Tile.TILE_SIZE;
-      pElement.y = mY * Tile.TILE_SIZE;
+      pElement.x = mPosition.xOffset;
+      pElement.y = mPosition.yOffset;
     }
     
     /** Crée un rendu pour la cellule */
@@ -141,8 +139,8 @@ package com.gamewars.world
       else
         result = new MovieClip(Resources.getTileTextures(mGroundType.mTexPrefix));
       
-      result.x = mX * Tile.TILE_SIZE;
-      result.y = mY * Tile.TILE_SIZE;
+      result.x = mPosition.xOffset;
+      result.y = mPosition.yOffset;
       
       return result;
     }
@@ -156,9 +154,7 @@ package com.gamewars.world
     /** Retourne la distance entre deux cellules */
     public function getDistance(pCell:WorldCell) : uint
     {
-      var dx:int = Math.abs(mX - pCell.mX);
-      var dy:int = Math.abs(mY - pCell.mY);
-      return dx + dy;
+      return TilePoint.distance(mPosition, pCell.mPosition);
     }
   }
 }

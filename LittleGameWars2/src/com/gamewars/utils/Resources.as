@@ -21,6 +21,7 @@ package com.gamewars.utils
     private static var sheetXml:XML = 
       <TextureAtlas>
        <SubTexture name="PLAIN" x="0" y="0" width="32" height="32"/>
+       <SubTexture name="WATER" x="32" y="0" width="32" height="32"/>
        <SubTexture name="MOUNTAIN" x="64" y="0" width="32" height="32"/>
        <SubTexture name="FOREST" x="96" y="0" width="32" height="32"/>
       

@@ -4,9 +4,9 @@ package com.gamewars.gfx
   import com.gamewars.structures.Tile;
   import com.gamewars.structures.Unit;
   import com.gamewars.utils.Resources;
-  import com.gamewars.utils.pathfinding.Path;
   import com.gamewars.utils.pathfinding.PathFinding;
-  import com.gamewars.utils.pathfinding.PathPoint;
+  import com.gamewars.utils.pathfinding.PathNode;
+  import com.gamewars.utils.pathfinding.PathResult;
   import com.gamewars.world.World;
   import com.gamewars.world.WorldCell;
   
@@ -52,27 +52,36 @@ package com.gamewars.gfx
       }
     }
     
+    // TODO Revoir l'implémentation de la fonction
     /** Affiche la flèche de déplacement d'une cellule à une autre */
-    public function renderArrow(pPath:Path) : void
+    public function renderArrow(pNode:PathNode) : void
     {
       mArrowLayer.removeChildren();
-      if (pPath == null || pPath.mPoints.length == 1)
+      var allNodes:Vector.<PathNode> = new <PathNode>[];
+      while (pNode != null)
+      {
+        allNodes.push(pNode);
+        pNode = pNode.mParent;
+      }
+      allNodes = allNodes.reverse();
+      
+      if (allNodes.length <= 1)
         return;
       
       // Direction initiale de la flèche
       var currentDir:WindRose = WindRose.SOUTH;
       var nextDir:WindRose = WindRose.SOUTH;
       var pi:Number = Math.PI;
-      for (var i:uint = 0; i < pPath.mPoints.length; i++)
+      for (var i:uint = 0; i < allNodes.length; i++)
       {
         currentDir = nextDir;
-        var current:PathPoint = pPath.mPoints[i];
-        var isLast:Boolean = i == pPath.mPoints.length-1;
+        var current:PathNode = allNodes[i];
+        var isLast:Boolean = i == allNodes.length-1;
         var rot:Number = 0;
         // Récupère la direction du prochain noeud
         if (!isLast)
         {
-          var next:PathPoint = pPath.mPoints[i+1];
+          var next:PathNode = allNodes[i+1];
           nextDir = current.mCell.getDirection(next.mCell);
           // Si premier noeud, on oriente bien le départ
           if (i == 0)
@@ -144,8 +153,8 @@ package com.gamewars.gfx
         sp.rotation = rot;
         sp.pivotX = Tile.TILE_SIZE/2;
         sp.pivotY = Tile.TILE_SIZE/2;
-        sp.x = current.mCell.mX * Tile.TILE_SIZE + Tile.TILE_SIZE/2;
-        sp.y = current.mCell.mY * Tile.TILE_SIZE + Tile.TILE_SIZE/2;
+        sp.x = current.mCell.mPosition.xOffset + Tile.TILE_SIZE/2;
+        sp.y = current.mCell.mPosition.yOffset + Tile.TILE_SIZE/2;
         mArrowLayer.addChild(sp);
       }
     }

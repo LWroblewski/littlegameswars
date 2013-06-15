@@ -1,5 +1,6 @@
 package com.gamewars.structures
 {
+  import com.gamewars.utils.TilePoint;
   import com.gamewars.world.World;
   import com.gamewars.world.WorldCell;
   
@@ -8,24 +9,22 @@ package com.gamewars.structures
 
   public class BaseEntity
   {
-    /** Coordonnées de l'entitée */
-    protected var mX:uint = 0;
-    protected var mY:uint = 0;
+    /** Position */
+    public var mPosition:TilePoint;
     /** Réference vers le monde */
     public var mWorld:World;
     
     /** Constructeur */
-    public function BaseEntity(pX:uint, pY:uint)
+    public function BaseEntity(pX:uint = 0, pY:uint = 0)
     {
-      mX = pX;
-      mY = pY;
+      mPosition = new TilePoint(pX, pY);
     }
     
     /** Définit le monde */
     public function setWorld(pWorld:World) : void
     {
       mWorld = pWorld;
-      setCell(mWorld.getCellAt(mX, mY));
+      setCell(mWorld.getCellAtPoint(mPosition));
     }
     
     /** Rendu graphique */
@@ -44,14 +43,13 @@ package com.gamewars.structures
     /** Définition de la cellule */
     public function setCell(pCell:WorldCell) : void
     {
-      mX = pCell.mX;
-      mY = pCell.mY;
+      mPosition.copyFrom(pCell.mPosition);
     }
     
     /** Retourne la cellule */
     public function getCell() : WorldCell
     {
-      return mWorld.getCellAt(mX, mY);
+      return mWorld.getCellAtPoint(mPosition);
     }
   }
 }

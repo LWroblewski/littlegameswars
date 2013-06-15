@@ -49,8 +49,8 @@ package com.gamewars.components
     /** Centre le curseur sur la cellule passée en paramètres */
     public function centerOnCell(pCell:WorldCell) : void
     {
-      x = -(width - Tile.TILE_SIZE)/2 + pCell.mX * Tile.TILE_SIZE;
-      y = -(height - Tile.TILE_SIZE)/2 + pCell.mY * Tile.TILE_SIZE;
+      x = -(width - Tile.TILE_SIZE)/2 + pCell.mPosition.xOffset;
+      y = -(height - Tile.TILE_SIZE)/2 + pCell.mPosition.yOffset;
     }
     
     /** Maj */

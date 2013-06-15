@@ -3,10 +3,13 @@ package com.gamewars.world
   import com.gamewars.components.GwCursor;
   import com.gamewars.enums.GroundType;
   import com.gamewars.gfx.MovementGrid;
+  import com.gamewars.managers.FogManager;
   import com.gamewars.structures.BaseEntity;
+  import com.gamewars.structures.Player;
   import com.gamewars.structures.Tile;
   import com.gamewars.structures.TileMap;
   import com.gamewars.structures.Unit;
+  import com.gamewars.utils.TilePoint;
   import com.gamewars.utils.pathfinding.PathFinding;
   
   import flash.geom.Point;
@@ -29,7 +32,7 @@ package com.gamewars.world
     /** Position de scroll */
     public var mScrollPosition:Point = new Point();
     /** Toutes les cellules du monde */
-    private var mCells:Vector.<WorldCell> = new <WorldCell>[];
+    public var mCells:Vector.<WorldCell> = new <WorldCell>[];
     /** Grille des mouvements */
     public var mMovementGrid:MovementGrid;
     /** Curseur */
@@ -40,11 +43,16 @@ package com.gamewars.world
     /** Layers */
     private var mGroundLayer:Sprite;
     private var mStructureLayer:Sprite;
+    private var mFogLayer:Sprite;
     private var mUnitLayer:Sprite;
     private var mTopLayer:Sprite;
     
     /** PathFinding */
     public var mPathFinding:PathFinding;
+    /** Gestion du brouillard */
+    public var mFogManager:FogManager;
+    /** Liste des joueurs */
+    public var mPlayers:Vector.<Player> = new <Player>[];
     
     /** Constructeur */
     public function World()
@@ -52,14 +60,17 @@ package com.gamewars.world
       super();
       
       // Layers
-      mGroundLayer = new Sprite();
+      mGroundLayer = new Sprite(); // Sol
       addChild(mGroundLayer);
-      mStructureLayer = new Sprite();
+      mStructureLayer = new Sprite(); // Structure
       addChild(mStructureLayer);
-      mUnitLayer = new Sprite();
+      mFogLayer = new Sprite(); // Brouillard
+      addChild(mFogLayer);
+      mUnitLayer = new Sprite(); // Unités
       addChild(mUnitLayer);
-      mTopLayer = new Sprite();
+      mTopLayer = new Sprite(); // Top
       addChild(mTopLayer);
+      
       // Grille des mouvements
       mMovementGrid = new MovementGrid(this);
       mUnitLayer.addChild(mMovementGrid);
@@ -69,6 +80,8 @@ package com.gamewars.world
       mTopLayer.addChild(mCursor);
       // PathFinding
       mPathFinding = new PathFinding(this);
+      // Brouillard
+      mFogManager = new FogManager(this, mFogLayer);
     }
     
     /** Retourne le renderer de l'entitée passée en paramètres */
@@ -143,13 +156,25 @@ package com.gamewars.world
       mUnitLayer.addChild(createRenderer(pUnit));
     }
     
+    /** Ajoute un joueur au monde */
+    public function addPlayer(pPlayer:Player) : void
+    {
+      if (mPlayers.indexOf(pPlayer) != -1) throw new Error('Player already added');
+      mPlayers.push(pPlayer);
+      // Ajout des unitées
+      for each (var unit:Unit in pPlayer.mUnits)
+      {
+        addUnit(unit);
+      }
+    }
+    
     // TODO Manager de renderers/layers
     /** Ajoute un renderer pour l'unitée */
-    private function createRenderer(pEntity:BaseEntity) : DisplayObject
+    private function createRenderer(pEntity:Unit) : DisplayObject
     {
       var renderer:MovieClip = pEntity.createRenderer();
-      renderer.x = pEntity.getCell().mX * Tile.TILE_SIZE;
-      renderer.y = pEntity.getCell().mY * Tile.TILE_SIZE;
+      renderer.x = pEntity.getCell().mPosition.xOffset;
+      renderer.y = pEntity.getCell().mPosition.yOffset;
       mRenderers[pEntity] = renderer;
       Starling.juggler.add(renderer);
       return renderer
@@ -161,7 +186,20 @@ package com.gamewars.world
       // TODO Implementation
     }
     
-    /** Renvoie la cellule aux coordonnées spécifiées */
+    /** Retourne tous les ennemis du joueur */
+    public function getOpponents(pPlayer:Player) : Vector.<Player>
+    {
+      var result:Vector.<Player> = new <Player>[];
+      for each (var pl:Player in mPlayers)
+      {
+        // TODO Test de teams
+        if (pl != pPlayer)
+          result.push(pl);
+      }
+      return result;
+    }
+    
+    /** Retourne la cellule aux coordonnées spécifiées */
     public function getCellAt(pX:int, pY:int) : WorldCell
     {
       // Coordonnées non valides
@@ -169,6 +207,12 @@ package com.gamewars.world
         return null;
       
       return mCells[pX+pY*mWidth];
+    }
+    
+    /** Retourne la cellule aux coordonnées spécifiées */
+    public function getCellAtPoint(pPoint:TilePoint) : WorldCell
+    {
+      return getCellAt(pPoint.tileX, pPoint.tileY);
     }
     
     /** Scroll vers la position définie */

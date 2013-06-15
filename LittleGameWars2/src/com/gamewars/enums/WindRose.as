@@ -21,5 +21,39 @@ package com.gamewars.enums
     {
       mName = pName;
     }
+    
+    /** Retourne la direction inverse */
+    public function getInverse() : WindRose
+    {
+      switch(this)
+      {
+        case NORTH:
+          return SOUTH;
+          break;
+        case EAST:
+          return WEST;
+          break;
+        case SOUTH:
+          return NORTH;
+          break;
+        case WEST:
+          return EAST;
+          break;
+        case NORTH_EAST:
+          return SOUTH_WEST;
+          break;
+        case NORTH_WEST:
+          return SOUTH_EAST;
+          break;
+        case SOUTH_EAST:
+          return NORTH_WEST;
+          break;
+        case SOUTH_WEST:
+          return NORTH_EAST;
+          break;
+        default:
+          throw new Error('Invalid direction');
+      }
+    }
   }
 }

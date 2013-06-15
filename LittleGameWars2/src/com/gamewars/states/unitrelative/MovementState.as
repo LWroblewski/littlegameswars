@@ -4,8 +4,8 @@ package com.gamewars.states.unitrelative
   import com.gamewars.screens.GameScreen;
   import com.gamewars.structures.Unit;
   import com.gamewars.utils.Resources;
-  import com.gamewars.utils.pathfinding.Path;
-  import com.gamewars.utils.pathfinding.PathPoint;
+  import com.gamewars.utils.pathfinding.PathNode;
+  import com.gamewars.utils.pathfinding.PathResult;
   import com.gamewars.world.WorldCell;
   
   import flash.utils.Dictionary;
@@ -21,7 +21,7 @@ package com.gamewars.states.unitrelative
     /** Cible du déplacement */
     private var mTargetCell:WorldCell;
     /** Dictionnaire des chemins de l'unité */
-    private var mPathPoints:Dictionary; // [WorldCell] => PathPoint
+    private var mPathResult:PathResult;
     /** Liste des renderers */
     private var mRenderers:Vector.<GwMovieClip> = new <GwMovieClip>[];
     
@@ -35,14 +35,9 @@ package com.gamewars.states.unitrelative
     override public function enterState():void
     {
       // Calcul des chemins de déplacements
-      mPathPoints = getWorld().mPathFinding.computeReachables(mUnit);
-      var cells:Vector.<WorldCell> = new <WorldCell>[];
-      for (var key:* in mPathPoints)
-      {
-        cells.push(key as WorldCell);
-      }
+      mPathResult = getWorld().mPathFinding.computePaths(mUnit);
       // Affiche la grille de déplacements
-      getWorld().mMovementGrid.renderOnCells(cells, renderFunction);
+      getWorld().mMovementGrid.renderOnCells(mPathResult.getCells(), renderFunction);
     }
     
     /** @inheritDoc */
@@ -79,26 +74,25 @@ package com.gamewars.states.unitrelative
       if (cell != null && cell != mUnit.getCell())
       {
         // Positionne le curseur
-        getWorld().setCursorPosition(cell.mX, cell.mY);
+        getWorld().setCursorPosition(cell.mPosition.tileX, cell.mPosition.tileY);
         // Affiche les informations de tile
         mGameScreen.displayCellInfo(cell);
         
-        // Nouvelle case
-        var path:Path;
+        // Nouvelle case sélectionnée
         if (cell != mTargetCell)
         {
-          if (mPathPoints[cell] != undefined)
+          var node:PathNode = mPathResult.getNode(cell);
+          if (node != null)
           {
             mTargetCell = cell;
-            path = (mPathPoints[mTargetCell] as PathPoint).getPath();
-            getWorld().mMovementGrid.renderArrow(path);
+            node = mPathResult.getNode(cell);
+            getWorld().mMovementGrid.renderArrow(node);
           }
         }
         // Même case selectionnée, effectue le déplacement
         else
         {
-          path = (mPathPoints[mTargetCell] as PathPoint).getPath();
-          mGameScreen.setState(new ProcessMoveState(mGameScreen, mUnit, path));
+          mGameScreen.setState(new ProcessMoveState(mGameScreen, mUnit, mPathResult.getNode(mTargetCell)));
         }
       }
     }

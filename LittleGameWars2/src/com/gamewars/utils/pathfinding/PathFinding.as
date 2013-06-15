@@ -2,7 +2,9 @@ package com.gamewars.utils.pathfinding
 {
   
   import com.gamewars.enums.WindRose;
+  import com.gamewars.structures.Player;
   import com.gamewars.structures.Unit;
+  import com.gamewars.utils.TileUtils;
   import com.gamewars.world.World;
   import com.gamewars.world.WorldCell;
   
@@ -15,7 +17,7 @@ package com.gamewars.utils.pathfinding
     /** Reference vers le monde */
     private var mWorld:World;
     /** Racine du pathFinding */
-    private var mRoot:PathPoint;
+    private var mRoot:PathNode;
     /** Points calculés */
     private var mComputedPaths:Dictionary = new Dictionary();
     
@@ -26,50 +28,32 @@ package com.gamewars.utils.pathfinding
     }
     
     /** Calcule tous les chemins possibles pour l'unitée */
-    public function computeReachables(pUnit:Unit) : Dictionary
+    public function computePaths(pUnit:Unit) : PathResult
     {
-      var cell:WorldCell = pUnit.getCell();
-      mRoot = new PathPoint(null, cell, mWorld);
-      mComputedPaths = new Dictionary();
-      mComputedPaths[cell] = mRoot;
-      mRoot.computeReachables(pUnit.mMovePoints, mComputedPaths);
-      return mComputedPaths;
-    }
-    
-    /** Calcule toutes les cellules que l'unitée peut cibler */
-    public function computeTargetables(pUnit:Unit) : Vector.<WorldCell>
-    {
-      var result:Vector.<WorldCell> = new <WorldCell>[];
-      spreadTest(
-        function test(pCell:WorldCell) : Boolean
-        {
-          if (pCell != pUnit.getCell() && 
-            pCell.getUnit() != null &&
-            result.indexOf(pCell) == -1 &&
-            pUnit.getCell().getDistance(pCell) <= pUnit.mRange)
-          {
-            result.push(pCell);
-            return true;
-          }
-          return false;
-        }, pUnit.getCell());
+      var result:PathResult = new PathResult(pUnit.getCell());
+      var node:PathNode = new PathNode(null, pUnit.getCell(), result);
+      node.computePaths(pUnit.mMovePoints);
       return result;
     }
     
-    /** 
-     * Effectue un test sur toutes les cases adjacentes et propage si le test est valide
-     * @param pTestFunction function(pCell:WorldCell) : Boolean 
-     */
-    public function spreadTest(pFunction:Function, pCell:WorldCell) : void
+    /** Calcule tous les ennemis que l'unitée peut cibler */
+    public function computeTargets(pUnit:Unit) : Vector.<Unit>
     {
-      for each (var dir:WindRose in WindRose.all)
+      var result:Vector.<Unit> = new <Unit>[];
+      // Récupère tous les ennemis
+      var opponents:Vector.<Player> = mWorld.getOpponents(pUnit.mOwner);
+      // Parcours tous les ennemis
+      for each (var pl:Player in opponents)
       {
-        var cell:WorldCell = pCell.getCellAt(dir);
-        if (pCell != null && pFunction(cell))
+        // Parcours toutes les unitées
+        for each (var unit:Unit in pl.mUnits)
         {
-          spreadTest(pFunction, cell);
+          // Si l'unitée est à portée, on l'ajoute
+          if (pUnit.getCell().getDistance(unit.getCell()) <= pUnit.mUnitType.mRange)
+            result.push(unit);
         }
       }
+      return result;
     }
   }
 }

@@ -24,7 +24,7 @@ package com.gamewars.states.unitrelative
       var menuElements:Vector.<MenuElement> = new <MenuElement>[
         new MenuElement(0, 'Deplacement'),
         new MenuElement(1, 'Annuler')];
-      if (getWorld().mPathFinding.computeTargetables(mUnit).length > 0)
+      if (getWorld().mPathFinding.computeTargets(mUnit).length > 0)
       {
         menuElements.splice(1, 0, new MenuElement(2, 'Attaquer'));
       }

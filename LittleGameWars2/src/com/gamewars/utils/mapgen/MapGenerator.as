@@ -21,14 +21,14 @@ package com.gamewars.utils.mapgen
     public function newMap() : TileMap
     {
       var map:TileMap = new TileMap(mWidth, mHeight, null);
-      processGroundRd(map, GroundType.MOUNTAIN.mId, 30);
-      processGroundRd(map, GroundType.FOREST.mId, 30);
-      processGroundRd(map, GroundType.WATER.mId, 50);
+      processGround(map, GroundType.MOUNTAIN.mId, 30);
+      processGround(map, GroundType.FOREST.mId, 30);
+      processGround(map, GroundType.WATER.mId, 10);
       return map;
     }
     
     /** Ajoute le type de terrain aléatoirement en pourcentage */
-    private function processGroundRd(pMap:TileMap, pGround:uint, pPercent:Number) : void
+    private function processGround(pMap:TileMap, pGround:uint, pPercent:Number) : void
     {
       var i:uint = 0;
       var count:uint = pMap.mWidth * pMap.mHeight * pPercent/100;

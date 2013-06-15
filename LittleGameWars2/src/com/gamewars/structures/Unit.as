@@ -1,6 +1,7 @@
 package com.gamewars.structures
 {
   import com.gamewars.enums.UnitType;
+  import com.gamewars.enums.WindRose;
   import com.gamewars.utils.Resources;
   import com.gamewars.world.World;
   import com.gamewars.world.WorldCell;

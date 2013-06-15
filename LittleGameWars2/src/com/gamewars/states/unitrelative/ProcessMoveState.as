@@ -5,70 +5,88 @@ package com.gamewars.states.unitrelative
   import com.gamewars.structures.Tile;
   import com.gamewars.structures.Unit;
   import com.gamewars.utils.FMath;
-  import com.gamewars.utils.pathfinding.Path;
-  import com.gamewars.utils.pathfinding.PathPoint;
+  import com.gamewars.utils.pathfinding.PathNode;
+  import com.gamewars.utils.pathfinding.PathResult;
   import com.gamewars.world.WorldCell;
   
+  import starling.display.DisplayObject;
   import starling.display.MovieClip;
 
   public class ProcessMoveState extends UnitRelativeState
   {
     /** Durée de déplacement d'une case à l'autre (en sec.) */
     private const STEP_DURATION:Number = 0.2;
+    // ------------------------------------------------------------------------
     /** Réference vers le chemin à parcourir */
-    private var mPath:Path;
+    private var mNode:PathNode;
     /** Index du chemin en cours */
-    private var mPathIndex:uint = 0;
-    /** Temps écoulé */
+    private var mCellIndex:uint = 0;
+    // ------------------------------------------------------------------------
+    /** Toutes les cellules */
+    private var mAllCells:Vector.<WorldCell>;
+    /** Cellule sur laquelle se trouve l'unitée */
+    private var mCurrentCell:WorldCell;
+    /** Déplacement sur la prochaine cellule */
+    private var mNextCell:WorldCell;
+    /** Temps écoulé (pour interp.) */
     private var mTime:Number = 0;
-    /** Temps total d'animation de déplacement */
-    private var mTotalTime:Number;
+    /** Réference vers le renderer de l'unitée */
+    private var mRenderer:DisplayObject;
 
     /** Constructeur */
-    public function ProcessMoveState(pGameScreen:GameScreen, pUnit:Unit, pPath:Path)
+    public function ProcessMoveState(pGameScreen:GameScreen, pUnit:Unit, pNode:PathNode)
     {
       super(pGameScreen, pUnit);
-
-      mPath = pPath;
+      mNode = pNode;
+      mRenderer = getWorld().getEntityRenderer(pUnit);
     }
     
     /** @inheritDoc */
     override public function enterState():void
     {
-      // Calcule la durée totale d'animation
-      mTotalTime = (mPath.mPoints.length-1) * STEP_DURATION;
+      mAllCells = mNode.getCells().reverse();
+      moveToNextCell();
     }
 
     /** @inheritDoc */
     override public function exitState():void
     {
-      var renderer:MovieClip = mGameScreen.mWorld.getEntityRenderer(mUnit) as MovieClip;
-      var endPoint:PathPoint = mPath.mPoints[mPath.mPoints.length - 1];
       // Points de mouvement restants
-      mUnit.mMovePoints = endPoint.mMvtPtsLeft;
+      mUnit.mMovePoints = mNode.mPtsLeft;
       // Assigne la nouvelle position
-      mUnit.setCell(endPoint.mCell);
-      renderer.x = endPoint.mCell.mX * Tile.TILE_SIZE;
-      renderer.y = endPoint.mCell.mY * Tile.TILE_SIZE;
+      mUnit.setCell(mCurrentCell);
+      mCurrentCell.layoutElement(mRenderer);
+    }
+    
+    /** Prépare le déplacement sur la case suivante */
+    private function moveToNextCell() : Boolean
+    {
+      mCurrentCell = mAllCells[mCellIndex];
+      mCurrentCell.layoutElement(mRenderer);
+      //mUnit.setCell(mCurrentCell);
+      mTime = 0;
+      mCellIndex++;
+      // Plus de déplacements possible
+      if (mCellIndex >= mAllCells.length) 
+        return false;
+      else
+        mNextCell = mAllCells[mCellIndex];
+      return true;
     }
 
     /** @inheritDoc */
     override public function update(pTimeDelta:Number):void
     {
-      var renderer:MovieClip = mGameScreen.mWorld.getEntityRenderer(mUnit) as MovieClip;
       mTime += pTimeDelta;
-      if (mTime >= mTotalTime)
+      if (mTime >= STEP_DURATION && !moveToNextCell())
       {
         mGameScreen.setState(new FreeState(mGameScreen));
         return;
       }
-      var framePos:Number = mTime / STEP_DURATION;
-      var pathIdx:uint = uint(framePos);
-      var interpVal:Number = framePos - pathIdx;
-      var currentCell:WorldCell = mPath.mPoints[pathIdx].mCell;
-      var nextCell:WorldCell = mPath.mPoints[pathIdx+1].mCell;
-      renderer.x = FMath.interp_linear(currentCell.getX(), nextCell.getX(), interpVal);
-      renderer.y = FMath.interp_linear(currentCell.getY(), nextCell.getY(), interpVal);
+      
+      // Calcul de l'interp. de position
+      mRenderer.x = FMath.interp_linear(mCurrentCell.mPosition.xOffset, mNextCell.mPosition.xOffset, mTime/STEP_DURATION);
+      mRenderer.y = FMath.interp_linear(mCurrentCell.mPosition.yOffset, mNextCell.mPosition.yOffset, mTime/STEP_DURATION);
     }
   }
 }

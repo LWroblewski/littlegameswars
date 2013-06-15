@@ -14,7 +14,7 @@ package com.gamewars.states.unitrelative
   public class AttackState extends UnitRelativeState
   {
     /** Liste des cases que l'unitée peut attaquer */
-    private var mTargetables:Vector.<WorldCell>;
+    private var mTargets:Vector.<Unit>;
     /** Liste des rendus générés */
     private var mRenderers:Vector.<MovieClip> = new <MovieClip>[];
     
@@ -28,12 +28,12 @@ package com.gamewars.states.unitrelative
     override public function enterState():void
     {
       // Calcul toutes les cibles
-      mTargetables = getWorld().mPathFinding.computeTargetables(mUnit);
-      getWorld().mMovementGrid.renderOnCells(mTargetables, renderFunction);
+      mTargets = getWorld().mPathFinding.computeTargets(mUnit);
+      //getWorld().mMovementGrid.renderOnCells(mTargets, renderFunction);
       // Affiche le curseur de cible
       getWorld().mCursor.setModeAttack();
       // Positionne le curseur sur le premier ennemi
-      getWorld().mCursor.centerOnCell(mTargetables[0]);
+      //getWorld().mCursor.centerOnCell(mTargetables[0]);
     }
     
     /** @inheritDoc */

@@ -137,10 +137,22 @@ package com.gamewars.screens
       
       var p:Player = new Player();
       p.mCommander = CommanderType.CO_ANDY;
-      mPlayers.push(p);
+      p.addUnit(new Unit(10, 10, UnitType.INFANTRY));
+      p.addUnit(new Unit(10, 11, UnitType.INFANTRY));
+      addPlayer(p);
       
-      mWorld.addUnit(new Unit(10, 10, UnitType.INFANTRY));
-      mWorld.addUnit(new Unit(10, 11, UnitType.INFANTRY));
+      p = new Player();
+      p.mCommander = CommanderType.CO_ANDY;
+      p.addUnit(new Unit(12, 12, UnitType.INFANTRY));
+      p.addUnit(new Unit(12, 13, UnitType.INFANTRY));
+      addPlayer(p);
+    }
+    
+    /** Ajoute un joueur au jeu */
+    private function addPlayer(pPlayer:Player) : void
+    {
+      mPlayers.push(pPlayer);
+      mWorld.addPlayer(pPlayer);
     }
     
     /** Définit les informations de tile à afficher */

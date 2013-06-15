@@ -45,7 +45,9 @@ package com.gamewars.utils
         {
           if (pUncheckDirs != null && pUncheckDirs.indexOf(dir) != -1)
             continue;
-          spreadTestInternal(pTestFunction, pCell.getCellAt(dir), pData, pVisitedCells, [dir.getInverse()]);
+          var c:WorldCell = pCell.getCellAt(dir);
+          if (pVisitedCells.indexOf(c) == -1)
+            spreadTestInternal(pTestFunction, c, pData, pVisitedCells, [dir.getInverse()]);
         }
       }
     }

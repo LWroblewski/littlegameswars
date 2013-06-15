@@ -141,11 +141,11 @@ package com.gamewars.screens
       p.addUnit(new Unit(10, 11, UnitType.INFANTRY));
       addPlayer(p);
       
-      p = new Player();
-      p.mCommander = CommanderType.CO_ANDY;
-      p.addUnit(new Unit(12, 12, UnitType.INFANTRY));
-      p.addUnit(new Unit(12, 13, UnitType.INFANTRY));
-      addPlayer(p);
+      //p = new Player();
+      //p.mCommander = CommanderType.CO_ANDY;
+      //p.addUnit(new Unit(12, 12, UnitType.INFANTRY));
+      //p.addUnit(new Unit(12, 13, UnitType.INFANTRY));
+      //addPlayer(p);
     }
     
     /** Ajoute un joueur au jeu */

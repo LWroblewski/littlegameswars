@@ -1,6 +1,7 @@
 package com.gamewars.screens
 {
   import com.gamewars.enums.CommanderType;
+  import com.gamewars.enums.Commanders;
   import com.gamewars.enums.UnitType;
   import com.gamewars.gfx.CellInfoView;
   import com.gamewars.gfx.Hud;
@@ -136,7 +137,7 @@ package com.gamewars.screens
       mWorld.setMap(gen.newMap());
       
       var p:Player = new Player();
-      p.mCommander = CommanderType.CO_ANDY;
+      p.mCommander = Commanders.getByName(Commanders.ANDY);
       p.addUnit(new Unit(10, 10, UnitType.INFANTRY));
       p.addUnit(new Unit(10, 11, UnitType.INFANTRY));
       addPlayer(p);

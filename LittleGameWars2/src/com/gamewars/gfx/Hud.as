@@ -3,6 +3,7 @@ package com.gamewars.gfx
   import com.gamewars.components.GwBorderContainer;
   import com.gamewars.components.GwImage;
   import com.gamewars.components.GwText;
+  import com.gamewars.enums.Textures;
   import com.gamewars.structures.Player;
   import com.gamewars.utils.Resources;
   
@@ -46,8 +47,8 @@ package com.gamewars.gfx
     /** Définit le joueur pour lequel il faut afficher les infos */
     public function setInfo(pPlayer:Player) : void
     {
-      mCoImage.texture = pPlayer.mCommander.mTex;
-      mName.text = pPlayer.mCommander.mName;
+      mCoImage.texture = pPlayer.mCommander.getTexture(Textures.HEAD_NEUTRAL);
+      mName.text = pPlayer.mCommander.name;
       updateLayout();
     }
   }

@@ -108,7 +108,7 @@ package com.gamewars.utils
         <SubTexture name="Star_0" x="48" y="240" width="16" height="16"/>
         <SubTexture name="Star_1" x="64" y="240" width="16" height="16"/>
 
-       <SubTexture name="Co_Andy" x="0" y="448" width="64" height="64"/>
+       <SubTexture name="CO_ANDY_HEAD_NEUTRAL" x="0" y="448" width="64" height="64"/>
       </TextureAtlas>;
 
     /** Backgrounds */

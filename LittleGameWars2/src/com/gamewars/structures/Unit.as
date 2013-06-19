@@ -22,7 +22,7 @@ package com.gamewars.structures
     /** Joueur possédant l'unitée */
     public var mOwner:Player;
     /** Hp de l'unitée (10 pour toutes) */
-    public var mHp:uint = 10;
+    public var mHp:int = 10;
     /** Fuel de l'unitée */
     public var mFuel:uint;
     /** Munitions */

@@ -6,7 +6,7 @@ package com.gamewars.enums
     /** Indentifiant pour cibler toutes les unités (effets de masse). */
     public static const ALL_UNITS:String = "allUnits";
     
-    public static const INFANTRY:UnitType = new UnitType("Infantry", "Infanterie", 99, 10, 10, 2, 1, 1000);
+    public static const INFANTRY:UnitType = new UnitType("Infantry", "Infanterie", 99, 10, 10, 3, 2, 1, 1000);
     
     /** Liste des unités. */
     public static var _list:Vector.<UnitType>;
@@ -36,21 +36,23 @@ package com.gamewars.enums
     /** Identifiant de l'unité */
     public var mId:String;
     /** Fuel initial */
-    public var mFuel:uint;
+    public var mFuel:int;
     /** Munitions initiales */
     public var mAmmo:int;
     /** Points de mouvement */
     public var mMovePts:int;
     /** Vision */
-    public var mVision:uint;
+    public var mVision:int;
     /** Type d'arme */
     public var mWeaponType:WeaponType;
     /** Prix de l'unité */
-    public var mCost:uint;
+    public var mCost:int;
     /** Portée de tir */
-    public var mRange:uint;
+    public var mRange:int;
     /** Nom du type d'unitée */
     public var mName:String;
+    /** Points d'attaque */
+    public var mAttack:int;
     
     /** Constructeur */
     public function UnitType(
@@ -58,7 +60,8 @@ package com.gamewars.enums
       pName:String,
       pFuel:uint, 
       pAmmo:int, 
-      pMovePoints:int, 
+      pMovePoints:int,
+      pAttack:int,
       pVision:uint, 
       pRange:uint, 
       pCost:uint)
@@ -68,6 +71,7 @@ package com.gamewars.enums
       mFuel = pFuel;
       mAmmo = pAmmo;
       mMovePts = pMovePoints;
+      mAttack = pAttack;
       mVision = pVision;
       mRange = pRange;
       mCost = pCost;

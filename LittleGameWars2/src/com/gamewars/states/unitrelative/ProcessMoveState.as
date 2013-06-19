@@ -71,7 +71,7 @@ package com.gamewars.states.unitrelative
         return false;
       else
         mNextCell = mAllCells[mCellIndex];
-      getWorld().mFogManager.unitPositionUpdate(mUnit, mCurrentCell.mPosition, mNextCell.mPosition);
+      mGameScreen.mGameEngine.mFogManager.unitPositionUpdate(mUnit, mCurrentCell.mPosition, mNextCell.mPosition);
       return true;
     }
 

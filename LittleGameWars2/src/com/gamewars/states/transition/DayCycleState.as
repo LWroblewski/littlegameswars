@@ -23,7 +23,7 @@ package com.gamewars.states.transition
     {
       // Sélectionne le joueur en cours
       var pl:Player = mGameScreen.nextPlayer();
-      mGameScreen.mWorld.mFogManager.initialize(pl);
+      mGameScreen.mGameEngine.mFogManager.initialize(pl);
       mGameScreen.setState(new FreeState(mGameScreen));
     }
   }

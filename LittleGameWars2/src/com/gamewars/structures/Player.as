@@ -1,5 +1,6 @@
 package com.gamewars.structures
 {
+  import com.gamewars.ai.ArtificialIntelligence;
   import com.gamewars.enums.CommanderType;
   import com.gamewars.world.WorldCell;
 
@@ -15,10 +16,13 @@ package com.gamewars.structures
     public var mVisitedCells:Vector.<WorldCell> = new <WorldCell>[];
     /** Argent du joueur */
     public var mGold:int = 0;
+    /** Intelligence artificielle (null si joueur humain) */
+    public var ai:ArtificialIntelligence;
     
     /** Constructeur */
-    public function Player()
+    public function Player(pAi:ArtificialIntelligence = null)
     {
+      ai = pAi;
     }
     
     /** Initialisation du joueur */
@@ -34,6 +38,12 @@ package com.gamewars.structures
     {
       mUnits.push(pUnit);
       pUnit.mOwner = this;
+    }
+    
+    /** Supprime l'unitée de la liste */
+    public function removeUnit(pUnit:Unit) : void
+    {
+      mUnits.splice(mUnits.indexOf(pUnit), 1);
     }
   }
 }

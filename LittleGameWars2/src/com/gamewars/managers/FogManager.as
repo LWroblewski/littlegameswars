@@ -40,6 +40,13 @@ package com.gamewars.managers
       mFogLayer = pFogLayer;
     }
     
+    /** Active/Désactive le brouillard */
+    public function displayFog(pYes:Boolean) : void
+    {
+      if (mIsInitialized && !pYes) destroy();
+      else if (!mIsInitialized && pYes) build();
+    }
+    
     /** Effectue le rendu de tous les brouillards */
     private function build() : void
     {
@@ -51,16 +58,27 @@ package com.gamewars.managers
         mFogLayer.addChild(renderer);
         mRenderers[c] = renderer;
       }
+      mIsInitialized = true;
+    }
+    
+    /** Détruit le brouillard */
+    private function destroy() : void
+    {
+      var renderer:Quad;
+      for each (var c:WorldCell in mWorld.mCells)
+      {
+        renderer = mRenderers[c];
+        mFogLayer.removeChild(renderer);
+        delete mRenderers[c];
+      }
+      mIsInitialized = false;
     }
     
     /** Initialize le brouillard de guerre pour le joueur */
     public function initialize(pPlayer:Player) : void
     {
+      if (!mIsInitialized)return;
       mPlayer = pPlayer;
-      if (!mIsInitialized)
-      {
-        build();
-      }
       // TODO ExploredCells
       
       // Affiche les cellules visibles par chaque unitée
@@ -77,6 +95,8 @@ package com.gamewars.managers
     /** Maj du brouillard lors du déplacement d'une unitée */
     public function unitPositionUpdate(pUnit:Unit, pBefore:TilePoint, pAfter:TilePoint) : void
     {
+      if (!mIsInitialized) return;
+      
       // Calcul toutes les cellules visibles dans l'ancienne position
       var before:Vector.<WorldCell> = TileUtils.computeVisibility(mWorld.getCellAt(pBefore.tileX, pBefore.tileY), pUnit.mUnitType.mVision);
       var after:Vector.<WorldCell> = TileUtils.computeVisibility(mWorld.getCellAt(pAfter.tileX, pAfter.tileY), pUnit.mUnitType.mVision);
@@ -118,6 +138,7 @@ package com.gamewars.managers
     /** Callback du spreadTest d'exploration */
     private function doExploration(pCell:WorldCell, pVisitedCells:Vector.<WorldCell>, pData:*) : Boolean
     {
+      if (!mIsInitialized) return false;
       if (pVisitedCells.indexOf(pCell) != -1) return false;
       var rd:Quad = mRenderers[pCell] as Quad;
       rd.alpha = 0;
@@ -127,7 +148,7 @@ package com.gamewars.managers
     /** Maj des brouillards */
     public function update(pTimeDelta:Number) : void
     {
-      
+      // TODO Fade-in/Fade-out des quads
     }
   }
 }

@@ -19,27 +19,10 @@ package com.gamewars.states.unitrelative
     /** @inheritDoc */
     override public function enterState():void
     {
-      // TODO Afficher l'écran de combat
-      mGameScreen.mFightScreen.renderFight(mUnit, mTarget, getWorld());
-      mGameScreen.mFightScreen.visible = true;
-    }
-    
-    /** @inheritDoc */
-    override public function update(pTimeDelta:Number):void
-    {
-      mGameScreen.mFightScreen.update(pTimeDelta);
-      if (mGameScreen.mFightScreen.isAnimationFinished())
-      {
-        mGameScreen.setState(new FreeState(mGameScreen));
-      }
-    }
-    
-    override public function exitState():void
-    {
-      mGameScreen.mFightScreen.visible = false;
-      // TODO Si hp == 0, détruire unitée
-      // Calcul des hps
-      mTarget.mHp -= 5;
+      // Calcul du combat entre les 2 unitées
+      mGameScreen.mGameEngine.processFight(mUnit, mTarget);
+      // Change l'état de jeu
+      mGameScreen.setState(new FreeState(mGameScreen));
     }
   }
 }

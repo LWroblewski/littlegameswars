@@ -1,5 +1,6 @@
 package com.gamewars.screens
 {
+  import com.gamewars.core.GameEngine;
   import com.gamewars.enums.CommanderType;
   import com.gamewars.enums.Commanders;
   import com.gamewars.enums.UnitType;
@@ -16,11 +17,13 @@ package com.gamewars.screens
   import com.gamewars.world.WorldCell;
   
   import flash.display.Sprite;
+  import flash.geom.Point;
   
   import starling.core.Starling;
   import starling.events.EnterFrameEvent;
   import starling.events.Touch;
   import starling.events.TouchEvent;
+  import starling.events.TouchPhase;
 
   /**
   * Ecran principal de jeu
@@ -29,8 +32,6 @@ package com.gamewars.screens
   {
     /** Vue du jeu */
     public var mWorld:World;
-    /** Layers */
-    public var mFightScreen:FightScreen;
     /** Informations sur la tile sélectionnée */
     private var mCellInfoView:CellInfoView;
     /** Informations de joueur */
@@ -50,6 +51,8 @@ package com.gamewars.screens
     public var mPlayers:Vector.<Player> = new <Player>[];
     /** Joueur en cours */
     public var mCurrentPlayer:Player;
+    /** Moteur de jeu */
+    public var mGameEngine:GameEngine;
     
     /** Constructeur */
     public function GameScreen()
@@ -92,7 +95,15 @@ package com.gamewars.screens
     /** Gestion du touch */
     private function onTouch(pEvent:TouchEvent) : void
     {
-      mLastTouch = pEvent.touches[0];
+      
+      // Scrolling
+      if (pEvent.touches[0].phase == TouchPhase.MOVED)
+      {
+        var movement:Point = pEvent.touches[0].getMovement(mWorld);
+        mWorld.mScrollPosition.offset(-movement.x, -movement.y);
+      }
+      else
+        mLastTouch = pEvent.touches[0];
     }
     
     /** EnterFrame */
@@ -133,9 +144,6 @@ package com.gamewars.screens
     
     private function dbgNewGame() : void
     {
-      var gen:MapGenerator = new MapGenerator(32,24);
-      mWorld.setMap(gen.newMap());
-      
       var p:Player = new Player();
       p.mCommander = Commanders.getByName(Commanders.ANDY);
       p.addUnit(new Unit(10, 10, UnitType.INFANTRY));
@@ -167,8 +175,11 @@ package com.gamewars.screens
     /** Initialisation du jeu */
     private function initialize() : void
     {
-      mWorld = new World();
+      var gen:MapGenerator = new MapGenerator(64,64);
+      mWorld = new World(gen.newMap());
       addChild(mWorld);
+      
+      mGameEngine = new GameEngine(mWorld);
       
       mCellInfoView = new CellInfoView();
       mCellInfoView.visible = false;
@@ -177,10 +188,6 @@ package com.gamewars.screens
       mHud = new Hud();
       mHud.visible = false;
       addChild(mHud);
-      
-      mFightScreen = new FightScreen();
-      mFightScreen.visible = false;
-      addChild(mFightScreen);
       
       updateLayout();
     }

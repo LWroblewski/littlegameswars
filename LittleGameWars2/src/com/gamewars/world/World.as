@@ -13,6 +13,7 @@ package com.gamewars.world
   import com.gamewars.utils.pathfinding.PathFinding;
   
   import flash.geom.Point;
+  import flash.geom.Rectangle;
   import flash.utils.Dictionary;
   
   import starling.core.Starling;
@@ -41,23 +42,28 @@ package com.gamewars.world
     private var mRenderers:Dictionary = new Dictionary();
     
     /** Layers */
-    private var mGroundLayer:Sprite;
+    public var mGroundLayer:Sprite;
     private var mStructureLayer:Sprite;
-    private var mFogLayer:Sprite;
+    public var mFogLayer:Sprite; // public for GameEngine
     private var mUnitLayer:Sprite;
     private var mTopLayer:Sprite;
     
     /** PathFinding */
     public var mPathFinding:PathFinding;
-    /** Gestion du brouillard */
-    public var mFogManager:FogManager;
     /** Liste des joueurs */
     public var mPlayers:Vector.<Player> = new <Player>[];
+    /** Tilemap */
+    private var mTileMap:TileMap;
     
     /** Constructeur */
-    public function World()
+    public function World(pTileMap:TileMap)
     {
       super();
+      
+      mTileMap = pTileMap;
+      mWidth = pTileMap.mWidth;
+      mHeight = pTileMap.mHeight;
+      build();
       
       // Layers
       mGroundLayer = new Sprite(); // Sol
@@ -80,8 +86,6 @@ package com.gamewars.world
       mTopLayer.addChild(mCursor);
       // PathFinding
       mPathFinding = new PathFinding(this);
-      // Brouillard
-      mFogManager = new FogManager(this, mFogLayer);
     }
     
     /** Retourne le renderer de l'entitée passée en paramètres */
@@ -93,7 +97,7 @@ package com.gamewars.world
     /** Recupère la cellule aux coordonnées spécifiées */
     public function getCellFromCoords(pX:Number, pY:Number) : WorldCell
     {
-      if (!getBounds(null).contains(pX, pY))
+      if (pX < 0 || pX >= width || pY < 0 || pY >= height)
         return null;
       
       return getCellAt(uint(pX/Tile.TILE_SIZE), uint(pY/Tile.TILE_SIZE));
@@ -121,30 +125,19 @@ package com.gamewars.world
     }
     
     /** Charge la map passée en paramètres */
-    public function setMap(pMap:TileMap) : void
+    public function build() : void
     {
       var xx:uint;
       var yy:uint;
-      mWidth = pMap.mWidth;
-      mHeight = pMap.mHeight;
       
       // Crée toutes les cellules du monde
-      for (yy = 0; yy < pMap.mHeight; yy++)
+      for (yy = 0; yy < mHeight; yy++)
       {
-        for (xx = 0; xx < pMap.mWidth; xx++)
+        for (xx = 0; xx < mWidth; xx++)
         {
           // Crée une cellule
-          var cell:WorldCell = new WorldCell(this, xx, yy, GroundType.fromId(pMap.getGroundAt(xx, yy)));
+          var cell:WorldCell = new WorldCell(this, xx, yy, GroundType.fromId(mTileMap.getGroundAt(xx, yy)));
           mCells.push(cell);
-        }
-      }
-      
-      // Crée tous les renderers
-      for (yy = 0; yy < pMap.mHeight; yy++)
-      {
-        for (xx = 0; xx < pMap.mWidth; xx++)
-        {
-          mGroundLayer.addChild(getCellAt(xx, yy).createRenderer());
         }
       }
     }
@@ -154,6 +147,12 @@ package com.gamewars.world
     {
       pUnit.setWorld(this);
       mUnitLayer.addChild(createRenderer(pUnit));
+    }
+    
+    /** Enlève l'unitée du monde */
+    public function removeUnit(pUnit:Unit) : void
+    {
+      mUnitLayer.removeChild(mRenderers[pUnit]);
     }
     
     /** Ajoute un joueur au monde */
@@ -225,10 +224,12 @@ package com.gamewars.world
     public function update(pTimeDelta:Number) : void
     {
       // Scrolling
-      var coords:Point = new Point(x, y);
-      if (coords.subtract(mScrollPosition).length != 0)
-      {
-      }
+      if (mScrollPosition.x > width-Starling.current.stage.stageWidth/2) mScrollPosition.x = width-Starling.current.stage.stageWidth/2;
+      if (mScrollPosition.x < -Starling.current.stage.stageWidth/2) mScrollPosition.x = -Starling.current.stage.stageWidth/2;
+      if (mScrollPosition.y > height-Starling.current.stage.stageHeight/2) mScrollPosition.y = height-Starling.current.stage.stageHeight/2;
+      if (mScrollPosition.y < -Starling.current.stage.stageHeight/2) mScrollPosition.y = -Starling.current.stage.stageHeight/2;
+      x = -mScrollPosition.x;
+      y = -mScrollPosition.y;
       
       // Maj du curseur
       mCursor.advanceTime(pTimeDelta);

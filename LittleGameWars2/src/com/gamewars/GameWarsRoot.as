@@ -1,5 +1,6 @@
 package com.gamewars
 {
+  import com.gamewars.screens.COSelectionScreen;
   import com.gamewars.screens.GameScreen;
   import com.gamewars.screens.SplashScreen;
   
@@ -28,7 +29,7 @@ package com.gamewars
       addChild(bg);
       
       //displayScreen(new SplashScreen());
-      displayScreen(new GameScreen());
+      displayScreen(new COSelectionScreen());
     }
     
     /** Lance un jeu escarmouche */

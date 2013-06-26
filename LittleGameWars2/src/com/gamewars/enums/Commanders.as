@@ -5,9 +5,10 @@ package com.gamewars.enums
     /** Noms des COs (clés primaires). */
     public static const ANDY:String = "Andy";
     public static const MAX:String = "Max";
+    public static const SAMI:String = "Sami";
     
     /** Liste des COs. */
-    public static var _list:Vector.<CommanderType>;
+    private static var _list:Vector.<CommanderType>;
     
     public static function get list():Vector.<CommanderType>
     {
@@ -15,6 +16,8 @@ package com.gamewars.enums
       {
         _list = new Vector.<CommanderType>;
         _list.push(new Andy());
+        _list.push(new Max());
+        _list.push(new Sami());
       }
       return _list;
     }
@@ -50,5 +53,13 @@ class Max extends CommanderType
   public function Max() 
   {
     super(Commanders.MAX);
+  }
+}
+
+class Sami extends CommanderType
+{
+  public function Sami() 
+  {
+    super(Commanders.SAMI);
   }
 }

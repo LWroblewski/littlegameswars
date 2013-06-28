@@ -53,7 +53,7 @@ package com.gamewars.screens
     /** Initialisation de l'écran. */
     override protected function initScreen():void
     {
-      addChildAsRenderable(new MenuBackground());
+      addChild(new MenuBackground());
       
       var xIndex:Number = 0;
       for each (var co:CommanderType in Commanders.list)
